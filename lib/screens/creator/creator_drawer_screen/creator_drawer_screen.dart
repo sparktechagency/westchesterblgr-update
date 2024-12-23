@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:itzel/screens/creator/creator_drawer_screen/widgets/creator_drawer_section_widget.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../constants/app_icons_path.dart';
 import '../../../constants/app_strings.dart';
 import '../../../routes/app_routes.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
@@ -62,91 +64,90 @@ class CreatorDrawerScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: GetBuilder<CreatorDrawerController>(
-          init: CreatorDrawerController(),
-          builder: (controller) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SpaceWidget(spaceHeight: 12),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: TextWidget(
-                      text: AppStrings.accountSetting,
-                      fontColor: AppColors.black500,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SpaceWidget(spaceHeight: 16),
-                  ...List.generate(controller.titles.length, (index) {
-                    return InkWell(
-                      onTap: () {
-                        controller.onItemTapped(index);
-                      },
-                      borderRadius: BorderRadius.circular(8),
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(13),
-                        margin: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 12),
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: AppColors.grey100,
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                IconWidget(
-                                  icon: controller.icons[index],
-                                  height: 24,
-                                  width: 24,
-                                ),
-                                const SpaceWidget(spaceWidth: 8),
-                                TextWidget(
-                                  text: controller.titles[index],
-                                  fontColor: AppColors.black500,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ],
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 20,
-                              color: AppColors.black500,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-                  const SpaceWidget(spaceHeight: 80),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ButtonWidget(
-                      onPressed: () {},
-                      label: 'Logout',
-                      buttonWidth: double.infinity,
-                    ),
-                  ),
-                  const SpaceWidget(spaceHeight: 16),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SpaceWidget(spaceHeight: 12),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: TextWidget(
+                text: AppStrings.accountSetting,
+                fontColor: AppColors.black500,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
               ),
-            );
-          }),
+            ),
+            const SpaceWidget(spaceHeight: 16),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorProfileScreen);
+              },
+              text: AppStrings.myProfile,
+              icon: AppIconsPath.myProfileIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorBusinessInformationScreen);
+              },
+              text: AppStrings.businessInformation,
+              icon: AppIconsPath.businessInformationIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorPaymentMethodScreen);
+              },
+              text: AppStrings.payment,
+              icon: AppIconsPath.paymentIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorSubscriptionsScreen);
+              },
+              text: AppStrings.subscriptions,
+              icon: AppIconsPath.subscriptionIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorFaqScreen);
+              },
+              text: AppStrings.faq,
+              icon: AppIconsPath.faqIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorTermsConditionScreen);
+              },
+              text: AppStrings.termsConditions,
+              icon: AppIconsPath.termsConditionIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorChangePasswordScreen);
+              },
+              text: AppStrings.changePassword,
+              icon: AppIconsPath.changePasswordIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.creatorDeleteAccountScreen);
+              },
+              text: AppStrings.deleteAccount,
+              icon: AppIconsPath.deleteAccountIcon,
+            ),
+            const SpaceWidget(spaceHeight: 80),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ButtonWidget(
+                onPressed: () {},
+                label: 'Logout',
+                buttonWidth: double.infinity,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 16),
+          ],
+        ),
+      ),
     );
   }
 }

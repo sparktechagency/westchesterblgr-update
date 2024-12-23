@@ -16,70 +16,72 @@ class CreatorChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CreatorChangePasswordController controller =
+        Get.put(CreatorChangePasswordController());
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       appBar: const AppbarWidget(text: AppStrings.changePassword),
-      body: GetBuilder<CreatorChangePasswordController>(
-          init: CreatorChangePasswordController(),
-          builder: (controller) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Column(
-                children: [
-                  const TextWidget(
-                    text: AppStrings.changePasswordText,
-                    fontColor: AppColors.blackDark,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    textAlignment: TextAlign.left,
-                  ),
-                  const SpaceWidget(spaceHeight: 30),
-                  TextFieldWidget(
-                    hintText: 'Current Password',
-                    controller: controller.currentPasswordController,
-                    validator: (value) => controller.validatePassword(value!),
-                    maxLines: 1,
-                    suffixIcon: controller.currentPasswordObscure
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    onTapSuffix: () =>
-                        controller.toggleObscurePassword("current"),
-                  ),
-                  const SpaceWidget(spaceHeight: 12),
-                  TextFieldWidget(
-                    hintText: 'New Password',
-                    controller: controller.newPasswordController,
-                    validator: (value) => controller.validatePassword(value!),
-                    maxLines: 1,
-                    suffixIcon: controller.newPasswordObscure
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    onTapSuffix: () => controller.toggleObscurePassword("new"),
-                  ),
-                  const SpaceWidget(spaceHeight: 12),
-                  TextFieldWidget(
-                    hintText: 'Re-type new Password',
-                    controller: controller.retypeNewPasswordController,
-                    validator: (value) => controller.validatePassword(value!),
-                    maxLines: 1,
-                    suffixIcon: controller.retypePasswordObscure
-                        ? Icons.visibility_off_outlined
-                        : Icons.visibility_outlined,
-                    onTapSuffix: () =>
-                        controller.toggleObscurePassword("retype"),
-                  ),
-                  const SpaceWidget(spaceHeight: 48),
-                  ButtonWidget(
-                    onPressed: () => controller.handleChangePassword(context),
-                    label: AppStrings.changePassword,
-                    buttonHeight: AppSize.width(value: 52),
-                    buttonWidth: double.infinity,
-                  ),
-                ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Column(
+          children: [
+            const TextWidget(
+              text: AppStrings.changePasswordText,
+              fontColor: AppColors.blackDark,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              textAlignment: TextAlign.left,
+            ),
+            const SpaceWidget(spaceHeight: 30),
+            Obx(
+              () => TextFieldWidget(
+                hintText: 'Current Password',
+                controller: controller.currentPasswordController,
+                validator: (value) => controller.validatePassword(value!),
+                maxLines: 1,
+                suffixIcon: controller.currentPasswordObscure.value
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                onTapSuffix: () => controller.toggleObscurePassword("current"),
               ),
-            );
-          }),
+            ),
+            const SpaceWidget(spaceHeight: 12),
+            Obx(
+              () => TextFieldWidget(
+                hintText: 'New Password',
+                controller: controller.newPasswordController,
+                validator: (value) => controller.validatePassword(value!),
+                maxLines: 1,
+                suffixIcon: controller.newPasswordObscure.value
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                onTapSuffix: () => controller.toggleObscurePassword("new"),
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 12),
+            Obx(
+              () => TextFieldWidget(
+                hintText: 'Re-type new Password',
+                controller: controller.retypeNewPasswordController,
+                validator: (value) => controller.validatePassword(value!),
+                maxLines: 1,
+                suffixIcon: controller.retypePasswordObscure.value
+                    ? Icons.visibility_off_outlined
+                    : Icons.visibility_outlined,
+                onTapSuffix: () => controller.toggleObscurePassword("retype"),
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 48),
+            ButtonWidget(
+              onPressed: () => controller.handleChangePassword(context),
+              label: AppStrings.changePassword,
+              buttonHeight: AppSize.width(value: 52),
+              buttonWidth: double.infinity,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

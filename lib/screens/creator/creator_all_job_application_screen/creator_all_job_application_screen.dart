@@ -69,12 +69,12 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                       children: [
                                         SizedBox(
                                           width:
-                                              size.width / (size.width / 180),
+                                              size.width / (size.width / 250),
                                           child: TextWidget(
                                             text: event['title']?.toString() ??
                                                 "",
                                             fontColor: AppColors.whiteBg,
-                                            fontSize: 14,
+                                            fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                             overflow: TextOverflow.ellipsis,
                                             textAlignment: TextAlign.left,
@@ -89,7 +89,7 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                                       ?.toString() ??
                                                   "",
                                               fontColor: AppColors.grey50,
-                                              fontSize: 10,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w500,
                                               overflow: TextOverflow.ellipsis,
                                               textAlignment: TextAlign.left,
@@ -100,7 +100,7 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                                   event['posted']?.toString() ??
                                                       "",
                                               fontColor: AppColors.grey500,
-                                              fontSize: 8,
+                                              fontSize: 10,
                                               fontWeight: FontWeight.w500,
                                               overflow: TextOverflow.ellipsis,
                                               textAlignment: TextAlign.left,
@@ -127,7 +127,7 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                   text:
                                       'Total Applicant - ${event['totalApplicants']}',
                                   fontColor: AppColors.black500,
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -148,7 +148,7 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                     (applicant) {
                                       return Padding(
                                         padding:
-                                            const EdgeInsets.only(bottom: 12),
+                                            const EdgeInsets.only(bottom: 16),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -162,9 +162,9 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                                   child: Image.asset(
                                                     applicant['profileImage'],
                                                     height: size.width /
-                                                        (size.width / 24),
+                                                        (size.width / 25),
                                                     width: size.width /
-                                                        (size.width / 24),
+                                                        (size.width / 25),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -173,7 +173,7 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                                 TextWidget(
                                                   text: applicant['name'] ?? "",
                                                   fontColor: AppColors.black500,
-                                                  fontSize: 12,
+                                                  fontSize: 14,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ],
@@ -184,9 +184,9 @@ class CreatorAllJobApplicationScreen extends StatelessWidget {
                                               buttonWidth: size.width /
                                                   (size.width / 79),
                                               buttonHeight: size.width /
-                                                  (size.width / 24),
+                                                  (size.width / 26),
                                               fontSize: size.width /
-                                                  (size.width / 10),
+                                                  (size.width / 12),
                                             )
                                           ],
                                         ),

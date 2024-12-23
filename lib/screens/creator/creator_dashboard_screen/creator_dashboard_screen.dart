@@ -221,11 +221,11 @@ class CreatorDashboardScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      width: size.width / (size.width / 180),
+                                      width: size.width / (size.width / 250),
                                       child: const TextWidget(
                                         text: 'Assistant Biology Teacher',
                                         fontColor: AppColors.whiteBg,
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w400,
                                         overflow: TextOverflow.ellipsis,
                                         textAlignment: TextAlign.left,
@@ -238,7 +238,7 @@ class CreatorDashboardScreen extends StatelessWidget {
                                         TextWidget(
                                           text: 'Saint Marry School',
                                           fontColor: AppColors.grey50,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w500,
                                           overflow: TextOverflow.ellipsis,
                                           textAlignment: TextAlign.left,
@@ -247,7 +247,7 @@ class CreatorDashboardScreen extends StatelessWidget {
                                         TextWidget(
                                           text: '3 days ago',
                                           fontColor: AppColors.grey500,
-                                          fontSize: 8,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.w500,
                                           overflow: TextOverflow.ellipsis,
                                           textAlignment: TextAlign.left,
@@ -273,7 +273,7 @@ class CreatorDashboardScreen extends StatelessWidget {
                             child: TextWidget(
                               text: 'Total Applicant - 98',
                               fontColor: AppColors.black500,
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -293,7 +293,7 @@ class CreatorDashboardScreen extends StatelessWidget {
                               ...controller.jobApplicants.map(
                                 (applicant) {
                                   return Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
+                                    padding: const EdgeInsets.only(bottom: 16),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -308,9 +308,9 @@ class CreatorDashboardScreen extends StatelessWidget {
                                                     AppImagesPath
                                                         .chatProfileImage,
                                                 height: size.width /
-                                                    (size.width / 24),
+                                                    (size.width / 25),
                                                 width: size.width /
-                                                    (size.width / 24),
+                                                    (size.width / 25),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -318,7 +318,7 @@ class CreatorDashboardScreen extends StatelessWidget {
                                             TextWidget(
                                               text: applicant["name"] ?? "",
                                               fontColor: AppColors.black500,
-                                              fontSize: 12,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ],
@@ -329,9 +329,9 @@ class CreatorDashboardScreen extends StatelessWidget {
                                           buttonWidth:
                                               size.width / (size.width / 79),
                                           buttonHeight:
-                                              size.width / (size.width / 24),
+                                              size.width / (size.width / 26),
                                           fontSize:
-                                              size.width / (size.width / 10),
+                                              size.width / (size.width / 12),
                                         )
                                       ],
                                     ),

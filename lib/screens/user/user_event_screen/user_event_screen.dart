@@ -150,7 +150,7 @@ class _UserEventScreenState extends State<UserEventScreen>
                                                       text: type,
                                                       fontColor:
                                                           AppColors.black,
-                                                      fontSize: 8,
+                                                      fontSize: 11,
                                                       fontWeight:
                                                           FontWeight.w400,
                                                     ),
@@ -161,7 +161,7 @@ class _UserEventScreenState extends State<UserEventScreen>
                                             const TextWidget(
                                               text: '\$9.32',
                                               fontColor: AppColors.black500,
-                                              fontSize: 14,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ],
@@ -177,7 +177,7 @@ class _UserEventScreenState extends State<UserEventScreen>
                                                 text:
                                                     'Electro Music Festival - Valleria night with DJ Hardwell',
                                                 fontColor: AppColors.black,
-                                                fontSize: 12,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w500,
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
@@ -293,7 +293,7 @@ class _UserEventScreenState extends State<UserEventScreen>
                                                       text: type,
                                                       fontColor:
                                                           AppColors.black,
-                                                      fontSize: 8,
+                                                      fontSize: 11,
                                                       fontWeight:
                                                           FontWeight.w400,
                                                     ),
@@ -304,7 +304,7 @@ class _UserEventScreenState extends State<UserEventScreen>
                                             const TextWidget(
                                               text: '\$9.32',
                                               fontColor: AppColors.black500,
-                                              fontSize: 14,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ],
@@ -321,7 +321,7 @@ class _UserEventScreenState extends State<UserEventScreen>
                                                 text:
                                                     'Electro Music Festival - Valleria night with DJ Hardwell',
                                                 fontColor: AppColors.black,
-                                                fontSize: 12,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w500,
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,

@@ -6,20 +6,19 @@ class UserChangePasswordController extends GetxController {
   final newPasswordController = TextEditingController();
   final retypeNewPasswordController = TextEditingController();
 
-  bool currentPasswordObscure = true;
-  bool newPasswordObscure = true;
-  bool retypePasswordObscure = true;
+  var currentPasswordObscure = true.obs;
+  var newPasswordObscure = true.obs;
+  var retypePasswordObscure = true.obs;
 
   // Toggle password visibility
   void toggleObscurePassword(String type) {
     if (type == "current") {
-      currentPasswordObscure = !currentPasswordObscure;
+      currentPasswordObscure.value = !currentPasswordObscure.value;
     } else if (type == "new") {
-      newPasswordObscure = !newPasswordObscure;
+      newPasswordObscure.value = !newPasswordObscure.value;
     } else if (type == "retype") {
-      retypePasswordObscure = !retypePasswordObscure;
+      retypePasswordObscure.value = !retypePasswordObscure.value;
     }
-    update();
   }
 
   // Validate passwords
@@ -47,7 +46,6 @@ class UserChangePasswordController extends GetxController {
   // Handle button press logic
   void handleChangePassword(BuildContext context) {
     if (areFieldsEmpty()) {
-      // Show SnackBar if fields are empty
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Please fill in all the fields."),
@@ -55,7 +53,6 @@ class UserChangePasswordController extends GetxController {
         ),
       );
     } else if (!doPasswordsMatch()) {
-      // Show SnackBar if passwords do not match
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("New Password and Re-type Password do not match."),
@@ -63,7 +60,6 @@ class UserChangePasswordController extends GetxController {
         ),
       );
     } else {
-      // Password changed successfully
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Password changed successfully!"),

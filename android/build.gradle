@@ -7,6 +7,8 @@ allprojects {
 
 rootProject.buildDir = "../build"
 subprojects {
+
+   // project.layout.buildDirectory = "${rootProject.buildDir}/${project.name}"
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
 subprojects {
@@ -14,5 +16,6 @@ subprojects {
 }
 
 tasks.register("clean", Delete) {
+    //delete rootProject.layout.buildDirectory
     delete rootProject.buildDir
 }
