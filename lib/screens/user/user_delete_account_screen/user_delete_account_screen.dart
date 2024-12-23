@@ -12,6 +12,8 @@ import '../../../widgets/text_widget/text_widgets.dart';
 import 'controllers/user_delete_account_controller.dart';
 
 class UserDeleteAccountScreen extends StatelessWidget {
+  final UserDeleteAccountController controller =
+      Get.put(UserDeleteAccountController());
   final passwordController = TextEditingController();
   UserDeleteAccountScreen({super.key});
 
@@ -55,7 +57,13 @@ class UserDeleteAccountScreen extends StatelessWidget {
             ),
             const SpaceWidget(spaceHeight: 16),
             DeleteAccountButtonWidget(
-              onPressed: () {},
+              onPressed: () => controller.deleteAccount(
+                passwordController.text,
+                (message) {
+                  Get.snackbar("Error", message,
+                      snackPosition: SnackPosition.BOTTOM);
+                },
+              ),
               label: AppStrings.deleteAccount,
               buttonHeight: AppSize.width(value: 52),
               buttonWidth: double.infinity,

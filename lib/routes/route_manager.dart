@@ -60,32 +60,32 @@ class RouteManager {
       GetPage(
         name: AppRoutes.splashScreen,
         page: () => SplashScreen(),
-        // binding: GeneralBindings(),
+        binding: GeneralBindings(),
       ),
       GetPage(
         name: AppRoutes.registrationScreen,
         page: () => const RegistrationScreen(),
-        // binding: AuthBindings(),
+        binding: AuthBindings(),
       ),
       GetPage(
         name: AppRoutes.loginScreen,
         page: () => const LoginScreen(),
-        //binding: AuthBindings(),
+        binding: AuthBindings(),
       ),
       GetPage(
         name: AppRoutes.forgotPasswordScreen,
         page: () => const ForgotPasswordScreen(),
-        // binding: AuthBindings(),
+        binding: AuthBindings(),
       ),
       GetPage(
         name: AppRoutes.verifyAccountScreen,
         page: () => const VerifyAccountScreen(),
-        // binding: AuthBindings(),
+        binding: AuthBindings(),
       ),
       GetPage(
         name: AppRoutes.createNewPasswordScreen,
         page: () => CreateNewPasswordScreen(),
-        // binding: AuthBindings(),
+        binding: AuthBindings(),
       ),
       GetPage(
         name: AppRoutes.bottomNavScreen,
@@ -152,7 +152,7 @@ class RouteManager {
       GetPage(
         name: AppRoutes.userProfileScreen,
         page: () => const UserProfileScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userFaqScreen,

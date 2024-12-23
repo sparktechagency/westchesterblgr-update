@@ -14,12 +14,6 @@ class UserHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-      ),
-    );
-
     Size size = MediaQuery.sizeOf(context);
     ResponsiveUtils.initialize(context);
     return Scaffold(
@@ -99,7 +93,7 @@ class UserHomeScreen extends StatelessWidget {
                                         child: TextWidget(
                                           text: type,
                                           fontColor: AppColors.black,
-                                          fontSize: 8,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.w400,
                                         ),
                                       );
@@ -109,7 +103,7 @@ class UserHomeScreen extends StatelessWidget {
                                 const TextWidget(
                                   text: '\$9.32',
                                   fontColor: AppColors.black500,
-                                  fontSize: 14,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ],
@@ -119,12 +113,12 @@ class UserHomeScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: size.width / (size.width / 200),
+                                  width: size.width / (size.width / 210),
                                   child: const TextWidget(
                                     text:
                                         'Electro Music Festival - Valleria night with DJ Hardwell',
                                     fontColor: AppColors.black,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
