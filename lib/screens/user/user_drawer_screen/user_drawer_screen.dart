@@ -1,0 +1,191 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:itzel/screens/user/user_drawer_screen/widgets/drawer_section_widget.dart';
+import 'package:itzel/widgets/button_widget/button_widget.dart';
+
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_icons_path.dart';
+import '../../../constants/app_strings.dart';
+import '../../../routes/app_routes.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/icon_widget/icon_widget.dart';
+import '../../../widgets/space_widget/space_widget.dart';
+import '../../../widgets/text_widget/text_widgets.dart';
+import 'controller/user_drawer_controller.dart';
+
+class UserDrawerScreen extends StatelessWidget {
+  const UserDrawerScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    return Scaffold(
+      backgroundColor: AppColors.whiteBg,
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
+        toolbarHeight: size.height / (size.height / 64),
+        flexibleSpace: Container(
+          color: AppColors.white,
+        ),
+        titleSpacing: -1,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const IconWidget(
+            icon: 'assets/icons/menuIcon.svg',
+            width: 24,
+            height: 24,
+          ),
+        ),
+        centerTitle: true,
+        title: Image.asset(
+          'assets/images/itzelLogo.png',
+          height: size.height / (size.height / 42),
+          width: size.width / (size.width / 106),
+        ),
+        actions: [
+          IconButton(
+            tooltip: "Notifications",
+            onPressed: () {
+              Get.toNamed(AppRoutes.userNotificationScreen);
+            },
+            icon: const Badge(
+              isLabelVisible: true,
+              label: Text("3"),
+              //offset: const Offset(8, 8),
+              backgroundColor: AppColors.red,
+              child: IconWidget(
+                icon: 'assets/icons/notificationIcon.svg',
+                width: 24,
+                height: 24,
+              ),
+            ),
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SpaceWidget(spaceHeight: 12),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: TextWidget(
+                text: AppStrings.accountSetting,
+                fontColor: AppColors.black500,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 16),
+            DrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.userProfileScreen);
+              },
+              text: AppStrings.myProfile,
+              icon: AppIconsPath.myProfileIcon,
+            ),
+            DrawerSectionWidget(
+              onTap: () {},
+              text: AppStrings.savedEvents,
+              icon: AppIconsPath.savedEventsIcon,
+            ),
+            DrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.userFaqScreen);
+              },
+              text: AppStrings.faq,
+              icon: AppIconsPath.faqIcon,
+            ),
+            DrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.userTermsConditionScreen);
+              },
+              text: AppStrings.termsConditions,
+              icon: AppIconsPath.termsConditionIcon,
+            ),
+            DrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.userChangePasswordScreen);
+              },
+              text: AppStrings.changePassword,
+              icon: AppIconsPath.changePasswordIcon,
+            ),
+            DrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.userDeleteAccountScreen);
+              },
+              text: AppStrings.deleteAccount,
+              icon: AppIconsPath.deleteAccountIcon,
+            ),
+            // ...List.generate(controller.titles.length, (index) {
+            //   return InkWell(
+            //     onTap: () {
+            //       controller.onItemTapped(index);
+            //     },
+            //     borderRadius: BorderRadius.circular(8),
+            //     splashColor: Colors.transparent,
+            //     highlightColor: Colors.transparent,
+            //     child: Container(
+            //       width: double.infinity,
+            //       padding: const EdgeInsets.all(13),
+            //       margin: const EdgeInsets.only(
+            //           left: 20, right: 20, bottom: 12),
+            //       decoration: BoxDecoration(
+            //         color: AppColors.white,
+            //         borderRadius: BorderRadius.circular(8),
+            //         boxShadow: const [
+            //           BoxShadow(
+            //             color: AppColors.grey100,
+            //             spreadRadius: 1,
+            //             blurRadius: 2,
+            //           ),
+            //         ],
+            //       ),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           Row(
+            //             children: [
+            //               IconWidget(
+            //                 icon: controller.icons[index],
+            //                 height: 24,
+            //                 width: 24,
+            //               ),
+            //               const SpaceWidget(spaceWidth: 8),
+            //               TextWidget(
+            //                 text: controller.titles[index],
+            //                 fontColor: AppColors.black500,
+            //                 fontSize: 16,
+            //                 fontWeight: FontWeight.w500,
+            //               ),
+            //             ],
+            //           ),
+            //           const Icon(
+            //             Icons.arrow_forward_ios_rounded,
+            //             size: 20,
+            //             color: AppColors.black500,
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   );
+            // }),
+            const SpaceWidget(spaceHeight: 80),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: ButtonWidget(
+                onPressed: () {},
+                label: 'Logout',
+                buttonWidth: double.infinity,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 16),
+          ],
+        ),
+      ),
+    );
+  }
+}

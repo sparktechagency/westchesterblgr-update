@@ -1,0 +1,287 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
+import 'package:itzel/screens/user/user_review_screen/widgets/feedback_text_field_widget.dart';
+import 'package:itzel/screens/user/user_review_screen/widgets/popup_widget.dart';
+import 'package:itzel/screens/user/user_review_screen/widgets/review_search_text_field_widget.dart';
+import 'package:itzel/widgets/button_widget/button_widget.dart';
+
+import '../../../constants/app_colors.dart';
+import '../../../constants/app_images_path.dart';
+import '../../../widgets/space_widget/space_widget.dart';
+import '../../../widgets/text_widget/text_widgets.dart';
+import 'controllers/user_review_controller.dart';
+
+class UserReviewScreen extends StatelessWidget {
+  final String categoryTitle;
+
+  final feedbackController = TextEditingController();
+
+  UserReviewScreen({super.key, required this.categoryTitle});
+  void _showRatingPopup(BuildContext context, UserReviewController controller) {
+    showCustomPopup(context, [
+      InkWell(
+        onTap: () {
+          Get.back();
+        },
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        child: const Align(
+          alignment: Alignment.centerRight,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextWidget(
+                text: 'Skip',
+                fontColor: AppColors.blackLight2,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              SpaceWidget(spaceWidth: 2),
+              Icon(
+                Icons.arrow_forward,
+                size: 14,
+                color: AppColors.blackLight2,
+              ),
+            ],
+          ),
+        ),
+      ),
+      const SpaceWidget(spaceHeight: 30),
+      const Center(
+        child: TextWidget(
+          text: 'Give your Rating',
+          fontColor: AppColors.blackDarkest,
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+      const SpaceWidget(spaceHeight: 16),
+      Center(
+        child: RatingBar.builder(
+          initialRating: 3,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => const Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            print('Rating: $rating');
+          },
+        ),
+      ),
+      const SpaceWidget(spaceHeight: 28),
+      const TextWidget(
+        text: 'Feedback',
+        fontColor: AppColors.blackDark,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+      const SpaceWidget(spaceHeight: 8),
+      FeedbackTextFieldWidget(
+        hintText: '',
+        controller: feedbackController,
+        maxLines: 5,
+      ),
+      const SpaceWidget(spaceHeight: 40),
+      ButtonWidget(
+        onPressed: () {
+          Navigator.pop(context);
+          print('Review Submitted');
+        },
+        label: 'Submit Review',
+        buttonWidth: double.infinity,
+      ),
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    return Scaffold(
+      backgroundColor: AppColors.whiteBg,
+      body: GetBuilder<UserReviewController>(
+          init: UserReviewController(),
+          builder: (controller) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SpaceWidget(spaceHeight: 24),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: size.width / (size.width / 20)),
+                      child: ReviewSearchTextFieldWidget(
+                        hintText: 'Search',
+                        controller: controller.searchController,
+                        maxLines: 1,
+                      ),
+                    ),
+                    const SpaceWidget(spaceHeight: 16),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: size.width / (size.width / 20)),
+                      child: TextWidget(
+                        text: categoryTitle,
+                        fontColor: AppColors.black500,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SpaceWidget(spaceHeight: 16),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(size.width / (size.width / 12)),
+                      margin: EdgeInsets.only(
+                          left: size.width / (size.width / 20),
+                          right: size.width / (size.width / 20),
+                          bottom: size.width / (size.width / 12)),
+                      decoration: BoxDecoration(
+                        color: AppColors.blue50,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: AppColors.blueDark,
+                          width: size.width / (size.width / 1.35),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: Image.asset(
+                                  'assets/images/homeImage.png',
+                                  height: size.width / (size.width / 45),
+                                  width: size.width / (size.width / 45),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SpaceWidget(spaceWidth: 8),
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TextWidget(
+                                    text: 'Saint Marry High School',
+                                    fontColor: AppColors.black800,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  SpaceWidget(spaceHeight: 4),
+                                  TextWidget(
+                                    text: 'New York City',
+                                    fontColor: AppColors.black800,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SpaceWidget(spaceHeight: 12),
+                          const TextWidget(
+                            text: 'Reviews',
+                            fontColor: AppColors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          const SpaceWidget(spaceHeight: 8),
+                          ...List.generate(
+                            controller.reviewImages.length,
+                            (index) {
+                              return Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(12),
+                                margin: const EdgeInsets.only(bottom: 12),
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(9),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: AppColors.grey200,
+                                      spreadRadius: 1,
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: Image.asset(
+                                            controller.reviewImages[index],
+                                            height:
+                                                size.width / (size.width / 36),
+                                            width:
+                                                size.width / (size.width / 36),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        const SpaceWidget(spaceWidth: 8),
+                                        SizedBox(
+                                          width:
+                                              size.width / (size.width / 150),
+                                          child: TextWidget(
+                                            text: controller
+                                                .reviewComments[index],
+                                            fontColor: AppColors.black500,
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w400,
+                                            maxLines: 2,
+                                            textAlignment: TextAlign.left,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        ...List.generate(
+                                          5,
+                                          (i) {
+                                            return Icon(
+                                              Icons.star,
+                                              color: index == 4
+                                                  ? AppColors.starIconUnselected
+                                                  : AppColors.starIcon,
+                                              size: 12,
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          const SpaceWidget(spaceHeight: 15),
+                          ButtonWidget(
+                            onPressed: () {
+                              _showRatingPopup(context, controller);
+                            },
+                            label: 'Give Reviews',
+                            buttonWidth: double.infinity,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+    );
+  }
+}
