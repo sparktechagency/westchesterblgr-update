@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 
 class CreatorDeleteAccountController extends GetxController {
@@ -21,5 +21,10 @@ class CreatorDeleteAccountController extends GetxController {
       Get.snackbar("Success", "Account deleted successfully",
           snackPosition: SnackPosition.BOTTOM);
     }
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
   }
 }

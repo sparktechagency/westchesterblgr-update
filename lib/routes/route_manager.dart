@@ -90,19 +90,19 @@ class RouteManager {
       GetPage(
         name: AppRoutes.bottomNavScreen,
         page: () => const BottomNavScreen(userRole: ''),
-        //binding: BottomNavBinding(),
+        // binding: BottomNavBinding(),
       ),
 
       //User Section
       GetPage(
         name: AppRoutes.userHomeScreen,
         page: () => const UserHomeScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userHomeDetailsScreen,
         page: () => const UserHomeDetailsScreen(),
-        //binding: GeneralBindings(),
+        binding: GeneralBindings(),
       ),
       GetPage(
         name: AppRoutes.userSearchScreen,
@@ -112,42 +112,42 @@ class RouteManager {
       GetPage(
         name: AppRoutes.userJobApplyingScreen,
         page: () => UserJobApplyingScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userAllChatScreen,
         page: () => UserAllChatScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userChatScreen,
         page: () => UserChatScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userChatReceiverInfoScreen,
         page: () => const UserChatReceiverInfoScreen(),
-//binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userEventScreen,
         page: () => const UserEventScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userDrawerScreen,
         page: () => const UserDrawerScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userAccountScreen,
         page: () => const UserAccountScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userNotificationScreen,
         page: () => const UserNotificationScreen(),
-        //binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userProfileScreen,
@@ -157,144 +157,144 @@ class RouteManager {
       GetPage(
         name: AppRoutes.userFaqScreen,
         page: () => const UserFaqScreen(),
-        //  binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userTermsConditionScreen,
         page: () => const UserTermsConditionScreen(),
-        //  binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userChangePasswordScreen,
         page: () => const UserChangePasswordScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userDeleteAccountScreen,
         page: () => UserDeleteAccountScreen(),
-        //  binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userAllCategoryScreen,
         page: () => UserAllCategoryScreen(),
-        //  binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userReviewScreen,
         page: () => UserReviewScreen(categoryTitle: ''),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userMapScreen,
         page: () => const UserMapScreen(),
-        // binding: UserBindings(),
+        binding: UserBindings(),
       ),
 
       //Creator Section
       GetPage(
         name: AppRoutes.creatorDashboardScreen,
         page: () => const CreatorDashboardScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorAllEventStatusScreen,
         page: () => const CreatorAllEventStatusScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorAllJobApplicationScreen,
         page: () => const CreatorAllJobApplicationScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorAllChatScreen,
         page: () => CreatorAllChatScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorChatScreen,
         page: () => CreatorChatScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorChatReceiverInfoScreen,
         page: () => const CreatorChatReceiverInfoScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorAccountScreen,
         page: () => const CreatorAccountScreen(),
-        //  binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorDrawerScreen,
         page: () => const CreatorDrawerScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorNotificationScreen,
         page: () => const CreatorNotificationScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorProfileScreen,
         page: () => const CreatorProfileScreen(),
-        //  binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorFaqScreen,
         page: () => const CreatorFaqScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorTermsConditionScreen,
         page: () => const CreatorTermsConditionScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorChangePasswordScreen,
         page: () => const CreatorChangePasswordScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorDeleteAccountScreen,
         page: () => CreatorDeleteAccountScreen(),
-        //  binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorPostScreen,
         page: () => const CreatorPostScreen(),
-        //  binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorEventCreateScreen,
         page: () => const CreatorEventCreateScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorJobPublishScreen,
         page: () => const CreatorJobPublishScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorAnalyticsScreen,
         page: () => const CreatorAnalyticsScreen(),
-        //  binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorBusinessInformationScreen,
         page: () => const CreatorBusinessInformationScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorSubscriptionsScreen,
         page: () => const CreatorSubscriptionsScreen(),
-        // binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorPaymentMethodScreen,
         page: () => const CreatorPaymentMethodScreen(),
-        //binding: CreatorBindings(),
+        binding: CreatorBindings(),
       ),
     ];
   }

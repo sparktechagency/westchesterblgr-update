@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class CreatorProfileController extends GetxController {
-  // State variables
   File? selectedImage;
   final ImagePicker picker = ImagePicker();
 
@@ -43,5 +42,13 @@ class CreatorProfileController extends GetxController {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Profile updated successfully!")),
     );
+  }
+
+  @override
+  void onClose() {
+    usernameController.dispose();
+    addressController.dispose();
+    phoneNumberController.dispose();
+    super.onClose();
   }
 }

@@ -18,6 +18,7 @@ class UserChangePasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserChangePasswordController controller =
         Get.put(UserChangePasswordController());
+    Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       appBar: const AppbarWidget(text: AppStrings.changePassword),
@@ -72,11 +73,32 @@ class UserChangePasswordScreen extends StatelessWidget {
               ),
             ),
             const SpaceWidget(spaceHeight: 48),
-            ButtonWidget(
-              onPressed: () => controller.handleChangePassword(context),
-              label: AppStrings.changePassword,
-              buttonHeight: AppSize.width(value: 52),
-              buttonWidth: double.infinity,
+            Container(
+              height: (size.height / (size.height / 54)),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.blue,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 4),
+                    blurRadius: 5.0,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: MaterialButton(
+                onPressed: () => controller.handleChangePassword(context),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                child: Text(
+                  AppStrings.changePassword,
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: (size.width / (size.width / 16)),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

@@ -19,20 +19,19 @@ import '../../screens/user/user_terms_condition_screen/controllers/user_terms_co
 class UserBindings extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => UserAllChatController());
-    Get.lazyPut(() => UserAllChatController());
+    // Get.lazyPut(() => UserAllChatController());
     Get.lazyPut(() => UserDrawerController());
     Get.lazyPut(() => UserHomeController());
     Get.lazyPut(() => UserSearchController());
     Get.lazyPut(() => UserJobApplyingController());
-    Get.lazyPut(() => UserChatController());
+    //Get.lazyPut(() => UserChatController());
     Get.lazyPut(() => UserChatReceiverInfoController());
     Get.lazyPut(() => UserEventController());
     Get.lazyPut(() => UserAccountController());
     Get.lazyPut(() => UserNotificationController());
     Get.lazyPut(() => UserProfileController());
-    Get.lazyPut(() => UserFaqController());
-    Get.lazyPut(() => UserTermsConditionController());
+    //Get.lazyPut(() => UserFaqController());
+    //Get.lazyPut(() => UserTermsConditionController());
     Get.lazyPut(() => UserChangePasswordController());
     Get.lazyPut(() => UserDeleteAccountController());
   }

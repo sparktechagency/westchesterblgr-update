@@ -22,4 +22,11 @@ class CreatorSubscriptionsController extends GetxController {
     // Implement subscription logic here
     print('Subscribing to ${subscriptionPack[selectedPackIndex]} pack');
   }
+
+  @override
+  void onClose() {
+    // Clean up any resources if needed
+    print('CreatorSubscriptionsController is being disposed');
+    super.onClose();
+  }
 }

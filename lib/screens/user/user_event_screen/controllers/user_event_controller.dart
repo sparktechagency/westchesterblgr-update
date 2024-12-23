@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
 
 class UserEventController extends GetxController {
-  List<String> types = ['Party', 'Night concert', 'DJ Music'];
-  double ticketPrice = 9.32;
-  String eventName = 'Electro Music Festival - Valleria night with DJ Hardwell';
+  // Making variables observable
+  var types = ['Party', 'Night concert', 'DJ Music'].obs;
+  var ticketPrice = 9.32.obs;
+  var eventName =
+      'Electro Music Festival - Valleria night with DJ Hardwell'.obs;
 
   void updateTicketPrice(double newPrice) {
-    ticketPrice = newPrice;
-    update(); // Notify listeners
+    ticketPrice.value = newPrice; // Use .value to update the observable
   }
 
   void updateEventName(String newName) {
-    eventName = newName;
-    update(); // Notify listeners
+    eventName.value = newName; // Use .value to update the observable
   }
 }

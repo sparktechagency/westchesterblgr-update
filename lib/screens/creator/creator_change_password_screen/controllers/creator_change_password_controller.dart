@@ -68,4 +68,12 @@ class CreatorChangePasswordController extends GetxController {
       );
     }
   }
+
+  @override
+  void onClose() {
+    currentPasswordController.dispose();
+    newPasswordController.dispose();
+    retypeNewPasswordController.dispose();
+    super.onClose();
+  }
 }

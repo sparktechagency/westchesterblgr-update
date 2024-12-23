@@ -4,16 +4,15 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 class UserProfileController extends GetxController {
-  // State variables
-  var selectedImage = Rx<File?>(null);
+  File? selectedImage;
   final ImagePicker picker = ImagePicker();
 
-  final Rx<TextEditingController> usernameController =
-      TextEditingController(text: "John Bryan").obs;
-  final Rx<TextEditingController> addressController =
-      TextEditingController(text: "California, Rankin Street 121").obs;
-  final Rx<TextEditingController> phoneNumberController =
-      TextEditingController(text: "012568554526345").obs;
+  final TextEditingController usernameController =
+      TextEditingController(text: "John Bryan");
+  final TextEditingController addressController =
+      TextEditingController(text: "California, Rankin Street 121");
+  final TextEditingController phoneNumberController =
+      TextEditingController(text: "012568554526345");
 
   // Track updates
   var isUpdated = false.obs;
@@ -22,24 +21,34 @@ class UserProfileController extends GetxController {
   Future<void> pickImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      selectedImage.value = File(pickedFile.path);
+      selectedImage = File(pickedFile.path);
       checkForUpdates();
+      update(); // Refresh the UI
     }
   }
 
   // Check if fields are updated
   void checkForUpdates() {
-    isUpdated.value = usernameController.value.text != "John Bryan" ||
-        addressController.value.text != "California, Rankin Street 121" ||
-        phoneNumberController.value.text != "012568554526345" ||
-        selectedImage.value != null;
+    isUpdated.value = usernameController.text != "John Bryan" ||
+        addressController.text != "California, Rankin Street 121" ||
+        phoneNumberController.text != "012568554526345" ||
+        selectedImage != null;
   }
 
   // Handle the update button
   void handleUpdate(BuildContext context) {
     isUpdated.value = false;
+    update(); // Refresh the UI
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Profile updated successfully!")),
     );
+  }
+
+  @override
+  void onClose() {
+    usernameController.dispose();
+    addressController.dispose();
+    phoneNumberController.dispose();
+    super.onClose();
   }
 }

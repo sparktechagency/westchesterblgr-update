@@ -22,4 +22,9 @@ class UserDeleteAccountController extends GetxController {
           snackPosition: SnackPosition.BOTTOM);
     }
   }
+
+  @override
+  void onClose() {
+    super.onClose();
+  }
 }

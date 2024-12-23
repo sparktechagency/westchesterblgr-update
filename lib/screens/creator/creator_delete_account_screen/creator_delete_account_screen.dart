@@ -19,6 +19,7 @@ class CreatorDeleteAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       appBar: const AppbarWidget(text: AppStrings.deleteAccount),
@@ -56,18 +57,38 @@ class CreatorDeleteAccountScreen extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
             const SpaceWidget(spaceHeight: 16),
-            DeleteAccountButtonWidget(
-              onPressed: () => controller.deleteAccount(
-                passwordController.text,
-                (message) {
-                  Get.snackbar("Error", message,
-                      snackPosition: SnackPosition.BOTTOM);
-                },
+            Container(
+              height: (size.height / (size.height / 54)),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.red,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 4),
+                    blurRadius: 5.0,
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(8),
               ),
-              label: AppStrings.deleteAccount,
-              buttonHeight: AppSize.width(value: 52),
-              buttonWidth: double.infinity,
-              backgroundColor: AppColors.red,
+              child: MaterialButton(
+                onPressed: () => controller.deleteAccount(
+                  passwordController.text,
+                  (message) {
+                    Get.snackbar("Error", message,
+                        snackPosition: SnackPosition.BOTTOM);
+                  },
+                ),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                child: Text(
+                  "Delete Account",
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: (size.width / (size.width / 16)),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

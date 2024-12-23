@@ -36,11 +36,10 @@ class DeleteAccountButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return Container(
-      height: (MediaQuery.sizeOf(context).height /
-          (MediaQuery.sizeOf(context).height / buttonHeight)),
-      width: (MediaQuery.sizeOf(context).width /
-          (MediaQuery.sizeOf(context).width / buttonWidth)),
+      height: (size.height / (size.height / buttonHeight)),
+      width: (size.width / (size.width / buttonWidth)),
       decoration: BoxDecoration(
         color: backgroundColor ?? AppColors.grey200,
         boxShadow: const [
@@ -59,8 +58,7 @@ class DeleteAccountButtonWidget extends StatelessWidget {
           label,
           style: TextStyle(
             color: textColor,
-            fontSize: (MediaQuery.sizeOf(context).width /
-                (MediaQuery.sizeOf(context).width / fontSize)),
+            fontSize: (size.width / (size.width / fontSize)),
             fontWeight: FontWeight.w500,
           ),
         ),
