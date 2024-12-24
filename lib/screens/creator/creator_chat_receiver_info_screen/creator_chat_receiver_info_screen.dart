@@ -30,11 +30,60 @@ class CreatorChatReceiverInfoScreen extends StatelessWidget {
           action: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              IconButtonWidget(
-                onTap: () {},
-                icon: AppIconsPath.moreIcon,
-                size: 24,
-                color: AppColors.black500,
+              PopupMenuButton<int>(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: AppColors.black,
+                  size: 24,
+                ),
+                onSelected: (int result) {
+                  // Handle menu item selection
+                  switch (result) {
+                    case 0:
+                      // Action for first menu item
+                      break;
+                    case 1:
+                      // Action for first menu item
+                      break;
+                    case 2:
+                      // Action for first menu item
+                      break;
+                  }
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+                  const PopupMenuItem<int>(
+                    value: 0,
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete_outline,
+                            color: AppColors.black500, size: 20),
+                        SpaceWidget(spaceWidth: 6),
+                        Text('Delete Chat'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem<int>(
+                    value: 1,
+                    child: Row(
+                      children: [
+                        Icon(Icons.block, color: AppColors.black500, size: 20),
+                        SpaceWidget(spaceWidth: 6),
+                        Text('Block'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem<int>(
+                    value: 1,
+                    child: Row(
+                      children: [
+                        Icon(Icons.report, color: AppColors.black500, size: 20),
+                        SpaceWidget(spaceWidth: 6),
+                        Text('Report Problem'),
+                      ],
+                    ),
+                  ),
+                  // Add more PopupMenuItem widgets for additional menu items
+                ],
               ),
               const SpaceWidget(spaceWidth: 8),
             ],
@@ -114,15 +163,41 @@ class CreatorChatReceiverInfoScreen extends StatelessWidget {
                                     (MediaQuery.of(context).size.height / 2),
                             crossAxisCount: 3,
                             crossAxisSpacing: AppSize.width(value: 12),
-                            mainAxisSpacing: AppSize.width(value: 4),
+                            mainAxisSpacing: AppSize.width(value: 6),
                           ),
                           itemCount: controller.infoMedia.length,
                           itemBuilder: (BuildContext ctx, index) {
-                            return SizedBox(
-                              height: size.width / (size.width / 94),
-                              width: size.width / (size.width / 94),
-                              child: Image.asset(
-                                controller.infoMedia[index],
+                            return InkWell(
+                               splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                               onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Dialog(
+                                      backgroundColor: Colors.transparent,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Container(
+                                          color: Colors.black,
+                                          child: Image.asset(
+                                            controller.infoMedia[index],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: SizedBox(
+                                height: size.width / (size.width / 94),
+                                width: size.width / (size.width / 94),
+                                child: Image.asset(
+                                  controller.infoMedia[index],
+                                ),
                               ),
                             );
                           },

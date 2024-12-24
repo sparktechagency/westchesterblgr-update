@@ -28,6 +28,8 @@ class AppRoutes {
   static const userAllCategoryScreen = '/userAllCategoryScreen';
   static const userReviewScreen = '/userReviewScreen';
   static const userMapScreen = '/userMapScreen';
+  static const userSavedEventsScreen = '/userSavedEventsScreen';
+  static const userSavedJobsScreen = '/userSavedJobsScreen';
 
   // Creator Section
   static const creatorDashboardScreen = '/creatorDashboardScreen';

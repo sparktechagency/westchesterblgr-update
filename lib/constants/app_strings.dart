@@ -68,6 +68,7 @@ class AppStrings {
   static const String accountSetting = "Account Setting";
   static const String myProfile = "My Profile";
   static const String savedEvents = "Saved Events";
+  static const String savedJobs = "Saved Jobs";
   static const String faq = "FAQ";
   static const String termsConditions = "Terms & Conditions";
   static const String changePassword = "Change Password";

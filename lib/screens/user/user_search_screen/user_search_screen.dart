@@ -185,7 +185,7 @@ class UserSearchScreen extends StatelessWidget {
                                             ? 'Saved'
                                             : 'Save',
                                         fontColor: AppColors.black500,
-                                        fontSize: 10,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.w400,
                                       ),
                                       Icon(
@@ -193,7 +193,7 @@ class UserSearchScreen extends StatelessWidget {
                                             ? Icons.bookmark
                                             : Icons.bookmark_border,
                                         color: AppColors.black500,
-                                        size: 12,
+                                        size: 14,
                                       ),
                                     ],
                                   ),
@@ -207,14 +207,14 @@ class UserSearchScreen extends StatelessWidget {
                               TextWidget(
                                 text: 'Saint Marry School',
                                 fontColor: AppColors.black,
-                                fontSize: 10,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
                               SpaceWidget(spaceWidth: 4),
                               TextWidget(
                                 text: '3 days ago',
                                 fontColor: AppColors.grey700,
-                                fontSize: 8,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w500,
                               ),
                             ],
@@ -223,7 +223,7 @@ class UserSearchScreen extends StatelessWidget {
                           const TextWidget(
                             text: 'Assistant Biology Teacher',
                             fontColor: AppColors.black,
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                           const SpaceWidget(spaceHeight: 8),
@@ -243,7 +243,7 @@ class UserSearchScreen extends StatelessWidget {
                                   child: TextWidget(
                                     text: jobType[index],
                                     fontColor: AppColors.black,
-                                    fontSize: 10,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 );
@@ -267,7 +267,7 @@ class UserSearchScreen extends StatelessWidget {
                                     child: const TextWidget(
                                       text: '\$200-220/month',
                                       fontColor: AppColors.black500,
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                       overflow: TextOverflow.ellipsis,
                                       textAlignment: TextAlign.start,
@@ -278,7 +278,7 @@ class UserSearchScreen extends StatelessWidget {
                                     child: const TextWidget(
                                       text: '54/B St, Huston.',
                                       fontColor: AppColors.grey700,
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w400,
                                       overflow: TextOverflow.ellipsis,
                                       textAlignment: TextAlign.start,

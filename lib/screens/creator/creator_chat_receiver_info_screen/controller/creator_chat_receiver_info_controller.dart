@@ -21,4 +21,10 @@ class CreatorChatReceiverInfoController extends GetxController {
   void onMoreTap() {
     print("More icon tapped!");
   }
+
+  @override
+  void onClose() {
+    // Dispose resources if any
+    super.onClose();
+  }
 }

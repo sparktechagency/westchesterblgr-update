@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:itzel/screens/user/user_saved_events_screen/user_saved_events_screen.dart';
+import 'package:itzel/screens/user/user_saved_jobs_screen/user_saved_jobs_screen.dart';
 import '../screens/auth_screens/create_new_password_screen/create_new_password_screen.dart';
 import '../screens/auth_screens/forgot_password_screen/forgot_password_screen.dart';
 import '../screens/auth_screens/login_screen/login_screen.dart';
@@ -111,12 +113,22 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userJobApplyingScreen,
-        page: () => UserJobApplyingScreen(),
+        page: () => const UserJobApplyingScreen(),
         binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userAllChatScreen,
-        page: () => UserAllChatScreen(),
+        page: () => const UserAllChatScreen(),
+        binding: UserBindings(),
+      ),
+      GetPage(
+        name: AppRoutes.userSavedEventsScreen,
+        page: () =>  UserSavedEventsScreen(),
+        binding: UserBindings(),
+      ),
+      GetPage(
+        name: AppRoutes.userSavedJobsScreen,
+        page: () =>  UserSavedJobsScreen(),
         binding: UserBindings(),
       ),
       GetPage(
@@ -208,12 +220,12 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorAllChatScreen,
-        page: () => CreatorAllChatScreen(),
+        page: () => const CreatorAllChatScreen(),
         binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorChatScreen,
-        page: () => CreatorChatScreen(),
+        page: () => const CreatorChatScreen(),
         binding: CreatorBindings(),
       ),
       GetPage(

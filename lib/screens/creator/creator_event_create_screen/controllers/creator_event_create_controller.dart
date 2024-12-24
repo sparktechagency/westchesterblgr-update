@@ -74,6 +74,18 @@ class CreatorEventCreateController extends GetxController {
       Get.snackbar('Error', 'No file selected', snackPosition: SnackPosition.BOTTOM);
     }
   }
+
+   @override
+  void onClose() {
+    filePathController.dispose();
+    eventNameController.dispose();
+    timeController.dispose();
+    locationController.dispose();
+    eventDescriptionController.dispose();
+    eventTagController.dispose();
+    priceController.dispose();
+    super.onClose();
+  }
 }
 
 

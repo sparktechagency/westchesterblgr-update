@@ -25,4 +25,10 @@ class CreatorAllJobApplicationController extends GetxController {
       },
     ));
   }
+
+  @override
+  void onClose() {
+    // Dispose resources if any
+    super.onClose();
+  }
 }

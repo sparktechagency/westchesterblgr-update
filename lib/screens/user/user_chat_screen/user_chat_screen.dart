@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:itzel/routes/app_routes.dart';
+import 'package:itzel/widgets/space_widget/space_widget.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
@@ -76,7 +77,66 @@ class _UserChatScreenState extends State<UserChatScreen> {
           onInfoTap: () {
             Get.toNamed(AppRoutes.userChatReceiverInfoScreen);
           },
-          onMoreTap: () {},
+          onMoreTap: () {
+            showMenu(
+              context: context,
+              position: const RelativeRect.fromLTRB(
+                  100, 100, 0, 0), // Adjust the position as needed
+              items: [
+                const PopupMenuItem<int>(
+                  value: 0,
+                  child: Row(
+                    children: [
+                      Icon(Icons.delete_outline,
+                          color: AppColors.black500, size: 20),
+                      SpaceWidget(spaceWidth: 6),
+                      Text('Delete Chat'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem<int>(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      Icon(Icons.block,
+                          color: AppColors.black500, size: 20),
+                      SpaceWidget(spaceWidth: 6),
+                      Text('Block'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem<int>(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      Icon(Icons.report,
+                          color: AppColors.black500, size: 20),
+                      SpaceWidget(spaceWidth: 6),
+                      Text('Report Problem'),
+                    ],
+                  ),
+                ),
+                // Add more PopupMenuItem widgets for additional menu items
+              ],
+            ).then((value) {
+              if (value != null) {
+                // Handle menu item selection
+                switch (value) {
+                  case 0:
+                    // Action for first menu item
+                    break;
+                  case 1:
+                    // Action for second menu item
+                    break;
+                  // Add more cases for additional menu items
+                  case 2:
+                    // Action for second menu item
+                    break;
+                  // Add more cases for additional menu items
+                }
+              }
+            });
+          },
           titleText: 'Bryan Lewis',
           subTitleText: 'Last Seen 12h ago',
         ),

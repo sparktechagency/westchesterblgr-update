@@ -75,7 +75,7 @@ class UserHomeDetailsScreen extends StatelessWidget {
                       child: const TextWidget(
                         text: 'Electro Music Festival - DJ Hardwell',
                         fontColor: AppColors.black,
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.w500,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -103,7 +103,7 @@ class UserHomeDetailsScreen extends StatelessWidget {
                   text: 'Description',
                   fontColor: AppColors.black900,
                   fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
                 const SpaceWidget(spaceHeight: 2),
                 TextWidget(

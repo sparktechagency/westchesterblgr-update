@@ -62,4 +62,19 @@ class CreatorJobPublishController extends GetxController {
       },
     );
   }
+
+  @override
+  void onClose() {
+    companyNameController.dispose();
+    addressController.dispose();
+    roleController.dispose();
+    jobDescriptionController.dispose();
+    jobTypeController.dispose();
+    priceController.dispose();
+    for (var question in questions) {
+      question['question']?.dispose();
+      question['answer']?.dispose();
+    }
+    super.onClose();
+  }
 }

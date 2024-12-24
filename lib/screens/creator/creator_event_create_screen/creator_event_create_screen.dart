@@ -33,7 +33,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                   const TextWidget(
                     text: 'Upload Thumbail',
                     fontColor: AppColors.black500,
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),
                   const SpaceWidget(spaceHeight: 4),
@@ -83,7 +83,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Upload Intro Video',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -141,7 +141,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Please Upload MP4 format only',
                       fontColor: AppColors.whiteLighter,
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -151,7 +151,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Event Name',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -167,7 +167,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Time',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -185,7 +185,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Location',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -201,7 +201,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Event Description',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                     fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -217,7 +217,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Event Tags',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -233,7 +233,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Price',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),

@@ -14,4 +14,10 @@ class UserHomeController extends GetxController {
     eventName = newName;
     update(); // Notify listeners
   }
+
+  @override
+  void onClose() {
+    // Dispose resources if any
+    super.onClose();
+  }
 }

@@ -150,4 +150,10 @@ class CreatorAnalyticsController extends GetxController {
       child: text,
     );
   }
+
+  @override
+  void onClose() {
+    // Dispose resources if any
+    super.onClose();
+  }
 }

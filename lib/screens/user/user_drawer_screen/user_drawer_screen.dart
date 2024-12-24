@@ -8,11 +8,9 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
 import '../../../constants/app_strings.dart';
 import '../../../routes/app_routes.dart';
-import '../../../utils/app_size.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controller/user_drawer_controller.dart';
 
 class UserDrawerScreen extends StatelessWidget {
   const UserDrawerScreen({super.key});
@@ -88,8 +86,17 @@ class UserDrawerScreen extends StatelessWidget {
               icon: AppIconsPath.myProfileIcon,
             ),
             DrawerSectionWidget(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.userSavedEventsScreen);
+              },
               text: AppStrings.savedEvents,
+              icon: AppIconsPath.savedEventsIcon,
+            ),
+            DrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.userSavedJobsScreen);
+              },
+              text: AppStrings.savedJobs,
               icon: AppIconsPath.savedEventsIcon,
             ),
             DrawerSectionWidget(

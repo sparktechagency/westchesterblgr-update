@@ -35,4 +35,10 @@ class UserSearchController extends GetxController {
     isSavedList[index] = !isSavedList[index];
     update(); // Notify listeners to rebuild
   }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
+  }
 }

@@ -14,23 +14,11 @@ import '../../../widgets/text_widget/text_widgets.dart';
 import 'controllers/user_job_applying_controller.dart';
 
 class UserJobApplyingScreen extends StatelessWidget {
-  final nameController = TextEditingController();
-  final addressController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final experienceController = TextEditingController();
-  final citizenshipController = TextEditingController();
-  final highSchoolController = TextEditingController();
-  final graduatedHighSchoolYearController = TextEditingController();
-  final collegeController = TextEditingController();
-  final graduatedYearController = TextEditingController();
-
-  UserJobApplyingScreen({super.key});
+  const UserJobApplyingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-
 
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
@@ -76,8 +64,8 @@ class UserJobApplyingScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(100),
                                   child: Image.asset(
                                     AppImagesPath.profileImage,
-                                    height: size.width / (size.width / 32),
-                                    width: size.width / (size.width / 32),
+                                    height: size.width / (size.width / 40),
+                                    width: size.width / (size.width / 40),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -88,7 +76,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                                     TextWidget(
                                       text: AppStrings.designation,
                                       fontColor: AppColors.black500,
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w400,
                                     ),
                                     SpaceWidget(spaceHeight: 4),
@@ -97,14 +85,14 @@ class UserJobApplyingScreen extends StatelessWidget {
                                         TextWidget(
                                           text: AppStrings.instituteName,
                                           fontColor: AppColors.black,
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           fontWeight: FontWeight.w500,
                                         ),
                                         SpaceWidget(spaceWidth: 4),
                                         TextWidget(
                                           text: AppStrings.jobPostingDate,
                                           fontColor: AppColors.grey700,
-                                          fontSize: 8,
+                                          fontSize: 10,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ],
@@ -117,7 +105,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.jobRequirementHeader,
                               fontColor: AppColors.grey700,
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
                               textAlignment: TextAlign.justify,
                             ),
@@ -125,14 +113,14 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.requirements,
                               fontColor: AppColors.grey900,
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
                             ),
                             const SpaceWidget(spaceHeight: 12),
                             const TextWidget(
                               text: AppStrings.requirementDetails,
                               fontColor: AppColors.grey700,
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
                               textAlignment: TextAlign.justify,
                             ),
@@ -140,14 +128,14 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.experience,
                               fontColor: AppColors.grey900,
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
                             ),
                             const SpaceWidget(spaceHeight: 12),
                             const TextWidget(
                               text: AppStrings.experienceDetails,
                               fontColor: AppColors.grey700,
-                              fontSize: 12,
+                               fontSize: 13,
                               fontWeight: FontWeight.w400,
                               textAlignment: TextAlign.justify,
                             ),
@@ -155,14 +143,14 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.additionalRequirements,
                               fontColor: AppColors.grey900,
-                              fontSize: 12,
+                               fontSize: 13,
                               fontWeight: FontWeight.w500,
                             ),
                             const SpaceWidget(spaceHeight: 12),
                             const TextWidget(
                               text: AppStrings.additionalRequirementsDetails,
                               fontColor: AppColors.grey700,
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
                               textAlignment: TextAlign.justify,
                             ),
@@ -170,7 +158,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.name,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -184,7 +172,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.address,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -198,7 +186,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.email,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -218,7 +206,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.phoneNumber,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                             fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -233,7 +221,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.experience,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                             fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -247,7 +235,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.citizenship,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                             fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -261,7 +249,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.highSchool,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -275,7 +263,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.graduatedHighSchoolYear,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -291,7 +279,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.college,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),
@@ -305,7 +293,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                             const TextWidget(
                               text: AppStrings.graduatedYear,
                               fontColor: AppColors.black400,
-                              fontSize: 10,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                             const SpaceWidget(spaceHeight: 4),

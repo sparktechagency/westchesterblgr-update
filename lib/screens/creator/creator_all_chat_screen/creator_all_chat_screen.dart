@@ -127,11 +127,34 @@ class _CreatorAllChatScreenState extends State<CreatorAllChatScreen> {
                         ),
                       ),
                       const SpaceWidget(spaceWidth: 12),
-                      IconButtonWidget(
-                        onTap: () {},
-                        icon: AppIconsPath.moreIcon,
-                        color: AppColors.black,
-                        size: 24,
+                      PopupMenuButton<int>(
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: AppColors.black,
+                          size: 24,
+                        ),
+                        onSelected: (int result) {
+                          // Handle menu item selection
+                          switch (result) {
+                            case 0:
+                              // Action for first menu item
+                              break;
+                          }
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<int>>[
+                          const PopupMenuItem<int>(
+                            value: 0,
+                            child: Row(
+                              children: [
+                                Icon(Icons.settings, size: 20),
+                                SpaceWidget(spaceWidth: 6),
+                                Text('Settings'),
+                              ],
+                            ),
+                          ),
+                          // Add more PopupMenuItem widgets for additional menu items
+                        ],
                       ),
                     ],
                   ),

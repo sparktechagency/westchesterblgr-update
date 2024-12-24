@@ -16,4 +16,10 @@ class CreatorAllEventStatusController extends GetxController {
     eventStatusList = newList;
     update(); // Notify listeners
   }
+
+   @override
+  void onClose() {
+    // Dispose resources if any
+    super.onClose();
+  }
 }

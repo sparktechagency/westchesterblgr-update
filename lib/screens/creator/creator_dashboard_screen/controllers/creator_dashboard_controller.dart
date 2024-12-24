@@ -39,4 +39,10 @@ class CreatorDashboardController extends GetxController {
     jobApplicants = newApplicants;
     update();
   }
+
+  @override
+  void onClose() {
+    // Dispose resources if any
+    super.onClose();
+  }
 }

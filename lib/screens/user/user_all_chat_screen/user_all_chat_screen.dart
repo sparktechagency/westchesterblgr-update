@@ -76,7 +76,7 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(33),
                           color:
-                          isExpanded ? AppColors.white : AppColors.whiteBg,
+                              isExpanded ? AppColors.white : AppColors.whiteBg,
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -88,10 +88,10 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                                 icon: isExpanded
                                     ? const Icon(Icons.close)
                                     : const IconWidget(
-                                  icon: AppIconsPath.newChatIcon,
-                                  height: 24,
-                                  width: 24,
-                                ),
+                                        icon: AppIconsPath.newChatIcon,
+                                        height: 24,
+                                        width: 24,
+                                      ),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
@@ -100,19 +100,19 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                             Flexible(
                               child: isExpanded
                                   ? TextField(
-                                controller: searchController,
-                                style: const TextStyle(
-                                    color: AppColors.black),
-                                cursorColor: AppColors.black,
-                                decoration: const InputDecoration(
-                                  hintText: 'Search',
-                                  hintStyle:
-                                  TextStyle(color: AppColors.grey600),
-                                  contentPadding:
-                                  EdgeInsets.fromLTRB(5, 8, 20, 10),
-                                  border: InputBorder.none,
-                                ),
-                              )
+                                      controller: searchController,
+                                      style: const TextStyle(
+                                          color: AppColors.black),
+                                      cursorColor: AppColors.black,
+                                      decoration: const InputDecoration(
+                                        hintText: 'Search',
+                                        hintStyle:
+                                            TextStyle(color: AppColors.grey600),
+                                        contentPadding:
+                                            EdgeInsets.fromLTRB(5, 8, 20, 10),
+                                        border: InputBorder.none,
+                                      ),
+                                    )
                                   : const SizedBox.shrink(),
                             ),
                             if (isExpanded)
@@ -127,11 +127,34 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                         ),
                       ),
                       const SpaceWidget(spaceWidth: 12),
-                      IconButtonWidget(
-                        onTap: () {},
-                        icon: AppIconsPath.moreIcon,
-                        color: AppColors.black,
-                        size: 24,
+                      PopupMenuButton<int>(
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: AppColors.black,
+                          size: 24,
+                        ),
+                        onSelected: (int result) {
+                          // Handle menu item selection
+                          switch (result) {
+                            case 0:
+                              // Action for first menu item
+                              break;
+                          }
+                        },
+                        itemBuilder: (BuildContext context) =>
+                            <PopupMenuEntry<int>>[
+                          const PopupMenuItem<int>(
+                            value: 0,
+                            child: Row(
+                              children: [
+                                Icon(Icons.settings, size: 20),
+                                SpaceWidget(spaceWidth: 6),
+                                Text('Settings'),
+                              ],
+                            ),
+                          ),
+                          // Add more PopupMenuItem widgets for additional menu items
+                        ],
                       ),
                     ],
                   ),
@@ -141,7 +164,7 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
             const SpaceWidget(spaceHeight: 8),
             ...List.generate(
               5,
-                  (index) {
+              (index) {
                 return InkWell(
                   onTap: () {
                     Navigator.pushNamed(context, AppRoutes.userChatScreen);

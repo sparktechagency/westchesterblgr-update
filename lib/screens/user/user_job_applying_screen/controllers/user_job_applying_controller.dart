@@ -23,4 +23,19 @@ class UserJobApplyingController extends GetxController {
       print('Validation Failed');
     }
   }
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    addressController.dispose();
+    emailController.dispose();
+    phoneNumberController.dispose();
+    experienceController.dispose();
+    citizenshipController.dispose();
+    highSchoolController.dispose();
+    graduatedHighSchoolYearController.dispose();
+    collegeController.dispose();
+    graduatedYearController.dispose();
+    super.onClose();
+  }
 }

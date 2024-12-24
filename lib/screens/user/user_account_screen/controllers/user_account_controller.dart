@@ -18,4 +18,9 @@ class UserAccountController extends GetxController {
   void updateContactNumber(String newContact) {
     contactNumber.value = newContact;
   }
+   @override
+  void onClose() {
+    // Dispose resources if any
+    super.onClose();
+  }
 }

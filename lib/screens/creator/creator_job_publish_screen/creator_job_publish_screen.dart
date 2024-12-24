@@ -32,7 +32,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                   const TextWidget(
                     text: 'Upload Picture',
                     fontColor: AppColors.black500,
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                   ),
                   const SpaceWidget(spaceHeight: 4),
@@ -82,7 +82,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Company Name',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -98,7 +98,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Address',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -114,7 +114,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Role',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -130,7 +130,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Job Description',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -146,7 +146,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Job Type',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -162,7 +162,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                     child: TextWidget(
                       text: 'Price',
                       fontColor: AppColors.grey900,
-                      fontSize: 12,
+                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -226,7 +226,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
                         TextWidget(
                           text: 'Add Question',
                           fontColor: AppColors.black500,
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ],
