@@ -1,21 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:itzel/screens/user/user_delete_account_screen/widgets/delete_account_button_widget.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_strings.dart';
-import '../../../utils/app_size.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_field_widget/text_field_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controllers/creator_delete_account_controller.dart';
 
-class CreatorDeleteAccountScreen extends StatelessWidget {
-  final CreatorDeleteAccountController controller =
-      Get.put(CreatorDeleteAccountController());
-  final passwordController = TextEditingController();
+class CreatorDeleteAccountScreen extends StatefulWidget {
   CreatorDeleteAccountScreen({super.key});
+
+  @override
+  State<CreatorDeleteAccountScreen> createState() =>
+      _CreatorDeleteAccountScreenState();
+}
+
+class _CreatorDeleteAccountScreenState
+    extends State<CreatorDeleteAccountScreen> {
+  final passwordController = TextEditingController();
+  bool isPasswordVisible = false;
+
+  void togglePasswordVisibility() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
+  void deleteAccount() {
+    final password = passwordController.text;
+    if (password.isEmpty) {
+      showError("Enter Password");
+    } else if (password.length < 6) {
+      showError("Password length should be more than 6 characters");
+    } else {
+      // Add your delete account logic here
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Account deleted successfully')),
+      );
+    }
+  }
+
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +108,7 @@ class CreatorDeleteAccountScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: MaterialButton(
-                onPressed: () => controller.deleteAccount(
-                  passwordController.text,
-                  (message) {
-                    Get.snackbar("Error", message,
-                        snackPosition: SnackPosition.BOTTOM);
-                  },
-                ),
+                onPressed: deleteAccount,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 child: Text(
                   "Delete Account",

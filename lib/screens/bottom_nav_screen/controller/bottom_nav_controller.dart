@@ -27,7 +27,7 @@ class BottomNavController extends GetxController {
   void initializeTabs() {
     tabs = [
       (userRole == 'User')
-          ? const UserHomeScreen()
+          ?  UserHomeScreen()
           : const CreatorDashboardScreen(),
       (userRole == 'User') ? UserSearchScreen() : const CreatorPostScreen(),
       (userRole == 'User') ? UserAllChatScreen() : CreatorAllChatScreen(),

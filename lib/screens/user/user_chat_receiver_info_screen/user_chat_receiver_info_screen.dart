@@ -1,20 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../constants/app_icons_path.dart';
 import '../../../constants/app_images_path.dart';
 import '../../../constants/app_strings.dart';
 import '../../../utils/app_size.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
-import '../../../widgets/icon_button_widget/icon_button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controller/user_chat_receiver_info_controller.dart';
 
 class UserChatReceiverInfoScreen extends StatelessWidget {
-  const UserChatReceiverInfoScreen({super.key});
+  final List<String> infoMedia = [
+    AppImagesPath.infoMedia1,
+    AppImagesPath.infoMedia2,
+    AppImagesPath.infoMedia3,
+    AppImagesPath.infoMedia4,
+    AppImagesPath.infoMedia5,
+    AppImagesPath.infoMedia1,
+    AppImagesPath.infoMedia2,
+    AppImagesPath.infoMedia3,
+    AppImagesPath.infoMedia4,
+    AppImagesPath.infoMedia5,
+  ];
+
+  void onMoreTap() {
+    print("More icon tapped!");
+  }
+
+  UserChatReceiverInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -89,126 +102,120 @@ class UserChatReceiverInfoScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: GetBuilder<UserChatReceiverInfoController>(
-            init: UserChatReceiverInfoController(),
-            builder: (controller) {
-              return SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
-                        child: Image.asset(
-                          AppImagesPath.chatProfileImage,
-                          height: size.width / (size.width / 202),
-                          width: size.width / (size.width / 202),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const SpaceWidget(spaceHeight: 10),
-                    const Center(
-                      child: TextWidget(
-                        text: AppStrings.receiverName,
-                        fontColor: AppColors.black500,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SpaceWidget(spaceHeight: 4),
-                    const Center(
-                      child: TextWidget(
-                        text: AppStrings.lastActiveTime,
-                        fontColor: AppColors.grey900,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SpaceWidget(spaceHeight: 10),
-                    const TextWidget(
-                      text: AppStrings.chatMedia,
-                      fontColor: AppColors.black500,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    const SpaceWidget(spaceHeight: 8),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(
-                        size.width / (size.width / 16),
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                            color: AppColors.greyLighter,
-                            width: size.width / (size.width / 0.7)),
-                      ),
-                      child: Container(
-                        constraints: BoxConstraints(
-                          //below mentioned sizes for reference only
-                          minWidth: size.width / (size.width / 100),
-                          maxWidth: size.width / (size.width / 320),
-                          minHeight: size.height / (size.height / 100),
-                          maxHeight: size.height / (size.height / 450),
-                        ),
-                        child: GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio:
-                                MediaQuery.of(context).size.width /
-                                    (MediaQuery.of(context).size.width /0.9),
-                            crossAxisCount: 3,
-                            crossAxisSpacing: AppSize.width(value: 12),
-                            mainAxisSpacing: AppSize.width(value: 6),
-                          ),
-                          itemCount: controller.infoMedia.length,
-                          itemBuilder: (BuildContext ctx, index) {
-                            return InkWell(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Dialog(
-                                      backgroundColor: Colors.transparent,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Container(
-                                          color: Colors.black,
-                                          child: Image.asset(
-                                            controller.infoMedia[index],
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: SizedBox(
-                                height: size.width / (size.width / 94),
-                                width: size.width / (size.width / 94),
-                                child: Image.asset(
-                                  controller.infoMedia[index],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    const SpaceWidget(spaceHeight: 20),
-                  ],
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset(
+                    AppImagesPath.chatProfileImage,
+                    height: size.width / (size.width / 202),
+                    width: size.width / (size.width / 202),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              );
-            }),
+              ),
+              const SpaceWidget(spaceHeight: 10),
+              const Center(
+                child: TextWidget(
+                  text: AppStrings.receiverName,
+                  fontColor: AppColors.black500,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SpaceWidget(spaceHeight: 4),
+              const Center(
+                child: TextWidget(
+                  text: AppStrings.lastActiveTime,
+                  fontColor: AppColors.grey900,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SpaceWidget(spaceHeight: 10),
+              const TextWidget(
+                text: AppStrings.chatMedia,
+                fontColor: AppColors.black500,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+              const SpaceWidget(spaceHeight: 8),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(
+                  size.width / (size.width / 16),
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                      color: AppColors.greyLighter,
+                      width: size.width / (size.width / 0.7)),
+                ),
+                child: Container(
+                  constraints: BoxConstraints(
+                    //below mentioned sizes for reference only
+                    minWidth: size.width / (size.width / 100),
+                    maxWidth: size.width / (size.width / 320),
+                    minHeight: size.height / (size.height / 100),
+                    maxHeight: size.height / (size.height / 450),
+                  ),
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: MediaQuery.of(context).size.width /
+                          (MediaQuery.of(context).size.width / 0.9),
+                      crossAxisCount: 3,
+                      crossAxisSpacing: AppSize.width(value: 12),
+                      mainAxisSpacing: AppSize.width(value: 6),
+                    ),
+                    itemCount: infoMedia.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                backgroundColor: Colors.transparent,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                    color: Colors.black,
+                                    child: Image.asset(
+                                      infoMedia[index],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: SizedBox(
+                          height: size.width / (size.width / 94),
+                          width: size.width / (size.width / 94),
+                          child: Image.asset(
+                            infoMedia[index],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              const SpaceWidget(spaceHeight: 20),
+            ],
+          ),
+        ),
       ),
     );
   }

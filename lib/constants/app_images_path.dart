@@ -6,6 +6,8 @@ class AppImagesPath {
 
   // User All Chat Screen Images
   static const String chatProfileImage = "assets/images/chatProfileImage.png";
+  static const String groupImage1 = "assets/images/groupImage1.png";
+  static const String groupImage2 = "assets/images/groupImage2.png";
 
   // User Chat Receiver Info Screen Images
   static const String infoMedia1 = "assets/images/infoMedia1.png";

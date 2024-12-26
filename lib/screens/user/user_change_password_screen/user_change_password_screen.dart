@@ -1,24 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_strings.dart';
-import '../../../utils/app_size.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_field_widget/text_field_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controllers/user_change_password_controller.dart';
 
-class UserChangePasswordScreen extends StatelessWidget {
+class UserChangePasswordScreen extends StatefulWidget {
   const UserChangePasswordScreen({super.key});
 
   @override
+  State<UserChangePasswordScreen> createState() =>
+      _UserChangePasswordScreenState();
+}
+
+class _UserChangePasswordScreenState extends State<UserChangePasswordScreen> {
+  final currentPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final retypeNewPasswordController = TextEditingController();
+
+  void toggleObscurePassword(ValueNotifier<bool> obscureNotifier) {
+    obscureNotifier.value = !obscureNotifier.value;
+  }
+
+  void handleChangePassword() {
+    final currentPassword = currentPasswordController.text;
+    final newPassword = newPasswordController.text;
+    final retypeNewPassword = retypeNewPasswordController.text;
+
+    if (currentPassword.isEmpty ||
+        newPassword.isEmpty ||
+        retypeNewPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill up all the fields')),
+      );
+      return;
+    }
+
+    if (newPassword != retypeNewPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('New password and retype password do not match')),
+      );
+      return;
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    currentPasswordController.dispose();
+    newPasswordController.dispose();
+    retypeNewPasswordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final UserChangePasswordController controller =
-        Get.put(UserChangePasswordController());
-    Size size = MediaQuery.sizeOf(context);
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       appBar: const AppbarWidget(text: AppStrings.changePassword),
@@ -34,43 +75,25 @@ class UserChangePasswordScreen extends StatelessWidget {
               textAlignment: TextAlign.left,
             ),
             const SpaceWidget(spaceHeight: 30),
-            Obx(
-              () => TextFieldWidget(
-                hintText: 'Current Password',
-                controller: controller.currentPasswordController,
-                validator: (value) => controller.validatePassword(value!),
-                maxLines: 1,
-                suffixIcon: controller.currentPasswordObscure.value
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-                onTapSuffix: () => controller.toggleObscurePassword("current"),
-              ),
+            TextFieldWidget(
+              hintText: 'Current Password',
+              controller: currentPasswordController,
+              maxLines: 1,
+              suffixIcon: Icons.visibility_off_outlined,
             ),
             const SpaceWidget(spaceHeight: 12),
-            Obx(
-              () => TextFieldWidget(
-                hintText: 'New Password',
-                controller: controller.newPasswordController,
-                validator: (value) => controller.validatePassword(value!),
-                maxLines: 1,
-                suffixIcon: controller.newPasswordObscure.value
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-                onTapSuffix: () => controller.toggleObscurePassword("new"),
-              ),
+            TextFieldWidget(
+              hintText: 'New Password',
+              controller: newPasswordController,
+              maxLines: 1,
+              suffixIcon: Icons.visibility_off_outlined,
             ),
             const SpaceWidget(spaceHeight: 12),
-            Obx(
-              () => TextFieldWidget(
-                hintText: 'Re-type new Password',
-                controller: controller.retypeNewPasswordController,
-                validator: (value) => controller.validatePassword(value!),
-                maxLines: 1,
-                suffixIcon: controller.retypePasswordObscure.value
-                    ? Icons.visibility_off_outlined
-                    : Icons.visibility_outlined,
-                onTapSuffix: () => controller.toggleObscurePassword("retype"),
-              ),
+            TextFieldWidget(
+              hintText: 'Re-type new Password',
+              controller: retypeNewPasswordController,
+              maxLines: 1,
+              suffixIcon: Icons.visibility_off_outlined,
             ),
             const SpaceWidget(spaceHeight: 48),
             Container(
@@ -88,7 +111,7 @@ class UserChangePasswordScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: MaterialButton(
-                onPressed: () => controller.handleChangePassword(context),
+                onPressed: handleChangePassword,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 child: Text(
                   AppStrings.changePassword,

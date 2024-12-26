@@ -9,7 +9,7 @@ import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 
-class CreatorChatReceiverInfoScreen extends StatelessWidget {
+class UserGroupChatInfoScreen extends StatelessWidget {
   final List<String> infoMedia = [
     AppImagesPath.infoMedia1,
     AppImagesPath.infoMedia2,
@@ -27,7 +27,7 @@ class CreatorChatReceiverInfoScreen extends StatelessWidget {
     print("More icon tapped!");
   }
 
-  CreatorChatReceiverInfoScreen({super.key});
+  UserGroupChatInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class CreatorChatReceiverInfoScreen extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.asset(
-                    AppImagesPath.chatProfileImage,
+                    AppImagesPath.groupImage1,
                     height: size.width / (size.width / 202),
                     width: size.width / (size.width / 202),
                     fit: BoxFit.cover,
@@ -121,7 +121,7 @@ class CreatorChatReceiverInfoScreen extends StatelessWidget {
               const SpaceWidget(spaceHeight: 10),
               const Center(
                 child: TextWidget(
-                  text: AppStrings.receiverName,
+                  text: AppStrings.groupName1,
                   fontColor: AppColors.black500,
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -168,7 +168,7 @@ class CreatorChatReceiverInfoScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: MediaQuery.of(context).size.width /
-                          (MediaQuery.of(context).size.height / 2),
+                          (MediaQuery.of(context).size.width / 0.9),
                       crossAxisCount: 3,
                       crossAxisSpacing: AppSize.width(value: 12),
                       mainAxisSpacing: AppSize.width(value: 6),

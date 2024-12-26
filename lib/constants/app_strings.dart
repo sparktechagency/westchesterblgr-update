@@ -1,5 +1,6 @@
 class AppStrings {
   AppStrings._();
+
   static const String appName = "Itzel";
   static const String fontFamilyName = "Poppins";
   static const String loginToAccount = "Login to your account";
@@ -50,6 +51,10 @@ class AppStrings {
   // User All Chat Screen Strings
   static const String allChat = "All Chats";
   static const String chatUserName = "Bryan Lewis";
+  static const String groupName1 = "🦄 Team Unicorns";
+  static const String groupName2 = "⭐ Team Hipppos";
+  static const String messages = "Messages";
+  static const String groupChats = "Group chats";
   static const String chatDetails = "Hi there, are you free?";
   static const String unreadChatQuantity = "3";
   static const String unreadChatTime = "1 week";

@@ -51,7 +51,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     print('Init state called');
     tabs = [
       (widget.userRole == 'User')
-          ? const UserHomeScreen()
+          ?  UserHomeScreen()
           : const CreatorDashboardScreen(),
       (widget.userRole == 'User')
           ? UserSearchScreen()

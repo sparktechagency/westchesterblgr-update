@@ -11,21 +11,87 @@ import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import 'controllers/user_home_details_controller.dart';
 
-class UserHomeDetailsScreen extends StatelessWidget {
+class UserHomeDetailsScreen extends StatefulWidget {
   const UserHomeDetailsScreen({super.key});
+
+  @override
+  State<UserHomeDetailsScreen> createState() => _UserHomeDetailsScreenState();
+}
+
+class _UserHomeDetailsScreenState extends State<UserHomeDetailsScreen> {
+  late VideoPlayerController _videoController;
+  bool _isVideoEnded = false;
+  bool _isBookmarked = false;
+  bool _isExpanded = false;
+  bool _isVideoInitialized = false;
+
+  final String _text =
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type speci";
+
+  @override
+  void initState() {
+    super.initState();
+    _videoController = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    )
+      ..setLooping(false)
+      ..initialize().then((_) {
+        setState(() {
+          _isVideoInitialized = true;
+        });
+      });
+
+    _videoController.addListener(() {
+      if (_videoController.value.position == _videoController.value.duration) {
+        setState(() {
+          _isVideoEnded = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _videoController.dispose();
+    super.dispose();
+  }
+
+  void _toggleBookmark() {
+    setState(() {
+      _isBookmarked = !_isBookmarked;
+    });
+  }
+
+  void _toggleExpansion() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
+
+  void _playPauseVideo() {
+    if (_isVideoEnded) {
+      _videoController.seekTo(Duration.zero);
+      _videoController.play();
+      setState(() {
+        _isVideoEnded = false;
+      });
+    } else if (_videoController.value.isPlaying) {
+      _videoController.pause();
+    } else {
+      _videoController.play();
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    String text =
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type speci";
-
+    String displayText = _isExpanded ? _text : _text.substring(0, 100) + '...';
     // Return a single screen with GetBuilder
     return GetBuilder<UserHomeDetailsController>(
       init: UserHomeDetailsController(),
       builder: (controller) {
-        String displayText =
-            controller.isExpanded ? text : text.substring(0, 100) + '...';
+
 
         return Scaffold(
           backgroundColor: AppColors.whiteBg,
@@ -37,15 +103,15 @@ class UserHomeDetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Video player only initialized once
-                if (controller.isVideoInitialized)
+                if (_isVideoInitialized)
                   Stack(
                     alignment: Alignment.center,
                     children: [
                       AspectRatio(
-                        aspectRatio: controller.controller.value.aspectRatio,
+                        aspectRatio: _videoController.value.aspectRatio,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: VideoPlayer(controller.controller),
+                          child: VideoPlayer(_videoController),
                         ),
                       ),
                       GestureDetector(
@@ -54,11 +120,11 @@ class UserHomeDetailsScreen extends StatelessWidget {
                           radius: 30,
                           backgroundColor: Colors.black54,
                           child: Icon(
-                            controller.isVideoEnded
+                            _isVideoEnded
                                 ? Icons.replay
-                                : controller.controller.value.isPlaying
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
+                                : _videoController.value.isPlaying
+                                ? Icons.pause
+                                : Icons.play_arrow,
                             size: 40,
                             color: Colors.white,
                           ),
@@ -81,19 +147,15 @@ class UserHomeDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: controller.toggleBookmark,
+                      onPressed: _toggleBookmark,
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                       style: const ButtonStyle(
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       icon: Icon(
-                        controller.isBookmarked
-                            ? Icons.bookmark
-                            : Icons.bookmark_border,
-                        color: controller.isBookmarked
-                            ? AppColors.black
-                            : AppColors.black,
+                        _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                        color: AppColors.black,
                       ),
                     )
                   ],
@@ -114,9 +176,9 @@ class UserHomeDetailsScreen extends StatelessWidget {
                   textAlignment: TextAlign.left,
                 ),
                 InkWell(
-                  onTap: controller.toggleExpansion,
+                  onTap: _toggleExpansion,
                   child: TextWidget(
-                    text: controller.isExpanded ? 'see less' : 'see more',
+                    text: _isExpanded ? 'see less' : 'see more',
                     fontColor: AppColors.blueLight,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
