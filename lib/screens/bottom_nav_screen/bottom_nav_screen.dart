@@ -9,7 +9,6 @@ import 'package:itzel/screens/user/user_account_screen/user_account_screen.dart'
 import 'package:itzel/screens/user/user_all_chat_screen/user_all_chat_screen.dart';
 import 'package:itzel/screens/user/user_home_screen/user_home_screen.dart';
 import 'package:itzel/screens/user/user_search_screen/user_search_screen.dart';
-import 'package:itzel/utils/app_size.dart';
 
 import '../../widgets/icon_widget/icon_widget.dart';
 import '../creator/creator_account_screen/creator_account_screen.dart';
@@ -35,6 +34,7 @@ import '../user/user_event_screen/user_event_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   final String userRole;
+
   const BottomNavScreen({super.key, required this.userRole});
 
   @override
@@ -51,7 +51,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     print('Init state called');
     tabs = [
       (widget.userRole == 'User')
-          ?  UserHomeScreen()
+          ? UserHomeScreen()
           : const CreatorDashboardScreen(),
       (widget.userRole == 'User')
           ? UserSearchScreen()
@@ -63,8 +63,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           ? const UserEventScreen()
           : CreatorAnalyticsScreen(),
       (widget.userRole == 'User')
-          ? const UserAccountScreen()
-          : const CreatorAccountScreen(),
+          ? UserAccountScreen()
+          : CreatorAccountScreen(),
     ];
     print('Tabs: $tabs');
   }

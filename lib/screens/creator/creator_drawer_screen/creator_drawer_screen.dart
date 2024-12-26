@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:itzel/screens/auth_screens/registration_screen/registration_screen.dart';
 import 'package:itzel/screens/creator/creator_drawer_screen/widgets/creator_drawer_section_widget.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
@@ -11,7 +12,6 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controller/creator_drawer_controller.dart';
 
 class CreatorDrawerScreen extends StatelessWidget {
   const CreatorDrawerScreen({super.key});
@@ -139,7 +139,9 @@ class CreatorDrawerScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ButtonWidget(
-                onPressed: () {},
+                onPressed: () {
+                  Get.offAll(() => const RegistrationScreen());
+                },
                 label: 'Logout',
                 buttonWidth: double.infinity,
               ),

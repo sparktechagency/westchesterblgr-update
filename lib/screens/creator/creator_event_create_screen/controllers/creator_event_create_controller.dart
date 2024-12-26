@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,13 +15,15 @@ class CreatorEventCreateController extends GetxController {
   final TextEditingController eventNameController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
-  final TextEditingController eventDescriptionController = TextEditingController();
+  final TextEditingController eventDescriptionController =
+      TextEditingController();
   final TextEditingController eventTagController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
   // Function to pick an image from the gallery
   Future<void> pickImage() async {
-    final XFile? selectedImage = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? selectedImage =
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (selectedImage != null) {
       image = selectedImage;
@@ -52,7 +55,8 @@ class CreatorEventCreateController extends GetxController {
           selectedTime.minute,
         );
 
-        timeController.text = DateFormat('yyyy-MM-dd, HH:mm').format(fullDateTime);
+        timeController.text =
+            DateFormat('yyyy-MM-dd, HH:mm').format(fullDateTime);
         update(); // Update the UI after the date and time are selected
       }
     }
@@ -71,11 +75,12 @@ class CreatorEventCreateController extends GetxController {
       filePathController.text = pickedFile.path;
       update(); // Update the UI after the video is selected
     } else {
-      Get.snackbar('Error', 'No file selected', snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Error', 'No file selected',
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
-   @override
+  @override
   void onClose() {
     filePathController.dispose();
     eventNameController.dispose();
@@ -87,5 +92,3 @@ class CreatorEventCreateController extends GetxController {
     super.onClose();
   }
 }
-
-

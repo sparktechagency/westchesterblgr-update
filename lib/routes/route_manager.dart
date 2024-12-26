@@ -113,7 +113,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userJobApplyingScreen,
-        page: () => const UserJobApplyingScreen(),
+        page: () => UserJobApplyingScreen(),
         //binding: UserBindings(),
       ),
       GetPage(
@@ -153,12 +153,12 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userAccountScreen,
-        page: () => const UserAccountScreen(),
+        page: () => UserAccountScreen(),
         //binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userNotificationScreen,
-        page: () => const UserNotificationScreen(),
+        page: () => UserNotificationScreen(),
         // binding: UserBindings(),
       ),
       GetPage(
@@ -210,12 +210,12 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorAllEventStatusScreen,
-        page: () => const CreatorAllEventStatusScreen(),
+        page: () => CreatorAllEventStatusScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
         name: AppRoutes.creatorAllJobApplicationScreen,
-        page: () => const CreatorAllJobApplicationScreen(),
+        page: () => CreatorAllJobApplicationScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
@@ -235,7 +235,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorAccountScreen,
-        page: () => const CreatorAccountScreen(),
+        page: () => CreatorAccountScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
@@ -245,7 +245,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorNotificationScreen,
-        page: () => const CreatorNotificationScreen(),
+        page: () => CreatorNotificationScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
