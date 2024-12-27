@@ -10,10 +10,31 @@ import '../../../widgets/button_widget/button_widget.dart';
 import '../../../widgets/icon_button_widget/icon_button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controllers/creator_post_controller.dart';
 
-class CreatorPostScreen extends StatelessWidget {
+class CreatorPostScreen extends StatefulWidget {
   const CreatorPostScreen({super.key});
+
+  @override
+  State<CreatorPostScreen> createState() => _CreatorPostScreenState();
+}
+
+class _CreatorPostScreenState extends State<CreatorPostScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+  int eventPostCount = 2;
+  int jobPostCount = 5;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,49 +45,44 @@ class CreatorPostScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: AppColors.whiteBg,
-        body: GetBuilder<CreatorPostController>(
-          init: CreatorPostController(),
-          builder: (controller) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: TabBar(
-                    unselectedLabelColor: AppColors.grey700,
-                    labelColor: AppColors.blueNormal,
-                    dividerColor: AppColors.blueLighter,
-                    indicator: UnderlineTabIndicator(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(
-                        color: AppColors.blueNormal,
-                        width: AppSize.width(value: 5),
-                      ),
-                    ),
-                    tabs: [
-                      Tab(
-                        text: "Event Post (${controller.eventPostCount.value})",
-                      ),
-                      Tab(
-                        text: "Job Post (${controller.jobPostCount.value})",
-                      ),
-                    ],
-                    controller: controller.tabController,
-                    indicatorSize: TabBarIndicatorSize.tab,
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TabBar(
+                unselectedLabelColor: AppColors.grey700,
+                labelColor: AppColors.blueNormal,
+                dividerColor: AppColors.blueLighter,
+                indicator: UnderlineTabIndicator(
+                  borderRadius: BorderRadius.circular(100),
+                  borderSide: BorderSide(
+                    color: AppColors.blueNormal,
+                    width: AppSize.width(value: 5),
                   ),
                 ),
-                const SpaceWidget(spaceHeight: 16),
-                Expanded(
-                  child: TabBarView(
-                    controller: controller.tabController,
-                    children: [
-                      _buildEventPostTab(size),
-                      _buildJobPostTab(size),
-                    ],
+                tabs: [
+                  Tab(
+                    text: "Event Post ($eventPostCount)",
                   ),
-                ),
-              ],
-            );
-          },
+                  Tab(
+                    text: "Job Post ($jobPostCount)",
+                  ),
+                ],
+                controller: tabController,
+                indicatorSize: TabBarIndicatorSize.tab,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 16),
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: [
+                  _buildEventPostTab(size),
+                  _buildJobPostTab(size),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -9,7 +9,6 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controllers/user_home_details_controller.dart';
 
 class UserHomeDetailsScreen extends StatefulWidget {
   const UserHomeDetailsScreen({super.key});
@@ -88,126 +87,119 @@ class _UserHomeDetailsScreenState extends State<UserHomeDetailsScreen> {
     Size size = MediaQuery.sizeOf(context);
     String displayText = _isExpanded ? _text : _text.substring(0, 100) + '...';
     // Return a single screen with GetBuilder
-    return GetBuilder<UserHomeDetailsController>(
-      init: UserHomeDetailsController(),
-      builder: (controller) {
-
-
-        return Scaffold(
-          backgroundColor: AppColors.whiteBg,
-          appBar: const AppbarWidget(text: 'Back'),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-                horizontal: size.width / (size.width / 20)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Video player only initialized once
-                if (_isVideoInitialized)
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AspectRatio(
-                        aspectRatio: _videoController.value.aspectRatio,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: VideoPlayer(_videoController),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: controller.playPauseVideo,
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.black54,
-                          child: Icon(
-                            _isVideoEnded
-                                ? Icons.replay
-                                : _videoController.value.isPlaying
+    return Scaffold(
+      backgroundColor: AppColors.whiteBg,
+      appBar: const AppbarWidget(text: 'Back'),
+      body: SingleChildScrollView(
+        padding:
+            EdgeInsets.symmetric(horizontal: size.width / (size.width / 20)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Video player only initialized once
+            if (_isVideoInitialized)
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  AspectRatio(
+                    aspectRatio: _videoController.value.aspectRatio,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: VideoPlayer(_videoController),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _playPauseVideo,
+                    child: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.black54,
+                      child: Icon(
+                        _isVideoEnded
+                            ? Icons.replay
+                            : _videoController.value.isPlaying
                                 ? Icons.pause
                                 : Icons.play_arrow,
-                            size: 40,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                const SpaceWidget(spaceHeight: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: size.width / (size.width / 300),
-                      child: const TextWidget(
-                        text: 'Electro Music Festival - DJ Hardwell',
-                        fontColor: AppColors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        overflow: TextOverflow.ellipsis,
+                        size: 40,
+                        color: Colors.white,
                       ),
                     ),
-                    IconButton(
-                      onPressed: _toggleBookmark,
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                      style: const ButtonStyle(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      icon: Icon(
-                        _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                        color: AppColors.black,
-                      ),
-                    )
-                  ],
-                ),
-                const SpaceWidget(spaceHeight: 12),
-                const TextWidget(
-                  text: 'Description',
-                  fontColor: AppColors.black900,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                const SpaceWidget(spaceHeight: 2),
-                TextWidget(
-                  text: displayText,
-                  fontColor: AppColors.grey800,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  textAlignment: TextAlign.left,
-                ),
-                InkWell(
-                  onTap: _toggleExpansion,
-                  child: TextWidget(
-                    text: _isExpanded ? 'see less' : 'see more',
-                    fontColor: AppColors.blueLight,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    textAlignment: TextAlign.left,
+                  ),
+                ],
+              ),
+            const SpaceWidget(spaceHeight: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: size.width / (size.width / 300),
+                  child: const TextWidget(
+                    text: 'Electro Music Festival - DJ Hardwell',
+                    fontColor: AppColors.black,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SpaceWidget(spaceHeight: 32),
-                FillButtonWidget(
-                  onPressed: () {},
-                  label: 'Buy Ticket',
-                  buttonWidth: double.infinity,
-                  buttonHeight: 56,
-                  buttonRadius: BorderRadius.circular(16),
-                ),
-                const SpaceWidget(spaceHeight: 12),
-                StrokeButtonWidget(
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.userMapScreen);
-                  },
-                  label: 'See Location',
-                  buttonWidth: double.infinity,
-                  buttonHeight: 56,
-                  buttonRadius: BorderRadius.circular(16),
-                ),
+                IconButton(
+                  onPressed: _toggleBookmark,
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  style: const ButtonStyle(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  icon: Icon(
+                    _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                    color: AppColors.black,
+                  ),
+                )
               ],
             ),
-          ),
-        );
-      },
+            const SpaceWidget(spaceHeight: 12),
+            const TextWidget(
+              text: 'Description',
+              fontColor: AppColors.black900,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            const SpaceWidget(spaceHeight: 2),
+            TextWidget(
+              text: displayText,
+              fontColor: AppColors.grey800,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              textAlignment: TextAlign.left,
+            ),
+            InkWell(
+              onTap: _toggleExpansion,
+              child: TextWidget(
+                text: _isExpanded ? 'see less' : 'see more',
+                fontColor: AppColors.blueLight,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                textAlignment: TextAlign.left,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 32),
+            FillButtonWidget(
+              onPressed: () {},
+              label: 'Buy Ticket',
+              buttonWidth: double.infinity,
+              buttonHeight: 56,
+              buttonRadius: BorderRadius.circular(16),
+            ),
+            const SpaceWidget(spaceHeight: 12),
+            StrokeButtonWidget(
+              onPressed: () {
+                Get.toNamed(AppRoutes.userMapScreen);
+              },
+              label: 'See Location',
+              buttonWidth: double.infinity,
+              buttonHeight: 56,
+              buttonRadius: BorderRadius.circular(16),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
