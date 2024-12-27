@@ -40,9 +40,9 @@ class CreatorDrawerScreen extends StatelessWidget {
         ),
         centerTitle: true,
         title: Image.asset(
-          'assets/images/itzelLogo.png',
-          height: size.height / (size.height / 42),
-          width: size.width / (size.width / 106),
+          'assets/images/appLogo.png',
+          height: size.height / (size.height / 45),
+          width: size.width / (size.width / 120),
         ),
         actions: [
           IconButton(
