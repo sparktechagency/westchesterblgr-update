@@ -48,6 +48,7 @@ dependencies:
   intl:
   fl_chart:
   file_picker:
+  table_calendar:
 
 dev_dependencies:
   flutter_test:

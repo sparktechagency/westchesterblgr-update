@@ -1,4 +1,3 @@
+enum AppUseUseRoll { user, creator }
 
-enum AppUseUseRoll {roll1, roll2}
-
-AppUseUseRoll selecteduse = AppUseUseRoll.roll1;
+AppUseUseRoll selectedUse = AppUseUseRoll.user;

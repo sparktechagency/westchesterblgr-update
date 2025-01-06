@@ -57,11 +57,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           ? UserSearchScreen()
           : const CreatorPostScreen(),
       (widget.userRole == 'User')
-          ? UserAllChatScreen()
-          : CreatorAllChatScreen(),
+          ? const UserAllChatScreen()
+          : const CreatorAllChatScreen(),
       (widget.userRole == 'User')
           ? const UserEventScreen()
-          : CreatorAnalyticsScreen(),
+          : const CreatorAnalyticsScreen(),
       (widget.userRole == 'User')
           ? UserAccountScreen()
           : CreatorAccountScreen(),
@@ -125,15 +125,15 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       extendBody: true,
       bottomNavigationBar: Container(
         height: size.height / (size.height / 80),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(40),
             topRight: Radius.circular(40),
           ),
           color: AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: AppColors.grey200,
+              color: AppColors.grey.withOpacity(0.3),
               spreadRadius: 2,
               blurRadius: 3,
             ),

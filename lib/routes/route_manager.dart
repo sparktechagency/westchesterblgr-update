@@ -33,6 +33,7 @@ import '../screens/splash_screen/splash_screen.dart';
 import '../screens/user/user_account_screen/user_account_screen.dart';
 import '../screens/user/user_all_category_screen/user_all_category_screen.dart';
 import '../screens/user/user_all_chat_screen/user_all_chat_screen.dart';
+import '../screens/user/user_calender_screen/user_calender_screen.dart';
 import '../screens/user/user_change_password_screen/user_change_password_screen.dart';
 import '../screens/user/user_chat_receiver_info_screen/user_chat_receiver_info_screen.dart';
 import '../screens/user/user_chat_screen/user_chat_screen.dart';
@@ -199,6 +200,11 @@ class RouteManager {
       GetPage(
         name: AppRoutes.userMapScreen,
         page: () => const UserMapScreen(),
+        // binding: UserBindings(),
+      ),
+      GetPage(
+        name: AppRoutes.userCalenderScreen,
+        page: () => UserCalenderScreen(),
         // binding: UserBindings(),
       ),
 

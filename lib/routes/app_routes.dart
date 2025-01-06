@@ -1,5 +1,6 @@
 class AppRoutes {
   AppRoutes._();
+
   static const splashScreen = '/splashScreen';
   static const registrationScreen = '/registrationScreen';
   static const loginScreen = '/loginScreen';
@@ -30,6 +31,7 @@ class AppRoutes {
   static const userMapScreen = '/userMapScreen';
   static const userSavedEventsScreen = '/userSavedEventsScreen';
   static const userSavedJobsScreen = '/userSavedJobsScreen';
+  static const userCalenderScreen = '/userCalenderScreen';
 
   // Creator Section
   static const creatorDashboardScreen = '/creatorDashboardScreen';
