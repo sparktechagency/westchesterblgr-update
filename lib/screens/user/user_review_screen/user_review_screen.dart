@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:itzel/screens/user/user_review_screen/widgets/feedback_text_field_widget.dart';
-import 'package:itzel/screens/user/user_review_screen/widgets/popup_widget.dart';
+import 'package:itzel/routes/app_routes.dart';
 import 'package:itzel/screens/user/user_review_screen/widgets/review_search_text_field_widget.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../constants/app_images_path.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import 'controllers/user_review_controller.dart';
@@ -18,87 +15,88 @@ class UserReviewScreen extends StatelessWidget {
   final feedbackController = TextEditingController();
 
   UserReviewScreen({super.key, required this.categoryTitle});
-  void _showRatingPopup(BuildContext context, UserReviewController controller) {
-    showCustomPopup(context, [
-      InkWell(
-        onTap: () {
-          Get.back();
-        },
-        highlightColor: Colors.transparent,
-        splashColor: Colors.transparent,
-        child: const Align(
-          alignment: Alignment.centerRight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextWidget(
-                text: 'Skip',
-                fontColor: AppColors.blackLight2,
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              SpaceWidget(spaceWidth: 2),
-              Icon(
-                Icons.arrow_forward,
-                size: 14,
-                color: AppColors.blackLight2,
-              ),
-            ],
-          ),
-        ),
-      ),
-      const SpaceWidget(spaceHeight: 30),
-      const Center(
-        child: TextWidget(
-          text: 'Give your Rating',
-          fontColor: AppColors.blackDarkest,
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      const SpaceWidget(spaceHeight: 16),
-      Center(
-        child: RatingBar.builder(
-          initialRating: 3,
-          minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => const Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          onRatingUpdate: (rating) {
-            print('Rating: $rating');
-          },
-        ),
-      ),
-      const SpaceWidget(spaceHeight: 28),
-      const TextWidget(
-        text: 'Feedback',
-        fontColor: AppColors.blackDark,
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-      ),
-      const SpaceWidget(spaceHeight: 8),
-      FeedbackTextFieldWidget(
-        hintText: '',
-        controller: feedbackController,
-        maxLines: 5,
-      ),
-      const SpaceWidget(spaceHeight: 40),
-      ButtonWidget(
-        onPressed: () {
-          Navigator.pop(context);
-          print('Review Submitted');
-        },
-        label: 'Submit Review',
-        buttonWidth: double.infinity,
-      ),
-    ]);
-  }
+
+  // void _showRatingPopup(BuildContext context, UserReviewController controller) {
+  //   showCustomPopup(context, [
+  //     InkWell(
+  //       onTap: () {
+  //         Get.back();
+  //       },
+  //       highlightColor: Colors.transparent,
+  //       splashColor: Colors.transparent,
+  //       child: const Align(
+  //         alignment: Alignment.centerRight,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.end,
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextWidget(
+  //               text: 'Skip',
+  //               fontColor: AppColors.blackLight2,
+  //               fontSize: 14,
+  //               fontWeight: FontWeight.w400,
+  //             ),
+  //             SpaceWidget(spaceWidth: 2),
+  //             Icon(
+  //               Icons.arrow_forward,
+  //               size: 14,
+  //               color: AppColors.blackLight2,
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //     const SpaceWidget(spaceHeight: 30),
+  //     const Center(
+  //       child: TextWidget(
+  //         text: 'Give your Rating',
+  //         fontColor: AppColors.blackDarkest,
+  //         fontSize: 20,
+  //         fontWeight: FontWeight.w500,
+  //       ),
+  //     ),
+  //     const SpaceWidget(spaceHeight: 16),
+  //     Center(
+  //       child: RatingBar.builder(
+  //         initialRating: 3,
+  //         minRating: 1,
+  //         direction: Axis.horizontal,
+  //         allowHalfRating: true,
+  //         itemCount: 5,
+  //         itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+  //         itemBuilder: (context, _) => const Icon(
+  //           Icons.star,
+  //           color: Colors.amber,
+  //         ),
+  //         onRatingUpdate: (rating) {
+  //           print('Rating: $rating');
+  //         },
+  //       ),
+  //     ),
+  //     const SpaceWidget(spaceHeight: 28),
+  //     const TextWidget(
+  //       text: 'Feedback',
+  //       fontColor: AppColors.blackDark,
+  //       fontSize: 14,
+  //       fontWeight: FontWeight.w500,
+  //     ),
+  //     const SpaceWidget(spaceHeight: 8),
+  //     FeedbackTextFieldWidget(
+  //       hintText: '',
+  //       controller: feedbackController,
+  //       maxLines: 5,
+  //     ),
+  //     const SpaceWidget(spaceHeight: 40),
+  //     ButtonWidget(
+  //       onPressed: () {
+  //         Navigator.pop(context);
+  //         print('Review Submitted');
+  //       },
+  //       label: 'Submit Review',
+  //       buttonWidth: double.infinity,
+  //     ),
+  //   ]);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +267,7 @@ class UserReviewScreen extends StatelessWidget {
                           const SpaceWidget(spaceHeight: 15),
                           ButtonWidget(
                             onPressed: () {
-                              _showRatingPopup(context, controller);
+                              Get.toNamed(AppRoutes.userGiveReviewsScreen);
                             },
                             label: 'Give Reviews',
                             buttonWidth: double.infinity,

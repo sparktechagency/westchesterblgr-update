@@ -41,6 +41,7 @@ import '../screens/user/user_delete_account_screen/user_delete_account_screen.da
 import '../screens/user/user_drawer_screen/user_drawer_screen.dart';
 import '../screens/user/user_event_screen/user_event_screen.dart';
 import '../screens/user/user_faq_screen/user_faq_screen.dart';
+import '../screens/user/user_give_reviews_screen/user_give_reviews_screen.dart';
 import '../screens/user/user_home_details_screen/user_home_details_screen.dart';
 import '../screens/user/user_home_screen/user_home_screen.dart';
 import '../screens/user/user_job_applying_screen/user_job_applying_screen.dart';
@@ -205,6 +206,11 @@ class RouteManager {
       GetPage(
         name: AppRoutes.userCalenderScreen,
         page: () => UserCalenderScreen(),
+        // binding: UserBindings(),
+      ),
+      GetPage(
+        name: AppRoutes.userGiveReviewsScreen,
+        page: () => UserGiveReviewsScreen(),
         // binding: UserBindings(),
       ),
 
