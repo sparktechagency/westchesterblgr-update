@@ -1,6 +1,7 @@
 class AppStrings {
   AppStrings._();
-
+ static const String chatGptApiKey =
+      "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";
   static const String appName = "Itzel";
   static const String fontFamilyName = "Poppins";
   static const String loginToAccount = "Login to your account";
@@ -74,6 +75,7 @@ class AppStrings {
   static const String myProfile = "My Profile";
   static const String savedEvents = "Saved Events";
   static const String savedJobs = "Saved Jobs";
+  static const String askAI = "Ask AI";
   static const String faq = "FAQ";
   static const String termsConditions = "Terms & Conditions";
   static const String changePassword = "Change Password";

@@ -12,6 +12,7 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
+import '../../user/user_drawer_screen/widgets/drawer_section_widget.dart';
 
 class CreatorDrawerScreen extends StatelessWidget {
   const CreatorDrawerScreen({super.key});
@@ -106,6 +107,13 @@ class CreatorDrawerScreen extends StatelessWidget {
               },
               text: AppStrings.subscriptions,
               icon: AppIconsPath.subscriptionIcon,
+            ),
+            CreatorDrawerSectionWidget(
+              onTap: () {
+                Get.toNamed(AppRoutes.chatGptScreen);
+              },
+              text: AppStrings.askAI,
+              icon: AppIconsPath.aiChatIcon,
             ),
             CreatorDrawerSectionWidget(
               onTap: () {

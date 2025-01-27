@@ -33,6 +33,7 @@ class AppRoutes {
   static const userSavedJobsScreen = '/userSavedJobsScreen';
   static const userCalenderScreen = '/userCalenderScreen';
   static const userGiveReviewsScreen = '/userGiveReviewsScreen';
+  static const chatGptScreen = '/chatGptScreen';
 
   // Creator Section
   static const creatorDashboardScreen = '/creatorDashboardScreen';

@@ -49,6 +49,8 @@ dependencies:
   fl_chart:
   file_picker:
   table_calendar:
+  flutter_spinkit: ^5.2.1
+  flutter_keyboard_visibility: ^6.0.0
 
 dev_dependencies:
   flutter_test:

@@ -29,6 +29,7 @@ class AppColors {
 
   // Blue color codes
   static const Color blue50 = Color(0xffe9f2f9);
+  static const Color blue100 = Color(0xffc7e0f0);
   static const Color blue200 = Color(0xff99c3e3);
   static const Color blue300 = Color(0xff6aa7d6);
   static const Color blue400 = Color(0xff4d96ce);

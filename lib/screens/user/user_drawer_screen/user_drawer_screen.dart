@@ -102,6 +102,13 @@ class UserDrawerScreen extends StatelessWidget {
             ),
             DrawerSectionWidget(
               onTap: () {
+                Get.toNamed(AppRoutes.chatGptScreen);
+              },
+              text: AppStrings.askAI,
+              icon: AppIconsPath.aiChatIcon,
+            ),
+            DrawerSectionWidget(
+              onTap: () {
                 Get.toNamed(AppRoutes.userFaqScreen);
               },
               text: AppStrings.faq,

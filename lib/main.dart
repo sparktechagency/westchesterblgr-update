@@ -11,11 +11,13 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => const MainApp(), // Wrap your app
-  )
+  runApp(
 
-      //const MainApp());
-      );
+  //     DevicePreview(
+  //   enabled: !kReleaseMode,
+  //   builder: (context) => const MainApp(), // Wrap your app
+  // )
+
+      const MainApp());
+
 }

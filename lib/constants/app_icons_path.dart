@@ -22,6 +22,7 @@ class AppIconsPath {
   static const String changePasswordIcon =
       "assets/icons/changePasswordIcon.svg";
   static const String deleteAccountIcon = "assets/icons/deleteAccountIcon.svg";
+  static const String aiChatIcon = "assets/icons/aiChatIcon.svg";
 
 // Creator Drawer Screen Icons
   static const String businessInformationIcon =
