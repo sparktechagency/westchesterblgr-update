@@ -29,6 +29,7 @@ import '../screens/creator/creator_post_screen/creator_post_screen.dart';
 import '../screens/creator/creator_profile_screen/creator_profile_screen.dart';
 import '../screens/creator/creator_subscriptions_screen/creator_subscriptions_screen.dart';
 import '../screens/creator/creator_terms_condition_screen/creator_terms_condition_screen.dart';
+import '../screens/error_screen/error_screen.dart';
 import '../screens/splash_screen/splash_screen.dart';
 import '../screens/user/user_account_screen/user_account_screen.dart';
 import '../screens/user/user_all_category_screen/user_all_category_screen.dart';
@@ -96,9 +97,15 @@ class RouteManager {
         name: AppRoutes.bottomNavScreen,
         page: () => const BottomNavScreen(userRole: ''),
         // binding: BottomNavBinding(),
-      ),  GetPage(
+      ),
+      GetPage(
         name: AppRoutes.chatGptScreen,
         page: () => const ChatGptScreen(),
+        // binding: BottomNavBinding(),
+      ),
+      GetPage(
+        name: AppRoutes.errorScreen,
+        page: () => const ErrorScreen(),
         // binding: BottomNavBinding(),
       ),
 

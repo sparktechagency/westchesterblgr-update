@@ -8,6 +8,7 @@ class AppRoutes {
   static const verifyAccountScreen = '/verifyAccountScreen';
   static const createNewPasswordScreen = '/createNewPasswordScreen';
   static const bottomNavScreen = '/bottomNavScreen';
+  static const errorScreen = '/errorScreen';
 
   // User Section
   static const userHomeScreen = '/userHomeScreen';

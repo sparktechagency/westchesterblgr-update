@@ -52,6 +52,14 @@ dependencies:
   flutter_spinkit: ^5.2.1
   flutter_keyboard_visibility: ^6.0.0
 
+  http:
+  dio:
+  http_parser:
+  pretty_dio_logger:
+  permission_handler:
+  connectivity_plus:
+  mime:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

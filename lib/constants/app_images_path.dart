@@ -32,4 +32,9 @@ class AppImagesPath {
   static const String reviewImage1 = "assets/images/reviewImage1.png";
   static const String reviewImage2 = "assets/images/reviewImage2.png";
   static const String reviewImage3 = "assets/images/reviewImage3.png";
+
+  static const String placeHolder = "assets/images/place_holder.jpg";
+  static const String errorIconNoInternet =
+      "assets/images/error_icon_no_internet.png";
+  static const String error = "assets/images/error_icon.png";
 }

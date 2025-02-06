@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../bottom_nav_screen/bottom_nav_screen.dart';
+import '../../../../services/repository/auth_repository/auth_repository.dart';
 
 class RegistrationController extends GetxController {
   // State variables
@@ -25,6 +25,9 @@ class RegistrationController extends GetxController {
   final creatorPasswordController = TextEditingController();
   final creatorConfirmPasswordController = TextEditingController();
 
+  // Auth repository
+  final AuthRepository authRepository = AuthRepository();
+
   // Methods to toggle role
   void toggleRole(bool isCreatorSelected) {
     isCreator = isCreatorSelected;
@@ -43,7 +46,7 @@ class RegistrationController extends GetxController {
   }
 
   // Method for form submission
-  void submitForm() {
+  void submitForm() async {
     final formKey = isCreator ? creatorFormKey : userFormKey;
     final nameController =
         isCreator ? creatorNameController : userNameController;
@@ -62,19 +65,33 @@ class RegistrationController extends GetxController {
         return;
       }
 
-      String userRole = isCreator ? 'Creator' : 'User';
+      bool isSuccess;
+      if (isCreator) {
+        isSuccess = await authRepository.createCreator(
+          email: emailController.text,
+          password: passwordController.text,
+          name: nameController.text,
+          role: 'CREATOR',
+        );
+      } else {
+        isSuccess = await authRepository.createUser(
+          email: emailController.text,
+          password: passwordController.text,
+          name: nameController.text,
+          role: 'USER',
+        );
+      }
 
-      Get.offAll(() => BottomNavScreen(userRole: userRole));
-      // Perform registration logic
-      nameController.clear();
-      emailController.clear();
-      passwordController.clear();
-      confirmPasswordController.clear();
-
-      // Uncomment for navigation
-      // Get.offAll(() => ConfirmEmailScreen());
+      if (isSuccess) {
+        // Get.offAll(() => BottomNavScreen(userRole: isCreator ? 'Creator' : 'User'));
+        nameController.clear();
+        emailController.clear();
+        passwordController.clear();
+        confirmPasswordController.clear();
+      } else {
+        Get.snackbar('Error', 'Registration failed');
+      }
     } else if (!isChecked) {
-      // Show toast or error
       Get.snackbar('Error', 'Please accept terms of service');
     } else {
       Get.snackbar('Error', 'Please fill all fields correctly');
