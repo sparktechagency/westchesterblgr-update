@@ -302,7 +302,7 @@ class RegistrationScreen extends StatelessWidget {
                                   const SpaceWidget(spaceWidth: 8),
                                   TextButton(
                                     onPressed: () {
-                                      Get.toNamed(AppRoutes.loginScreen);
+                                      Get.offAllNamed(AppRoutes.loginScreen);
                                     },
                                     style: TextButton.styleFrom(
                                       padding: EdgeInsets.zero,

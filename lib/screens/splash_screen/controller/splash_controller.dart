@@ -8,7 +8,7 @@ class SplashController extends GetxController {
     super.onInit();
     // Wait for 3 seconds before navigating to the HomeScreen
     Future.delayed(const Duration(seconds: 3)).then((_) {
-      Get.offAllNamed(AppRoutes.registrationScreen);
+      Get.offAllNamed(AppRoutes.loginScreen);
     });
   }
 }

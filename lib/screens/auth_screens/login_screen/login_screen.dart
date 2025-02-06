@@ -7,9 +7,9 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
 import '../../../constants/app_strings.dart';
 import '../../../routes/app_routes.dart';
-import '../../../utils/app_size.dart';
 import '../../../widgets/button_widget/button_widget.dart';
 import '../../../widgets/checkbox_widget/checkbox_widget.dart';
+import '../../../widgets/gradient_text_widget/gradient_text_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_button_widget/text_button_widget.dart';
 import '../../../widgets/text_field_widget/text_field_widget.dart';
@@ -175,6 +175,38 @@ class LoginScreen extends StatelessWidget {
                           IconButtonWidget(
                             onTap: () {},
                             icon: AppIconsPath.googleIcon,
+                          ),
+                        ],
+                      ),
+                      const SpaceWidget(spaceHeight: 50),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const TextWidget(
+                            text: "Don't have an account?",
+                            fontColor: AppColors.grey900,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            maxLines: 2,
+                          ),
+                          const SpaceWidget(spaceWidth: 8),
+                          TextButton(
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.registrationScreen);
+                            },
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: const Size(50, 30),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              alignment: Alignment.center,
+                            ),
+                            child: GradientTextWidget(
+                              text: 'Sign up',
+                              fontWeight: FontWeight.w500,
+                              textSize: (MediaQuery.sizeOf(context).width /
+                                  (MediaQuery.sizeOf(context).width / 14)),
+                            ),
                           ),
                         ],
                       ),

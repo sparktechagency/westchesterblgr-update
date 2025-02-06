@@ -18,20 +18,6 @@ import '../creator/creator_dashboard_screen/creator_dashboard_screen.dart';
 import '../user/user_drawer_screen/user_drawer_screen.dart';
 import '../user/user_event_screen/user_event_screen.dart';
 
-// class NewScreen extends StatelessWidget {
-//   final String userRole;
-//   const NewScreen({super.key, required this.userRole});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         children: [(userRole == 'User') ? Text('maheen') : Text('Sayeed')],
-//       ),
-//     );
-//   }
-// }
-
 class BottomNavScreen extends StatefulWidget {
   final String userRole;
 
