@@ -89,6 +89,24 @@ class AuthRepository {
     }
   }
 
+  Future<bool> registrationVerifyEmail({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      var response = await apiPostServices.apiPostServices(
+          url: AppApiUrl.registrationVerifyEmail,
+          body: {"email": email, "oneTimeCode": int.parse(otp)});
+      if (response != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      errorLog("verify email repo", e);
+      return false;
+    }
+  }
+
   Future<bool> resentOtp({required String email}) async {
     try {
       var response = await apiPostServices
@@ -99,24 +117,6 @@ class AuthRepository {
       return false;
     } catch (e) {
       errorLog("resent otp repo", e);
-      return false;
-    }
-  }
-
-  Future<bool> verifyEmail({
-    required String email,
-    required String otp,
-  }) async {
-    try {
-      var response = await apiPostServices.apiPostServices(
-          url: AppApiUrl.verifyEmail,
-          body: {"email": email, "oneTimeCode": int.parse(otp)});
-      if (response != null) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      errorLog("verify email repo", e);
       return false;
     }
   }

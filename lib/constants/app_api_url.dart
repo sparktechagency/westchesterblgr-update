@@ -31,6 +31,7 @@ class AppApiUrl {
   static final String baseUrl = "$domain/api/v1";
   static const String createUser = "/user";
   static const String createCreator = "/user";
+  static const String registrationVerifyEmail = "/auth/verify-email";
   static const String verifyEmail = "/auth/verify-email";
   static const String resentOtp = "/auth/resend-verify-email";
   static const String forgotPassword = "/auth/forget-password";

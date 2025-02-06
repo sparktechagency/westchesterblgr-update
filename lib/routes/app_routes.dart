@@ -3,6 +3,7 @@ class AppRoutes {
 
   static const splashScreen = '/splashScreen';
   static const registrationScreen = '/registrationScreen';
+  static const registrationVerifyEmailScreen = '/registrationVerifyEmailScreen';
   static const loginScreen = '/loginScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const verifyAccountScreen = '/verifyAccountScreen';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
 import '../../../../services/repository/auth_repository/auth_repository.dart';
 
 class RegistrationController extends GetxController {
@@ -83,7 +84,10 @@ class RegistrationController extends GetxController {
       }
 
       if (isSuccess) {
-        // Get.offAll(() => BottomNavScreen(userRole: isCreator ? 'Creator' : 'User'));
+        Get.toNamed(
+          AppRoutes.registrationVerifyEmailScreen,
+          arguments: {'email': emailController.text},
+        );
         nameController.clear();
         emailController.clear();
         passwordController.clear();

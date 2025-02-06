@@ -6,6 +6,7 @@ import '../screens/auth_screens/create_new_password_screen/create_new_password_s
 import '../screens/auth_screens/forgot_password_screen/forgot_password_screen.dart';
 import '../screens/auth_screens/login_screen/login_screen.dart';
 import '../screens/auth_screens/registration_screen/registration_screen.dart';
+import '../screens/auth_screens/registration_verify_email_screen/registration_verify_email_screen.dart';
 import '../screens/auth_screens/verify_account_screen/verify_account_screen.dart';
 import '../screens/bottom_nav_screen/bottom_nav_screen.dart';
 import '../screens/creator/creator_account_screen/creator_account_screen.dart';
@@ -71,6 +72,11 @@ class RouteManager {
       GetPage(
         name: AppRoutes.registrationScreen,
         page: () => const RegistrationScreen(),
+        binding: AuthBindings(),
+      ),
+      GetPage(
+        name: AppRoutes.registrationVerifyEmailScreen,
+        page: () => const RegistrationVerifyEmailScreen(),
         binding: AuthBindings(),
       ),
       GetPage(
