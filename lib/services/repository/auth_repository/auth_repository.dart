@@ -128,6 +128,20 @@ class AuthRepository {
     }
   }
 
+  Future<bool> forgotPassword({required String email}) async {
+    try {
+      var response = await apiPostServices.apiPostServices(
+          url: AppApiUrl.forgotPassword, body: {"email": email});
+      if (response != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      errorLog("forgot password repo", e);
+      return false;
+    }
+  }
+
   Future<String?> forgotVerifyEmail({
     required String email,
     required String otp,
@@ -145,20 +159,6 @@ class AuthRepository {
     } catch (e) {
       errorLog("forgot verify email repo", e);
       return null;
-    }
-  }
-
-  Future<bool> forgotPassword({required String email}) async {
-    try {
-      var response = await apiPostServices.apiPostServices(
-          url: AppApiUrl.forgotPassword, body: {"email": email});
-      if (response != null) {
-        return true;
-      }
-      return false;
-    } catch (e) {
-      errorLog("forgot password repo", e);
-      return false;
     }
   }
 

@@ -35,15 +35,15 @@ class ForgotPasswordScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Center(
+                    const Center(
                       child: IconWidget(
                         icon: 'assets/icons/forgotPasswordIcon.svg',
                         width: 90,
                         height: 90,
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 24),
-                    Center(
+                    const SpaceWidget(spaceHeight: 24),
+                    const Center(
                       child: TextWidget(
                         text: 'Forgot password?',
                         fontColor: AppColors.black500,
@@ -51,8 +51,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 12),
-                    Center(
+                    const SpaceWidget(spaceHeight: 12),
+                    const Center(
                       child: TextWidget(
                         text: 'Enter your email below to reset\nyour password',
                         fontColor: AppColors.grey,
@@ -61,7 +61,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         maxLines: 2,
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 40),
+                    const SpaceWidget(spaceHeight: 40),
                     TextFieldWidget(
                       controller: controller.emailController,
                       hintText: 'Enter your email',
@@ -78,7 +78,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         return null;
                       },
                     ),
-                    SpaceWidget(spaceHeight: 24),
+                    const SpaceWidget(spaceHeight: 24),
                     ButtonWidget(
                       onPressed: controller.validateAndNavigate,
                       label: 'Submit',
