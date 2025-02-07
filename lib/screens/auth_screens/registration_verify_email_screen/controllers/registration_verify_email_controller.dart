@@ -47,16 +47,25 @@ class RegistrationVerifyEmailController extends GetxController {
     });
   }
 
-  void resendCode() {
-    remainingSeconds.value = 180;
-    canResend.value = false;
-    startTimer();
-    // Simulate sending the code
-    Get.snackbar(
-      "Code Sent",
-      "A new verification code has been sent to your email.",
-      snackPosition: SnackPosition.BOTTOM,
-    );
+  void resendCode() async {
+    final email = Get.arguments['email'];
+    bool isSuccess = await authRepository.resentOtp(email: email);
+    if (isSuccess) {
+      remainingSeconds.value = 180;
+      canResend.value = false;
+      startTimer();
+      Get.snackbar(
+        "Code Sent",
+        "A new verification code has been sent to your email.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      Get.snackbar(
+        "Error",
+        "Failed to resend the verification code. Please try again.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   String formatTime() {
