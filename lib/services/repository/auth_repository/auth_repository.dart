@@ -150,22 +150,21 @@ class AuthRepository {
       var response = await apiPostServices.apiPostServices(
           url: AppApiUrl.verifyEmail,
           body: {"email": email, "oneTimeCode": int.parse(otp)});
-      if (response != null) {
-        if (response["data"].runtimeType != Null) {
-          return response["data"].toString();
-        }
+      if (response != null && response["data"] != null) {
+        return response["data"].toString();
       }
       return null;
     } catch (e) {
-      errorLog("forgot verify email repo", e);
+      errorLog("verify email repo", e);
       return null;
     }
   }
 
-  Future<bool> resetPassword(
-      {required String newPassword,
-      required String confirmPassword,
-      required String token}) async {
+  Future<bool> resetPassword({
+    required String newPassword,
+    required String confirmPassword,
+    required String token,
+  }) async {
     try {
       var response = await apiPostServices.apiPostServices(
           url: AppApiUrl.resetPassword,

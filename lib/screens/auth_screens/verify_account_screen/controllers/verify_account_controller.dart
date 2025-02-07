@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import '../../../../routes/app_routes.dart';
+import '../../../../services/repository/auth_repository/auth_repository.dart';
 
 class VerifyAccountController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -11,13 +13,12 @@ class VerifyAccountController extends GetxController {
   var otpTextEditingController2 = TextEditingController();
   var otpTextEditingController3 = TextEditingController();
   var otpTextEditingController4 = TextEditingController();
-  var otpTextEditingController5 = TextEditingController();
-  var otpTextEditingController6 = TextEditingController();
 
-  var remainingSeconds = 10.obs; // 2.5 minutes
+  var remainingSeconds = 180.obs; // 2.5 minutes
   var canResend = false.obs;
 
   late Timer _timer;
+  final AuthRepository authRepository = AuthRepository();
 
   @override
   void onInit() {
@@ -32,8 +33,6 @@ class VerifyAccountController extends GetxController {
     otpTextEditingController2.dispose();
     otpTextEditingController3.dispose();
     otpTextEditingController4.dispose();
-    otpTextEditingController5.dispose();
-    otpTextEditingController6.dispose();
     super.onClose();
   }
 
@@ -41,26 +40,32 @@ class VerifyAccountController extends GetxController {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingSeconds.value > 0) {
         remainingSeconds.value--;
-        print(
-            "Timer: ${remainingSeconds.value} seconds remaining"); // Debugging
       } else {
         canResend.value = true;
-        print("Timer completed. You can resend the code now."); // Debugging
         _timer.cancel();
       }
     });
   }
 
-  void resendCode() {
-    remainingSeconds.value = 10;
-    canResend.value = false;
-    startTimer();
-    // Simulate sending the code
-    Get.snackbar(
-      "Code Sent",
-      "A new verification code has been sent to your email.",
-      snackPosition: SnackPosition.BOTTOM,
-    );
+  void resendCode() async {
+    final email = Get.arguments['email'];
+    bool isSuccess = await authRepository.resentOtp(email: email);
+    if (isSuccess) {
+      remainingSeconds.value = 180;
+      canResend.value = false;
+      startTimer();
+      Get.snackbar(
+        "Code Sent",
+        "A new verification code has been sent to your email.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      Get.snackbar(
+        "Error",
+        "Failed to resend the verification code. Please try again.",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   String formatTime() {
@@ -69,8 +74,33 @@ class VerifyAccountController extends GetxController {
     return '${minutes.toString().padLeft(2, '0')}:${remainingSec.toString().padLeft(2, '0')}';
   }
 
-  void verifyOTP() {
-    // Assuming OTP verification is successful
-    Get.toNamed(AppRoutes.createNewPasswordScreen);
+  void verifyOTP() async {
+    final email = Get.arguments['email'];
+    final otp = otpTextEditingController1.text +
+        otpTextEditingController2.text +
+        otpTextEditingController3.text +
+        otpTextEditingController4.text;
+
+    print('Email: $email');
+    print('OTP: $otp');
+    print('OTP Length: ${otp.length}');
+
+    if (otp.length == 4) {
+      String? token = await authRepository.forgotVerifyEmail(
+        email: email,
+        otp: otp,
+      );
+
+      print('API Response: $token');
+
+      if (token != null) {
+        Get.offAllNamed(AppRoutes.createNewPasswordScreen,
+            arguments: {'token': token});
+      } else {
+        Get.snackbar('Error', 'Invalid OTP. Please try again.');
+      }
+    } else {
+      Get.snackbar('Error', 'Please enter the complete OTP.');
+    }
   }
 }

@@ -37,7 +37,7 @@ class VerifyAccountScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
+                    const Center(
                       child: TextWidget(
                         text: 'Verify your account',
                         fontColor: AppColors.black500,
@@ -45,12 +45,12 @@ class VerifyAccountScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 12),
+                    const SpaceWidget(spaceHeight: 12),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.sizeOf(context).width /
                               (MediaQuery.sizeOf(context).width / 32)),
-                      child: Center(
+                      child: const Center(
                         child: TextWidget(
                           text:
                               "You're almost there! We’ve sent a 6-digit code to your email. Please enter the code to verify your email address",
@@ -70,7 +70,7 @@ class VerifyAccountScreen extends StatelessWidget {
                         maxLines: 2,
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 40),
+                    const SpaceWidget(spaceHeight: 40),
                     Center(
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -87,13 +87,7 @@ class VerifyAccountScreen extends StatelessWidget {
                                 controller:
                                     controller.otpTextEditingController3),
                             OtpInputFieldWidget(
-                                controller:
-                                    controller.otpTextEditingController4),
-                            OtpInputFieldWidget(
-                                controller:
-                                    controller.otpTextEditingController5),
-                            OtpInputFieldWidget(
-                              controller: controller.otpTextEditingController6,
+                              controller: controller.otpTextEditingController4,
                               textInputAction: TextInputAction.done,
                               onFieldSubmitted: (p0) {
                                 FocusManager.instance.primaryFocus?.unfocus(
@@ -127,7 +121,7 @@ class VerifyAccountScreen extends StatelessWidget {
                       );
                     }),
 
-                    SpaceWidget(spaceHeight: 24),
+                    const SpaceWidget(spaceHeight: 24),
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.sizeOf(context).width /
@@ -136,14 +130,13 @@ class VerifyAccountScreen extends StatelessWidget {
                       child: ButtonWidget(
                         onPressed: () {
                           if (controller.formKey.currentState!.validate()) {
+                            controller.verifyOTP();
                             controller.otpTextEditingController1.clear();
                             controller.otpTextEditingController2.clear();
                             controller.otpTextEditingController3.clear();
                             controller.otpTextEditingController4.clear();
-                            controller.otpTextEditingController5.clear();
-                            controller.otpTextEditingController6.clear();
-                            controller
-                                .verifyOTP(); // Call the verifyOTP method from the controller
+
+                            // Call the verifyOTP method from the controller
                           } else if (controller
                                   .otpTextEditingController1.text.isEmpty ||
                               controller
@@ -151,11 +144,7 @@ class VerifyAccountScreen extends StatelessWidget {
                               controller
                                   .otpTextEditingController3.text.isEmpty ||
                               controller
-                                  .otpTextEditingController4.text.isEmpty ||
-                              controller
-                                  .otpTextEditingController5.text.isEmpty ||
-                              controller
-                                  .otpTextEditingController6.text.isEmpty) {
+                                  .otpTextEditingController4.text.isEmpty) {
                             // CustomToast.showToast("Please fill all fields");
                           }
                         },
@@ -164,7 +153,7 @@ class VerifyAccountScreen extends StatelessWidget {
                         buttonHeight: 56,
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 24),
+                    const SpaceWidget(spaceHeight: 24),
                     Obx(() {
                       // Debugging check
                       if (controller.canResend.value) {
@@ -179,14 +168,14 @@ class VerifyAccountScreen extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  TextWidget(
+                                  const TextWidget(
                                     text: "Don't receive code?",
                                     fontColor: AppColors.greyLight,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                     maxLines: 1,
                                   ),
-                                  SpaceWidget(spaceWidth: 4),
+                                  const SpaceWidget(spaceWidth: 4),
                                   TextButtonWidget(
                                     onPressed: () {
                                       controller.resendCode();
@@ -199,7 +188,7 @@ class VerifyAccountScreen extends StatelessWidget {
                                 ],
                               ),
                             )
-                          : SizedBox.shrink();
+                          : const SizedBox.shrink();
                     }),
                   ],
                 ),
