@@ -5,4 +5,5 @@ class StorageKey {
 
 // static const String refreshToken = "refreshToken";
   static const String userData = "userData";
+  static const String role = 'role';
 }

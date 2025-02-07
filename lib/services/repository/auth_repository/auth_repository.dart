@@ -28,7 +28,11 @@ class AuthRepository {
       if (response != null && response["success"] == true) {
         if (response["data"] != null && response["data"] is String) {
           await appAuthStorage.setToken(response["data"]);
-          return extractRoleFromToken(response["data"]);
+          String? role = extractRoleFromToken(response["data"]);
+          if (role != null) {
+            await appAuthStorage.setRole(role);
+          }
+          return role;
         }
       }
       return null;

@@ -101,7 +101,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.bottomNavScreen,
-        page: () => const BottomNavScreen(userRole: ''),
+        page: () => const BottomNavScreen(),
         // binding: BottomNavBinding(),
       ),
       GetPage(
