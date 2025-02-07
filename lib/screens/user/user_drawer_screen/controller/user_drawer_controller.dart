@@ -3,8 +3,12 @@ import 'package:get/get.dart';
 import '../../../../constants/app_icons_path.dart';
 import '../../../../constants/app_strings.dart';
 import '../../../../routes/app_routes.dart';
+import '../../../../services/storage_services/app_auth_storage.dart';
+import '../../../../widgets/app_snack_bar/app_snack_bar.dart';
 
 class UserDrawerController extends GetxController {
+  AppAuthStorage appAuthStorage = AppAuthStorage();
+
   // List of titles for the drawer
   final List<String> titles = [
     AppStrings.myProfile,
@@ -60,5 +64,15 @@ class UserDrawerController extends GetxController {
     titles.add(title);
     icons.add(icon);
     update(); // Rebuild the UI
+  }
+
+  Future<void> logout() async {
+    try {
+      await appAuthStorage.storageClear();
+      AppSnackBar.success("Logged out successfully!");
+      Get.offAllNamed(AppRoutes.loginScreen);
+    } catch (e) {
+      AppSnackBar.error("Failed to log out. Please try again.");
+    }
   }
 }

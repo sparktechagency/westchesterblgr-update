@@ -208,8 +208,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
 Route _createUserDrawerRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        const UserDrawerScreen(),
+    pageBuilder: (context, animation, secondaryAnimation) => UserDrawerScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;

@@ -168,7 +168,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userDrawerScreen,
-        page: () => const UserDrawerScreen(),
+        page: () => UserDrawerScreen(),
         // binding: UserBindings(),
       ),
       GetPage(

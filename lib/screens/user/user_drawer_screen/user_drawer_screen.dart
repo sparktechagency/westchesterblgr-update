@@ -11,10 +11,12 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import '../../auth_screens/registration_screen/registration_screen.dart';
+import 'controller/user_drawer_controller.dart';
 
 class UserDrawerScreen extends StatelessWidget {
-  const UserDrawerScreen({super.key});
+  final controller = Get.put(UserDrawerController());
+
+  UserDrawerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +142,7 @@ class UserDrawerScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ButtonWidget(
                 onPressed: () {
-                  Get.offAll(() => const RegistrationScreen());
+                  controller.logout();
                 },
                 label: 'Logout',
                 buttonWidth: double.infinity,
