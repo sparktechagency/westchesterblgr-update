@@ -1,33 +1,40 @@
+import 'package:jwt_decoder/jwt_decoder.dart';
+
 import '../../../constants/app_api_url.dart';
 import '../../../utils/app_all_log/error_log.dart';
 import '../../../widgets/app_snack_bar/app_snack_bar.dart';
 import '../../api/api_post_services.dart';
 import '../../storage_services/app_auth_storage.dart';
 
+String? extractRoleFromToken(String token) {
+  Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+  String? role = decodedToken['role'];
+  print('Role: $role'); // Print the role
+  return role;
+}
+
 class AuthRepository {
   ////////////  object
   ApiPostServices apiPostServices = ApiPostServices();
   AppAuthStorage appAuthStorage = AppAuthStorage();
 
-  Future<bool> signIn({
+  Future<String?> signIn({
     required String email,
     required String password,
-    required bool remember,
   }) async {
     try {
       var response = await apiPostServices.apiPostServices(
           url: AppApiUrl.login, body: {"email": email, "password": password});
-      if (response != null) {
-        if (response["data"]["accessToken"].runtimeType != Null) {
-          await appAuthStorage
-              .setToken(response["data"]["accessToken"].toString());
-          return true;
+      if (response != null && response["success"] == true) {
+        if (response["data"] != null && response["data"] is String) {
+          await appAuthStorage.setToken(response["data"]);
+          return extractRoleFromToken(response["data"]);
         }
       }
-      return false;
+      return null;
     } catch (e) {
-      errorLog("sign in repo  function ", e);
-      return false;
+      errorLog("sign in repo function", e);
+      return null;
     }
   }
 

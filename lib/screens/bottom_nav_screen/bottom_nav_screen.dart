@@ -30,27 +30,23 @@ class BottomNavScreen extends StatefulWidget {
 class _BottomNavScreenState extends State<BottomNavScreen> {
   int _currentIndex = 0;
   late List<Widget> tabs;
+  late String userRole;
 
   @override
   void initState() {
     super.initState();
+    userRole = Get.arguments as String;
     print('Init state called');
     tabs = [
-      (widget.userRole == 'User')
-          ? UserHomeScreen()
-          : const CreatorDashboardScreen(),
-      (widget.userRole == 'User')
-          ? UserSearchScreen()
-          : const CreatorPostScreen(),
-      (widget.userRole == 'User')
+      (userRole == 'USER') ? UserHomeScreen() : const CreatorDashboardScreen(),
+      (userRole == 'USER') ? UserSearchScreen() : const CreatorPostScreen(),
+      (userRole == 'USER')
           ? const UserAllChatScreen()
           : const CreatorAllChatScreen(),
-      (widget.userRole == 'User')
+      (userRole == 'USER')
           ? const UserEventScreen()
           : const CreatorAnalyticsScreen(),
-      (widget.userRole == 'User')
-          ? UserAccountScreen()
-          : CreatorAccountScreen(),
+      (userRole == 'USER') ? UserAccountScreen() : CreatorAccountScreen(),
     ];
     print('Tabs: $tabs');
   }
@@ -69,7 +65,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         titleSpacing: -1,
         leading: IconButton(
           onPressed: () {
-            (widget.userRole == 'User')
+            (userRole == 'USER')
                 ? Navigator.of(context).push(_createUserDrawerRoute())
                 : Navigator.of(context).push(_createCreatorDrawerRoute());
           },
@@ -89,7 +85,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           IconButton(
             tooltip: "Notifications",
             onPressed: () {
-              (widget.userRole == 'User')
+              (userRole == 'USER')
                   ? Get.toNamed(AppRoutes.userNotificationScreen)
                   : Get.toNamed(AppRoutes.creatorNotificationScreen);
             },
@@ -143,7 +139,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
             items: [
               BottomNavigationBarItem(
                 icon: Image.asset(
-                  (widget.userRole == 'User')
+                  (userRole == 'USER')
                       ? 'assets/icons/homeIcon.png'
                       : 'assets/icons/dashboardIcon.png',
                   height: size.height / (size.height / 22),
@@ -152,11 +148,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                       ? AppColors.black600
                       : AppColors.black300,
                 ),
-                label: (widget.userRole == 'User') ? 'Home' : 'Dashboard',
+                label: (userRole == 'USER') ? 'Home' : 'Dashboard',
               ),
               BottomNavigationBarItem(
                 icon: Image.asset(
-                  (widget.userRole == 'User')
+                  (userRole == 'USER')
                       ? 'assets/icons/searchIcon.png'
                       : 'assets/icons/postIcon.png',
                   height: size.height / (size.height / 22),
@@ -165,7 +161,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                       ? AppColors.black600
                       : AppColors.black300,
                 ),
-                label: (widget.userRole == 'User') ? 'Search' : 'Post',
+                label: (userRole == 'USER') ? 'Search' : 'Post',
               ),
               BottomNavigationBarItem(
                 icon: Image.asset(
@@ -180,7 +176,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
               ),
               BottomNavigationBarItem(
                 icon: Image.asset(
-                  (widget.userRole == 'User')
+                  (userRole == 'USER')
                       ? 'assets/icons/eventIcon.png'
                       : 'assets/icons/analyticsIcon.png',
                   height: size.height / (size.height / 22),
@@ -189,7 +185,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                       ? AppColors.black600
                       : AppColors.black300,
                 ),
-                label: (widget.userRole == 'User') ? 'Event' : 'Analytics',
+                label: (userRole == 'USER') ? 'Event' : 'Analytics',
               ),
               BottomNavigationBarItem(
                 icon: Image.asset(
