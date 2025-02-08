@@ -9,196 +9,225 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
+import 'controllers/user_home_details_controller.dart';
 
-class UserHomeDetailsScreen extends StatefulWidget {
-  const UserHomeDetailsScreen({super.key});
+class UserHomeDetailsScreen extends StatelessWidget {
+  final UserHomeDetailsController controller =
+      Get.put(UserHomeDetailsController());
 
-  @override
-  State<UserHomeDetailsScreen> createState() => _UserHomeDetailsScreenState();
-}
-
-class _UserHomeDetailsScreenState extends State<UserHomeDetailsScreen> {
-  late VideoPlayerController _videoController;
-  bool _isVideoEnded = false;
-  bool _isBookmarked = false;
-  bool _isExpanded = false;
-  bool _isVideoInitialized = false;
-
-  final String _text =
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type speci";
-
-  @override
-  void initState() {
-    super.initState();
-    _videoController = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    )
-      ..setLooping(false)
-      ..initialize().then((_) {
-        setState(() {
-          _isVideoInitialized = true;
-        });
-      });
-
-    _videoController.addListener(() {
-      if (_videoController.value.position == _videoController.value.duration) {
-        setState(() {
-          _isVideoEnded = true;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _videoController.dispose();
-    super.dispose();
-  }
-
-  void _toggleBookmark() {
-    setState(() {
-      _isBookmarked = !_isBookmarked;
-    });
-  }
-
-  void _toggleExpansion() {
-    setState(() {
-      _isExpanded = !_isExpanded;
-    });
-  }
-
-  void _playPauseVideo() {
-    if (_isVideoEnded) {
-      _videoController.seekTo(Duration.zero);
-      _videoController.play();
-      setState(() {
-        _isVideoEnded = false;
-      });
-    } else if (_videoController.value.isPlaying) {
-      _videoController.pause();
-    } else {
-      _videoController.play();
-    }
-    setState(() {});
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    String minutes = twoDigits(duration.inMinutes.remainder(60));
+    String seconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$minutes:$seconds";
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    String displayText = _isExpanded ? _text : _text.substring(0, 100) + '...';
-    // Return a single screen with GetBuilder
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       appBar: const AppbarWidget(text: 'Back'),
-      body: SingleChildScrollView(
-        padding:
-            EdgeInsets.symmetric(horizontal: size.width / (size.width / 20)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Video player only initialized once
-            if (_isVideoInitialized)
-              Stack(
-                alignment: Alignment.center,
+      body: GetBuilder<UserHomeDetailsController>(
+        builder: (controller) {
+          if (controller.event == null) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            String displayText = controller.isExpanded
+                ? controller.event!.description
+                : '${controller.event!.description.substring(0, 100)}...';
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(
+                  horizontal: size.width / (size.width / 20)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AspectRatio(
-                    aspectRatio: _videoController.value.aspectRatio,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: VideoPlayer(_videoController),
+                  if (controller.isVideoInitialized)
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: controller.controller.value.aspectRatio,
+                          child: Stack(
+                            children: [
+                              // Video Player
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: VideoPlayer(controller.controller),
+                              ),
+
+                              // Semi-transparent overlay when paused
+                              if (!controller.isVideoPlaying)
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+
+                              // Progress bar at bottom
+                              Positioned(
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: VideoProgressIndicator(
+                                  controller.controller,
+                                  allowScrubbing: true,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 12),
+                                  colors: VideoProgressColors(
+                                    playedColor: AppColors.blueLight,
+                                    bufferedColor:
+                                        Colors.white.withOpacity(0.5),
+                                    backgroundColor:
+                                        Colors.white.withOpacity(0.2),
+                                  ),
+                                ),
+                              ),
+
+                              // Play/Pause/Replay button
+                              Center(
+                                child: GestureDetector(
+                                  onTap: controller.playPauseVideo,
+                                  child: Container(
+                                    height: 60,
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.6),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      controller.isVideoEnded
+                                          ? Icons.replay
+                                          : controller.isVideoPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow,
+                                      size: 40,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                              // Duration indicators
+                              Positioned(
+                                left: 12,
+                                bottom: 24,
+                                child: ValueListenableBuilder<VideoPlayerValue>(
+                                  valueListenable: controller.controller,
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      _formatDuration(value.position),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+
+                              Positioned(
+                                right: 12,
+                                bottom: 24,
+                                child: Text(
+                                  _formatDuration(
+                                      controller.controller.value.duration),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: _playPauseVideo,
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.black54,
-                      child: Icon(
-                        _isVideoEnded
-                            ? Icons.replay
-                            : _videoController.value.isPlaying
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                        size: 40,
-                        color: Colors.white,
+                  const SpaceWidget(spaceHeight: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: size.width / (size.width / 300),
+                        child: TextWidget(
+                          text: controller.event?.name ?? '',
+                          fontColor: AppColors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                          overflow: TextOverflow.ellipsis,
+                          textAlignment: TextAlign.start,
+                        ),
                       ),
-                    ),
+                      IconButton(
+                        onPressed: controller.toggleBookmark,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        style: const ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        icon: Icon(
+                          controller.isBookmarked
+                              ? Icons.bookmark
+                              : Icons.bookmark_border,
+                          color: AppColors.black,
+                        ),
+                      )
+                    ],
+                  ),
+                  const SpaceWidget(spaceHeight: 12),
+                  const TextWidget(
+                    text: 'Description',
+                    fontColor: AppColors.black900,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  const SpaceWidget(spaceHeight: 2),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWidget(
+                        text: displayText,
+                        fontColor: AppColors.grey800,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        textAlignment: TextAlign.left,
+                      ),
+                      InkWell(
+                        onTap: controller.toggleExpansion,
+                        child: TextWidget(
+                          text: controller.isExpanded ? 'see less' : 'see more',
+                          fontColor: AppColors.blueLight,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          textAlignment: TextAlign.left,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SpaceWidget(spaceHeight: 32),
+                  FillButtonWidget(
+                    onPressed: () {},
+                    label: 'Buy Ticket',
+                    buttonWidth: double.infinity,
+                    buttonHeight: 56,
+                    buttonRadius: BorderRadius.circular(16),
+                  ),
+                  const SpaceWidget(spaceHeight: 12),
+                  StrokeButtonWidget(
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.userMapScreen);
+                    },
+                    label: 'See Location',
+                    buttonWidth: double.infinity,
+                    buttonHeight: 56,
+                    buttonRadius: BorderRadius.circular(16),
                   ),
                 ],
               ),
-            const SpaceWidget(spaceHeight: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: size.width / (size.width / 300),
-                  child: const TextWidget(
-                    text: 'Electro Music Festival - DJ Hardwell',
-                    fontColor: AppColors.black,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                IconButton(
-                  onPressed: _toggleBookmark,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  style: const ButtonStyle(
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  icon: Icon(
-                    _isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                    color: AppColors.black,
-                  ),
-                )
-              ],
-            ),
-            const SpaceWidget(spaceHeight: 12),
-            const TextWidget(
-              text: 'Description',
-              fontColor: AppColors.black900,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
-            const SpaceWidget(spaceHeight: 2),
-            TextWidget(
-              text: displayText,
-              fontColor: AppColors.grey800,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              textAlignment: TextAlign.left,
-            ),
-            InkWell(
-              onTap: _toggleExpansion,
-              child: TextWidget(
-                text: _isExpanded ? 'see less' : 'see more',
-                fontColor: AppColors.blueLight,
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                textAlignment: TextAlign.left,
-              ),
-            ),
-            const SpaceWidget(spaceHeight: 32),
-            FillButtonWidget(
-              onPressed: () {},
-              label: 'Buy Ticket',
-              buttonWidth: double.infinity,
-              buttonHeight: 56,
-              buttonRadius: BorderRadius.circular(16),
-            ),
-            const SpaceWidget(spaceHeight: 12),
-            StrokeButtonWidget(
-              onPressed: () {
-                Get.toNamed(AppRoutes.userMapScreen);
-              },
-              label: 'See Location',
-              buttonWidth: double.infinity,
-              buttonHeight: 56,
-              buttonRadius: BorderRadius.circular(16),
-            ),
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }

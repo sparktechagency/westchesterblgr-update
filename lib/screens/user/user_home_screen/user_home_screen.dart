@@ -12,10 +12,6 @@ import 'controllers/user_home_controller.dart';
 
 class UserHomeScreen extends StatelessWidget {
   final UserHomeController controller = Get.put(UserHomeController());
-  final List<String> types = ['Party', 'Night concert', 'DJ Music'];
-  final double ticketPrice = 9.32;
-  final String eventName =
-      'Electro Music Festival - Valleria night with DJ Hardwell';
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
@@ -56,7 +52,10 @@ class UserHomeScreen extends StatelessWidget {
                     ...controller.events.map((event) {
                       return InkWell(
                         onTap: () {
-                          Get.toNamed(AppRoutes.userHomeDetailsScreen);
+                          Get.toNamed(
+                            AppRoutes.userHomeDetailsScreen,
+                            arguments: {'id': event.id},
+                          );
                         },
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,

@@ -10,14 +10,47 @@ class EventRepository {
   Future<List<EventModel>?> getAllEvents() async {
     try {
       final response = await _apiGetServices.apiGetServices(AppApiUrl.allEvent);
-      if (response != null && response['data'] != null) {
-        return List<EventModel>.from(
-            response['data'].map((event) => EventModel.fromJson(event)));
+      if (response != null) {
+        if (response is List) {
+          return List<EventModel>.from(
+              response.map((event) => EventModel.fromJson(event)));
+        } else if (response['data'] != null) {
+          return List<EventModel>.from(
+              response['data'].map((event) => EventModel.fromJson(event)));
+        }
       }
     } catch (e) {
-      // Handle or log the error
       errorLog("Error fetching events", e);
       print('Error fetching events: $e');
+    }
+    return null;
+  }
+
+  Future<EventModel?> getEventById(String id) async {
+    try {
+      final response = await _apiGetServices
+          .apiGetServices('${AppApiUrl.baseUrl}/event/$id');
+      if (response != null) {
+        if (response is List && response.isNotEmpty) {
+          // If response is a list, take the first item
+          return EventModel.fromJson(response[0]);
+        } else if (response is Map<String, dynamic>) {
+          // If response is an object with data property
+          if (response['data'] != null) {
+            if (response['data'] is List) {
+              return response['data'].isNotEmpty
+                  ? EventModel.fromJson(response['data'][0])
+                  : null;
+            }
+            return EventModel.fromJson(response['data']);
+          }
+          // If response is a direct object
+          return EventModel.fromJson(response);
+        }
+      }
+    } catch (e) {
+      errorLog("Error fetching event by ID", e);
+      print('Error fetching event by ID: $e');
     }
     return null;
   }

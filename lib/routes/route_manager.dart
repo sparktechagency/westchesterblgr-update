@@ -123,7 +123,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userHomeDetailsScreen,
-        page: () => const UserHomeDetailsScreen(),
+        page: () => UserHomeDetailsScreen(),
         binding: GeneralBindings(),
       ),
       GetPage(
