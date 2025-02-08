@@ -35,7 +35,7 @@ class UserHomeDetailsScreen extends StatelessWidget {
           } else {
             String displayText = controller.isExpanded
                 ? controller.event!.description
-                : '${controller.event!.description.substring(0, 100)}...';
+                : '${controller.event!.description.substring(0, 200)}...';
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(
                   horizontal: size.width / (size.width / 20)),
@@ -153,7 +153,7 @@ class UserHomeDetailsScreen extends StatelessWidget {
                         child: TextWidget(
                           text: controller.event?.name ?? '',
                           fontColor: AppColors.black,
-                          fontSize: 17,
+                          fontSize: 18,
                           fontWeight: FontWeight.w500,
                           overflow: TextOverflow.ellipsis,
                           textAlignment: TextAlign.start,

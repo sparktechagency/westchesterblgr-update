@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../constants/app_colors.dart';
-import '../../../../utils/app_size.dart';
 import '../../../../widgets/space_widget/space_widget.dart';
 import '../../../../widgets/text_widget/text_widgets.dart';
 
@@ -57,6 +56,7 @@ class ProfileInfoWidget extends StatelessWidget {
                 fontColor: AppColors.black500,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
+                textAlignment: TextAlign.left,
               ),
             ),
           ),
