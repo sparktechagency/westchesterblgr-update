@@ -38,4 +38,6 @@ class AppApiUrl {
   static const String resetPassword = "/auth/reset-password";
   static const String changePassword = "/auth/change-password";
   static const String login = "/auth/login";
+
+  static const String allEvent = "/event";
 }

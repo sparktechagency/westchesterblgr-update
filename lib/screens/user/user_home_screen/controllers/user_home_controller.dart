@@ -1,23 +1,33 @@
 import 'package:get/get.dart';
+import 'package:itzel/models/event_model.dart';
+import 'package:itzel/services/repository/event_repository/event_repository.dart';
+
+import '../../../../utils/app_all_log/error_log.dart';
 
 class UserHomeController extends GetxController {
-  List<String> types = ['Party', 'Night concert', 'DJ Music'];
-  double ticketPrice = 9.32;
-  String eventName = 'Electro Music Festival - Valleria night with DJ Hardwell';
-
-  void updateTicketPrice(double newPrice) {
-    ticketPrice = newPrice;
-    update(); // Notify listeners
-  }
-
-  void updateEventName(String newName) {
-    eventName = newName;
-    update(); // Notify listeners
-  }
+  final EventRepository _eventRepository = EventRepository();
+  var events = <EventModel>[].obs;
+  var isLoading = true.obs;
 
   @override
-  void onClose() {
-    // Dispose resources if any
-    super.onClose();
+  void onInit() {
+    super.onInit();
+    fetchEvents();
+  }
+
+  void fetchEvents() async {
+    try {
+      isLoading(true);
+      var fetchedEvents = await _eventRepository.getAllEvents();
+      if (fetchedEvents != null) {
+        events.assignAll(fetchedEvents);
+      }
+    } catch (e) {
+      // Handle or log the error
+      errorLog("Error fetching events", e);
+      print('Error fetching events: $e');
+    } finally {
+      isLoading(false);
+    }
   }
 }
