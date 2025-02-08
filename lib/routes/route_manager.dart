@@ -183,7 +183,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userProfileScreen,
-        page: () => const UserProfileScreen(),
+        page: () => UserProfileScreen(),
         // binding: UserBindings(),
       ),
       GetPage(

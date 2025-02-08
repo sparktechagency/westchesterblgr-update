@@ -41,4 +41,5 @@ class AppApiUrl {
 
   static const String allEvent = "/event";
   static const String profile = "/user/profile";
+  static const String updateProfile = "/user";
 }

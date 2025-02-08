@@ -38,6 +38,7 @@ class Data {
   String profile;
   String status;
   String contact;
+  String location;
   bool verified;
   DateTime createdAt;
   DateTime updatedAt;
@@ -53,6 +54,7 @@ class Data {
     required this.profile,
     required this.status,
     required this.contact,
+    required this.location,
     required this.verified,
     required this.createdAt,
     required this.updatedAt,
@@ -70,6 +72,7 @@ class Data {
         profile: json["profile"],
         status: json["status"],
         contact: json["contact"],
+        location: json["location"],
         verified: json["verified"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
@@ -86,6 +89,7 @@ class Data {
         "profile": profile,
         "status": status,
         "contact": contact,
+        "location": location,
         "verified": verified,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

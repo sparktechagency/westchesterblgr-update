@@ -40,11 +40,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       (userRole == 'USER') ? UserHomeScreen() : const CreatorDashboardScreen(),
       (userRole == 'USER') ? UserSearchScreen() : const CreatorPostScreen(),
       (userRole == 'USER')
-          ? const UserEventScreen()
-          : const CreatorAnalyticsScreen(),
-      (userRole == 'USER')
           ? const UserAllChatScreen()
           : const CreatorAllChatScreen(),
+      (userRole == 'USER')
+          ? const UserEventScreen()
+          : const CreatorAnalyticsScreen(),
       (userRole == 'USER') ? UserAccountScreen() : CreatorAccountScreen(),
     ];
     print('Tabs: $tabs');

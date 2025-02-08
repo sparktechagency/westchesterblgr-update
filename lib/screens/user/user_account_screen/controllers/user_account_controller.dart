@@ -8,6 +8,7 @@ class UserAccountController extends GetxController {
   final RxString username = ''.obs;
   final RxString email = ''.obs;
   final RxString contactNumber = ''.obs;
+  final RxString address = ''.obs;
   final RxString profileImage = ''.obs;
   final RxString role = ''.obs;
   final RxBool verified = false.obs;
@@ -28,6 +29,7 @@ class UserAccountController extends GetxController {
         username.value = data.name;
         email.value = data.email;
         contactNumber.value = data.contact;
+        address.value = data.location;
         profileImage.value = data.profile;
         role.value = data.role;
         verified.value = data.verified;

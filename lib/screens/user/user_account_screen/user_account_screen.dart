@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:itzel/routes/app_routes.dart';
 import 'package:itzel/screens/user/user_account_screen/widgets/profile_info_widget.dart';
+import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_strings.dart';
@@ -11,6 +13,8 @@ import 'controllers/user_account_controller.dart';
 
 class UserAccountScreen extends StatelessWidget {
   final UserAccountController controller = Get.put(UserAccountController());
+
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   UserAccountScreen({super.key});
 
@@ -44,7 +48,7 @@ class UserAccountScreen extends StatelessWidget {
                   const SpaceWidget(spaceHeight: 10),
                   Center(
                     child: TextWidget(
-                      text: controller.username.value,
+                      text: capitalize(controller.username.value),
                       fontColor: AppColors.black500,
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
@@ -65,6 +69,30 @@ class UserAccountScreen extends StatelessWidget {
                   ProfileInfoWidget(
                     label: 'Contact Number',
                     value: controller.contactNumber.value,
+                  ),
+                  ProfileInfoWidget(
+                    label: 'Address',
+                    value: capitalize(controller.address.value),
+                  ),
+                  const SpaceWidget(spaceHeight: 36),
+                  ButtonWidget(
+                    onPressed: () {
+                      Get.toNamed(
+                        AppRoutes.userProfileScreen,
+                        arguments: {
+                          'username': controller.username.value,
+                          'email': controller.email.value,
+                          'contactNumber': controller.contactNumber.value,
+                          'address': controller.address.value,
+                          'profileImage': controller.profileImage.value,
+                        },
+                      );
+                    },
+                    label: "Edit Profile",
+                    backgroundColor: AppColors.blue500,
+                    textColor: AppColors.white,
+                    buttonRadius: BorderRadius.circular(16),
+                    buttonWidth: double.infinity,
                   ),
                 ],
               ),
