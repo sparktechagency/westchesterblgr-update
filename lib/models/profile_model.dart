@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final welcome = welcomeFromJson(jsonString);
+
 import 'dart:convert';
 
 Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
@@ -32,17 +36,17 @@ class Data {
   String id;
   String name;
   String role;
-  List<dynamic> eventWishList;
+  List<EventWishList> eventWishList;
   List<JobWishList> jobWishList;
   String email;
   String profile;
   String status;
-  String contact;
-  String location;
   bool verified;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
+  String contact;
+  String location;
 
   Data({
     required this.id,
@@ -53,44 +57,114 @@ class Data {
     required this.email,
     required this.profile,
     required this.status,
-    required this.contact,
-    required this.location,
     required this.verified,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
+    required this.contact,
+    required this.location,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["_id"],
         name: json["name"],
         role: json["role"],
-        eventWishList: List<dynamic>.from(json["eventWishList"].map((x) => x)),
+        eventWishList: List<EventWishList>.from(
+            json["eventWishList"].map((x) => EventWishList.fromJson(x))),
         jobWishList: List<JobWishList>.from(
             json["jobWishList"].map((x) => JobWishList.fromJson(x))),
         email: json["email"],
         profile: json["profile"],
         status: json["status"],
-        contact: json["contact"],
-        location: json["location"],
         verified: json["verified"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
+        contact: json["contact"],
+        location: json["location"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
         "role": role,
-        "eventWishList": List<dynamic>.from(eventWishList.map((x) => x)),
+        "eventWishList":
+            List<dynamic>.from(eventWishList.map((x) => x.toJson())),
         "jobWishList": List<dynamic>.from(jobWishList.map((x) => x.toJson())),
         "email": email,
         "profile": profile,
         "status": status,
+        "verified": verified,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "__v": v,
         "contact": contact,
         "location": location,
-        "verified": verified,
+      };
+}
+
+class EventWishList {
+  String location;
+  String id;
+  String thumbnailImage;
+  String introMedia;
+  String name;
+  DateTime time;
+  String description;
+  List<String> tags;
+  int price;
+  String category;
+  String creator;
+  DateTime createdAt;
+  DateTime updatedAt;
+  int v;
+
+  EventWishList({
+    required this.location,
+    required this.id,
+    required this.thumbnailImage,
+    required this.introMedia,
+    required this.name,
+    required this.time,
+    required this.description,
+    required this.tags,
+    required this.price,
+    required this.category,
+    required this.creator,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+  });
+
+  factory EventWishList.fromJson(Map<String, dynamic> json) => EventWishList(
+        location: json["location"],
+        id: json["_id"],
+        thumbnailImage: json["thumbnailImage"],
+        introMedia: json["introMedia"],
+        name: json["name"],
+        time: DateTime.parse(json["time"]),
+        description: json["description"],
+        tags: List<String>.from(json["tags"].map((x) => x)),
+        price: json["price"],
+        category: json["category"],
+        creator: json["creator"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "location": location,
+        "_id": id,
+        "thumbnailImage": thumbnailImage,
+        "introMedia": introMedia,
+        "name": name,
+        "time": time.toIso8601String(),
+        "description": description,
+        "tags": List<dynamic>.from(tags.map((x) => x)),
+        "price": price,
+        "category": category,
+        "creator": creator,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
@@ -107,6 +181,9 @@ class JobWishList {
   String level;
   String jobType;
   String salary;
+  List<String> requirements;
+  List<String> experience;
+  List<String> additionalRequirement;
   List<String> questions;
   String postedBy;
   DateTime createdAt;
@@ -123,6 +200,9 @@ class JobWishList {
     required this.level,
     required this.jobType,
     required this.salary,
+    required this.requirements,
+    required this.experience,
+    required this.additionalRequirement,
     required this.questions,
     required this.postedBy,
     required this.createdAt,
@@ -140,6 +220,10 @@ class JobWishList {
         level: json["level"],
         jobType: json["jobType"],
         salary: json["salary"],
+        requirements: List<String>.from(json["requirements"].map((x) => x)),
+        experience: List<String>.from(json["experience"].map((x) => x)),
+        additionalRequirement:
+            List<String>.from(json["additionalRequirement"].map((x) => x)),
         questions: List<String>.from(json["questions"].map((x) => x)),
         postedBy: json["postedBy"],
         createdAt: DateTime.parse(json["createdAt"]),
@@ -157,6 +241,10 @@ class JobWishList {
         "level": level,
         "jobType": jobType,
         "salary": salary,
+        "requirements": List<dynamic>.from(requirements.map((x) => x)),
+        "experience": List<dynamic>.from(experience.map((x) => x)),
+        "additionalRequirement":
+            List<dynamic>.from(additionalRequirement.map((x) => x)),
         "questions": List<dynamic>.from(questions.map((x) => x)),
         "postedBy": postedBy,
         "createdAt": createdAt.toIso8601String(),

@@ -78,9 +78,18 @@ class UserHomeDetailsController extends GetxController {
     }
   }
 
-  void toggleBookmark() {
-    isBookmarked = !isBookmarked;
-    update();
+  void toggleBookmark(String eventId) async {
+    try {
+      bool success = await _eventRepository.addToWishlist(eventId);
+      if (success) {
+        isBookmarked = !isBookmarked;
+        update();
+      } else {
+        // Handle error (e.g., show a snackbar)
+      }
+    } catch (e) {
+      errorLog("Error toggling bookmark", e);
+    }
   }
 
   void toggleExpansion() {

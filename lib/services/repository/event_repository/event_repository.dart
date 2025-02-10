@@ -3,9 +3,11 @@ import 'package:itzel/models/event_model.dart';
 import 'package:itzel/services/api/api_get_services.dart';
 
 import '../../../utils/app_all_log/error_log.dart';
+import '../../api/api_post_services.dart';
 
 class EventRepository {
   final ApiGetServices _apiGetServices = ApiGetServices();
+  final ApiPostServices _apiPostServices = ApiPostServices();
 
   Future<List<EventModel>?> getAllEvents() async {
     try {
@@ -53,5 +55,20 @@ class EventRepository {
       print('Error fetching event by ID: $e');
     }
     return null;
+  }
+
+  Future<bool> addToWishlist(String eventId) async {
+    try {
+      final response = await _apiPostServices.apiPostServices(
+        url: '${AppApiUrl.baseUrl}/user/wishlist/event/add/$eventId',
+      );
+      if (response != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      errorLog("Error adding event to wishlist", e);
+      return false;
+    }
   }
 }

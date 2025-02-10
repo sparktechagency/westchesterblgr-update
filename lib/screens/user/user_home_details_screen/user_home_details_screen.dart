@@ -160,7 +160,8 @@ class UserHomeDetailsScreen extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: controller.toggleBookmark,
+                        onPressed: () => controller
+                            .toggleBookmark(controller.event?.id ?? ''),
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
                         style: const ButtonStyle(
