@@ -1,41 +1,49 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:itzel/models/get_job_model.dart';
+import 'package:itzel/services/repository/user_job_repository/user_job_repository.dart';
 
 class UserJobApplyingController extends GetxController {
-  final nameController = TextEditingController();
-  final addressController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final experienceController = TextEditingController();
-  final citizenshipController = TextEditingController();
-  final highSchoolController = TextEditingController();
-  final graduatedHighSchoolYearController = TextEditingController();
-  final collegeController = TextEditingController();
-  final graduatedYearController = TextEditingController();
-
-  final formKey = GlobalKey<FormState>();
-
-  void submitForm() {
-    if (formKey.currentState!.validate()) {
-      // Perform submit action
-      print('Form Submitted Successfully');
-    } else {
-      print('Validation Failed');
-    }
-  }
+  final JobRepository _jobDetailsRepository = JobRepository();
+  var jobDetails = Datum(
+    id: '',
+    image: '',
+    companyName: '',
+    role: '',
+    description: '',
+    address: '',
+    level: '',
+    jobType: '',
+    salary: '',
+    questions: [],
+    postedBy: '',
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    v: 0,
+    requirements: [],
+    experience: [],
+    additionalRequirement: [],
+  ).obs;
+  var isLoading = true.obs;
 
   @override
-  void onClose() {
-    nameController.dispose();
-    addressController.dispose();
-    emailController.dispose();
-    phoneNumberController.dispose();
-    experienceController.dispose();
-    citizenshipController.dispose();
-    highSchoolController.dispose();
-    graduatedHighSchoolYearController.dispose();
-    collegeController.dispose();
-    graduatedYearController.dispose();
-    super.onClose();
+  void onInit() {
+    super.onInit();
+    final jobId = Get.arguments['jobId'];
+    fetchJobDetails(jobId);
+  }
+
+  Future<void> fetchJobDetails(String jobId) async {
+    try {
+      isLoading.value = true;
+      final fetchedJobDetails =
+          await _jobDetailsRepository.fetchJobDetails(jobId);
+      if (fetchedJobDetails != null) {
+        jobDetails.value = fetchedJobDetails;
+      }
+    } catch (e) {
+      print('Error fetching job details: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
 import 'dart:convert';
 
 Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
@@ -37,6 +33,9 @@ class Welcome {
 }
 
 class Datum {
+  List<String> requirements;
+  List<String> experience;
+  List<String> additionalRequirement;
   String id;
   String image;
   String companyName;
@@ -53,6 +52,9 @@ class Datum {
   int v;
 
   Datum({
+    required this.requirements,
+    required this.experience,
+    required this.additionalRequirement,
     required this.id,
     required this.image,
     required this.companyName,
@@ -70,6 +72,10 @@ class Datum {
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        requirements: List<String>.from(json["requirements"].map((x) => x)),
+        experience: List<String>.from(json["experience"].map((x) => x)),
+        additionalRequirement:
+            List<String>.from(json["additionalRequirement"].map((x) => x)),
         id: json["_id"],
         image: json["image"],
         companyName: json["companyName"],
@@ -87,6 +93,10 @@ class Datum {
       );
 
   Map<String, dynamic> toJson() => {
+        "requirements": List<dynamic>.from(requirements.map((x) => x)),
+        "experience": List<dynamic>.from(experience.map((x) => x)),
+        "additionalRequirement":
+            List<dynamic>.from(additionalRequirement.map((x) => x)),
         "_id": id,
         "image": image,
         "companyName": companyName,

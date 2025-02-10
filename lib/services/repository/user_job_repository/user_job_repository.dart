@@ -23,4 +23,23 @@ class JobRepository {
       return null;
     }
   }
+
+  Future<Datum?> fetchJobDetails(String jobId) async {
+    try {
+      final response =
+          await _apiGetServices.apiGetServices('${AppApiUrl.allJob}/$jobId');
+      if (response != null && response['success'] == true) {
+        return Datum.fromJson(response['data']);
+      } else {
+        print('API call failed with status: ${response['status']}');
+        print('Response body: ${response['message']}');
+        return null;
+      }
+    } catch (e, stackTrace) {
+      print('Error fetching job details: $e');
+      print('Stack trace: $stackTrace');
+      errorLog('Error fetching job details', e);
+      return null;
+    }
+  }
 }

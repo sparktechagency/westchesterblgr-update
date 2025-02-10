@@ -27,38 +27,13 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
-  final TextEditingController searchController = TextEditingController();
   final UserAllJobController jobController = Get.put(UserAllJobController());
   final List<bool> isSavedList = List.generate(5, (index) => false);
-  final List<String> categoryImages = [
-    'assets/images/schoolImage.png',
-    'assets/images/medicalImage.png',
-    'assets/images/fitnessImage.png',
-    'assets/images/restaurentImage.png',
-    'assets/images/travelImage.png',
-  ];
-  final List<String> categoryTitles = [
-    'Education',
-    'Health',
-    'Spa/Beauty',
-    'Restaurant',
-    'Travel',
-  ];
-  final List<String> jobType = [
-    'Part-time',
-    'Senior-Level',
-  ];
 
   void toggleSaveState(int index) {
     setState(() {
       isSavedList[index] = !isSavedList[index];
     });
-  }
-
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
   }
 
   @override
@@ -82,7 +57,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                   horizontal: size.width / (size.width / 20)),
               child: SearchTextFieldWidget(
                 hintText: 'Search',
-                controller: searchController,
+                controller: _controller.searchController,
                 maxLines: 1,
               ),
             ),
@@ -361,7 +336,9 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                 InkWell(
                                   onTap: () {
                                     Get.toNamed(
-                                        AppRoutes.userJobApplyingScreen);
+                                      AppRoutes.userJobApplyingScreen,
+                                      arguments: {'jobId': job.id},
+                                    );
                                   },
                                   borderRadius: BorderRadius.circular(4),
                                   child: Container(
