@@ -96,7 +96,12 @@ class UserHomeDetailsController extends GetxController {
 
   void toggleBookmark(String eventId) async {
     try {
-      bool success = await _eventRepository.addToWishlist(eventId);
+      bool success;
+      if (isBookmarked) {
+        success = await _eventRepository.removeFromWishlist(eventId);
+      } else {
+        success = await _eventRepository.addToWishlist(eventId);
+      }
       if (success) {
         isBookmarked = !isBookmarked;
         update();

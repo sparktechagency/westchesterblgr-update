@@ -3,11 +3,13 @@ import 'package:itzel/models/event_model.dart';
 import 'package:itzel/services/api/api_get_services.dart';
 
 import '../../../utils/app_all_log/error_log.dart';
+import '../../api/api_delete_services.dart';
 import '../../api/api_post_services.dart';
 
 class EventRepository {
   final ApiGetServices _apiGetServices = ApiGetServices();
   final ApiPostServices _apiPostServices = ApiPostServices();
+  final ApiDeleteServices _apiDeleteServices = ApiDeleteServices();
 
   Future<List<EventModel>?> getAllEvents() async {
     try {
@@ -68,6 +70,21 @@ class EventRepository {
       return false;
     } catch (e) {
       errorLog("Error adding event to wishlist", e);
+      return false;
+    }
+  }
+
+  Future<bool> removeFromWishlist(String eventId) async {
+    try {
+      final response = await _apiDeleteServices.apiDeleteServices(
+        '${AppApiUrl.baseUrl}/user/wishlist/event/remove/$eventId',
+      );
+      if (response != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      errorLog("Error removing event from wishlist", e);
       return false;
     }
   }
