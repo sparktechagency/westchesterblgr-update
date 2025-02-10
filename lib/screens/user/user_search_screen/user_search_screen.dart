@@ -6,9 +6,11 @@ import 'package:itzel/screens/user/user_search_screen/widgets/search_text_field_
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_strings.dart';
 import '../../../routes/app_routes.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_button_widget/text_button_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
+import '../user_all_category_screen/controller/user_all_category_controller.dart';
 
 class UserSearchScreen extends StatefulWidget {
   UserSearchScreen({super.key});
@@ -18,6 +20,11 @@ class UserSearchScreen extends StatefulWidget {
 }
 
 class _UserSearchScreenState extends State<UserSearchScreen> {
+  final UserAllCategoryController _controller =
+      Get.put(UserAllCategoryController());
+
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
   final TextEditingController searchController = TextEditingController();
   final List<bool> isSavedList = List.generate(5, (index) => false);
   final List<String> categoryImages = [
@@ -104,44 +111,53 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
               ),
             ),
             const SpaceWidget(spaceHeight: 8),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  const SpaceWidget(spaceWidth: 20),
-                  ...List.generate(
-                    categoryImages.length,
-                    (index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                            right: size.width / (size.width / 12)),
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image.asset(
-                                categoryImages[index],
-                                height: size.width / (size.width / 70),
-                                width: size.width / (size.width / 70),
-                                fit: BoxFit.cover,
-                              ),
+            Obx(() {
+              if (_controller.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              } else {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      const SpaceWidget(spaceWidth: 20),
+                      ...List.generate(
+                        _controller.categories.length > 5
+                            ? 5
+                            : _controller.categories.length,
+                        (index) {
+                          final category = _controller.categories[index];
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                right: size.width / (size.width / 12)),
+                            child: Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: AppImage(
+                                    url: category.image,
+                                    height: size.width / (size.width / 70),
+                                    width: size.width / (size.width / 70),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SpaceWidget(spaceHeight: 4),
+                                TextWidget(
+                                  text: capitalize(category.name),
+                                  fontColor: AppColors.black500,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
                             ),
-                            const SpaceWidget(spaceHeight: 4),
-                            TextWidget(
-                              text: categoryTitles[index],
-                              fontColor: AppColors.black500,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                          );
+                        },
+                      ),
+                      const SpaceWidget(spaceWidth: 8),
+                    ],
                   ),
-                  const SpaceWidget(spaceWidth: 8),
-                ],
-              ),
-            ),
+                );
+              }
+            }),
             const SpaceWidget(spaceHeight: 8),
             Padding(
               padding: EdgeInsets.symmetric(

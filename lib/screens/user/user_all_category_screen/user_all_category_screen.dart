@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../constants/app_images_path.dart';
 import '../../../constants/app_strings.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import '../user_review_screen/user_review_screen.dart';
 import '../user_search_screen/widgets/search_text_field_widget.dart';
+import 'controller/user_all_category_controller.dart';
 
 class UserAllCategoryScreen extends StatelessWidget {
   final searchController = TextEditingController();
 
-  final List<String> allCategoryImages = [
-    AppImagesPath.educationImage,
-    AppImagesPath.healthImage,
-    AppImagesPath.spaImage,
-    AppImagesPath.travelImage,
-    AppImagesPath.eventImage,
-    AppImagesPath.shoppingImage,
-    AppImagesPath.technologyImage,
-    AppImagesPath.communityImage,
-    AppImagesPath.sportsImage,
-    AppImagesPath.familyImage,
-  ];
-  final List<String> allCategoryTitles = [
-    AppStrings.education,
-    AppStrings.health,
-    AppStrings.spa,
-    AppStrings.travel,
-    AppStrings.event,
-    AppStrings.shopping,
-    AppStrings.technology,
-    AppStrings.community,
-    AppStrings.sports,
-    AppStrings.family,
-  ];
+  final UserAllCategoryController _controller =
+      Get.put(UserAllCategoryController());
+
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   UserAllCategoryScreen({super.key});
 
@@ -54,7 +36,7 @@ class UserAllCategoryScreen extends StatelessWidget {
                     horizontal: size.width / (size.width / 20)),
                 child: SearchTextFieldWidget(
                   hintText: 'Search',
-                  controller: searchController,
+                  controller: _controller.searchController,
                   maxLines: 1,
                 ),
               ),
@@ -70,50 +52,58 @@ class UserAllCategoryScreen extends StatelessWidget {
                 ),
               ),
               const SpaceWidget(spaceHeight: 24),
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                crossAxisSpacing: 4.0,
-                mainAxisSpacing: 8.0,
-                crossAxisCount: 3,
-                childAspectRatio: 2 / 3,
-                // Generate 100 widgets that display their index in the List.
-                children: List.generate(allCategoryImages.length, (index) {
-                  return InkWell(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UserReviewScreen(
-                            categoryTitle: allCategoryTitles[index],
-                          ),
+              Obx(() {
+                if (_controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  return GridView.count(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    crossAxisSpacing: 4.0,
+                    mainAxisSpacing: 8.0,
+                    crossAxisCount: 3,
+                    childAspectRatio: 2 / 3,
+                    // Generate 100 widgets that display their index in the List.
+                    children:
+                        List.generate(_controller.categories.length, (index) {
+                      final category = _controller.categories[index];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserReviewScreen(
+                                categoryTitle: category.name,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: AppImage(
+                                url: category.image,
+                                height: size.width / (size.width / 103),
+                                width: size.width / (size.width / 103),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SpaceWidget(spaceHeight: 8),
+                            TextWidget(
+                              text: capitalize(category.name),
+                              fontColor: AppColors.black500,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ],
                         ),
                       );
-                    },
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.asset(
-                            allCategoryImages[index],
-                            height: size.width / (size.width / 103),
-                            width: size.width / (size.width / 103),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SpaceWidget(spaceHeight: 8),
-                        TextWidget(
-                          text: allCategoryTitles[index],
-                          fontColor: AppColors.black500,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ],
-                    ),
+                    }),
                   );
-                }),
-              ),
+                }
+              }),
             ],
           ),
         ),
