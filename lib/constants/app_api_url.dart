@@ -43,4 +43,5 @@ class AppApiUrl {
   static const String profile = "/user/profile";
   static const String updateProfile = "/user";
   static const String allCategory = "/category";
+  static const String allJob = "/job";
 }
