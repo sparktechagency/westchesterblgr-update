@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'event_model.dart';
+
 Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
 
 String welcomeToJson(Welcome data) => json.encode(data.toJson());
@@ -104,7 +106,7 @@ class Data {
 }
 
 class EventWishList {
-  String location;
+  dynamic location; // Change type to dynamic
   String id;
   String thumbnailImage;
   String introMedia;
@@ -137,7 +139,9 @@ class EventWishList {
   });
 
   factory EventWishList.fromJson(Map<String, dynamic> json) => EventWishList(
-        location: json["location"],
+        location: json["location"] is String
+            ? json["location"]
+            : LocationClass.fromJson(json["location"]),
         id: json["_id"],
         thumbnailImage: json["thumbnailImage"],
         introMedia: json["introMedia"],
@@ -154,7 +158,9 @@ class EventWishList {
       );
 
   Map<String, dynamic> toJson() => {
-        "location": location,
+        "location": location is String
+            ? location
+            : (location as LocationClass).toJson(),
         "_id": id,
         "thumbnailImage": thumbnailImage,
         "introMedia": introMedia,

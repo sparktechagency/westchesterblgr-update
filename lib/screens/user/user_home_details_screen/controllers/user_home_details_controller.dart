@@ -4,10 +4,12 @@ import 'package:itzel/services/repository/event_repository/event_repository.dart
 import 'package:video_player/video_player.dart';
 
 import '../../../../constants/app_api_url.dart';
+import '../../../../services/repository/profile_repository/profile_repository.dart';
 import '../../../../utils/app_all_log/error_log.dart';
 
 class UserHomeDetailsController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
+  final ProfileRepository _profileRepository = ProfileRepository();
   VideoPlayerController? _controller;
   bool isVideoEnded = false;
   bool isBookmarked = false;
@@ -22,6 +24,7 @@ class UserHomeDetailsController extends GetxController {
     String eventId = Get.arguments['id'] ?? '';
     if (eventId.isNotEmpty) {
       fetchEventDetails(eventId);
+      checkIfBookmarked(eventId);
     } else {
       errorLog("No event ID provided", "EventID is empty");
     }
@@ -75,6 +78,19 @@ class UserHomeDetailsController extends GetxController {
     } catch (e) {
       errorLog("Error fetching event details", e);
       print('Error fetching event details: $e');
+    }
+  }
+
+  void checkIfBookmarked(String eventId) async {
+    try {
+      final profile = await _profileRepository.fetchProfile();
+      if (profile != null) {
+        isBookmarked =
+            profile.eventWishList.any((event) => event.id == eventId);
+        update();
+      }
+    } catch (e) {
+      errorLog("Error checking if event is bookmarked", e);
     }
   }
 

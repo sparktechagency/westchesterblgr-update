@@ -9,11 +9,16 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
+import '../user_account_screen/controllers/user_account_controller.dart';
 import 'controllers/user_home_details_controller.dart';
 
 class UserHomeDetailsScreen extends StatelessWidget {
   final UserHomeDetailsController controller =
       Get.put(UserHomeDetailsController());
+  final UserAccountController userAccountController =
+      Get.put(UserAccountController());
+
+  UserHomeDetailsScreen({super.key});
 
   String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
