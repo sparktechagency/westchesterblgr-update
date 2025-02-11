@@ -35,7 +35,7 @@ class UserDrawerScreen extends StatelessWidget {
             Get.back();
           },
           icon: const IconWidget(
-            icon: 'assets/icons/menuIcon.svg',
+            icon: 'assets/icons/closeIcon.svg',
             width: 24,
             height: 24,
           ),
@@ -83,14 +83,10 @@ class UserDrawerScreen extends StatelessWidget {
             const SpaceWidget(spaceHeight: 16),
             DrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.userProfileScreen);
-              },
-              text: AppStrings.myProfile,
-              icon: AppIconsPath.myProfileIcon,
-            ),
-            DrawerSectionWidget(
-              onTap: () {
-                Get.toNamed(AppRoutes.userSavedEventsScreen);
+                Get.toNamed(
+                  AppRoutes.userSavedEventsScreen,
+                  arguments: controller.eventWishlist,
+                );
               },
               text: AppStrings.savedEvents,
               icon: AppIconsPath.savedEventsIcon,
