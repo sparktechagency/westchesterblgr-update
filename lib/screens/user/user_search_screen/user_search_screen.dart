@@ -187,7 +187,14 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                   ),
                                 ),
                                 InkWell(
-                                  onTap: () => toggleSaveState(index),
+                                  onTap: () {
+                                    setState(() {
+                                      isSavedList[index] = !isSavedList[index];
+                                      if (isSavedList[index]) {
+                                        jobController.addToWishlist(job.id);
+                                      }
+                                    });
+                                  },
                                   borderRadius: BorderRadius.circular(4),
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
@@ -211,7 +218,8 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         TextWidget(
-                                          text: isSavedList[index]
+                                          text: jobController
+                                                  .isJobInWishlist(job.id)
                                               ? 'Saved'
                                               : 'Save',
                                           fontColor: AppColors.black500,
@@ -219,7 +227,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                           fontWeight: FontWeight.w400,
                                         ),
                                         Icon(
-                                          isSavedList[index]
+                                          jobController.isJobInWishlist(job.id)
                                               ? Icons.bookmark
                                               : Icons.bookmark_border,
                                           color: AppColors.black500,

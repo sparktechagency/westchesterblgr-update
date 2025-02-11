@@ -3,8 +3,13 @@ import 'package:itzel/models/get_job_model.dart';
 import 'package:itzel/services/api/api_get_services.dart';
 import 'package:itzel/utils/app_all_log/error_log.dart';
 
+import '../../api/api_delete_services.dart';
+import '../../api/api_post_services.dart';
+
 class JobRepository {
   final ApiGetServices _apiGetServices = ApiGetServices();
+  final ApiPostServices _apiPostServices = ApiPostServices();
+  final ApiDeleteServices _apiDeleteServices = ApiDeleteServices();
 
   Future<Welcome?> fetchAllJobs() async {
     try {
@@ -40,6 +45,21 @@ class JobRepository {
       print('Stack trace: $stackTrace');
       errorLog('Error fetching job details', e);
       return null;
+    }
+  }
+
+  Future<bool> addToJobWishlist(String jobId) async {
+    try {
+      final response = await _apiPostServices.apiPostServices(
+        url: '${AppApiUrl.baseUrl}/user/wishlist/job/add/$jobId',
+      );
+      if (response != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      errorLog("Error adding job to wishlist", e);
+      return false;
     }
   }
 }
