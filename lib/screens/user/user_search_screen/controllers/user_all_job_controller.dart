@@ -50,12 +50,28 @@ class UserAllJobController extends GetxController {
       bool success = await _jobRepository.addToJobWishlist(jobId);
       if (success) {
         isBookmarked.value = true;
+        jobWishlist.add(jobId); // Update the observable list
         AppSnackBar.success('Job added to wishlist');
       } else {
         AppSnackBar.error('Failed to add job to wishlist');
       }
     } catch (e) {
       AppSnackBar.error('Error adding job to wishlist: $e');
+    }
+  }
+
+  Future<void> removeFromWishlist(String jobId) async {
+    try {
+      bool success = await _jobRepository.removeJobFromWishlist(jobId);
+      if (success) {
+        isBookmarked.value = false;
+        jobWishlist.remove(jobId);
+        AppSnackBar.success('Job removed from wishlist');
+      } else {
+        AppSnackBar.error('Failed to remove job from wishlist');
+      }
+    } catch (e) {
+      AppSnackBar.error('Error removing job from wishlist: $e');
     }
   }
 

@@ -62,4 +62,19 @@ class JobRepository {
       return false;
     }
   }
+
+  Future<bool> removeJobFromWishlist(String jobId) async {
+    try {
+      final response = await _apiDeleteServices.apiDeleteServices(
+        '${AppApiUrl.baseUrl}/user/wishlist/job/remove/$jobId',
+      );
+      if (response != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      errorLog("Error removing job from wishlist", e);
+      return false;
+    }
+  }
 }

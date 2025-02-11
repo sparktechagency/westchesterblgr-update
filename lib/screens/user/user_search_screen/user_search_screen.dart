@@ -188,12 +188,11 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      isSavedList[index] = !isSavedList[index];
-                                      if (isSavedList[index]) {
-                                        jobController.addToWishlist(job.id);
-                                      }
-                                    });
+                                    if (jobController.isJobInWishlist(job.id)) {
+                                      jobController.removeFromWishlist(job.id);
+                                    } else {
+                                      jobController.addToWishlist(job.id);
+                                    }
                                   },
                                   borderRadius: BorderRadius.circular(4),
                                   child: Container(
@@ -211,30 +210,33 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                             color: AppColors.black500,
                                             width:
                                                 size.width / (size.width / 1))),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        TextWidget(
-                                          text: jobController
-                                                  .isJobInWishlist(job.id)
-                                              ? 'Saved'
-                                              : 'Save',
-                                          fontColor: AppColors.black500,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        Icon(
-                                          jobController.isJobInWishlist(job.id)
-                                              ? Icons.bookmark
-                                              : Icons.bookmark_border,
-                                          color: AppColors.black500,
-                                          size: 14,
-                                        ),
-                                      ],
-                                    ),
+                                    child: Obx(() {
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          TextWidget(
+                                            text: jobController
+                                                    .isJobInWishlist(job.id)
+                                                ? 'Saved'
+                                                : 'Save',
+                                            fontColor: AppColors.black500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          Icon(
+                                            jobController
+                                                    .isJobInWishlist(job.id)
+                                                ? Icons.bookmark
+                                                : Icons.bookmark_border,
+                                            color: AppColors.black500,
+                                            size: 14,
+                                          ),
+                                        ],
+                                      );
+                                    }),
                                   ),
                                 ),
                               ],
