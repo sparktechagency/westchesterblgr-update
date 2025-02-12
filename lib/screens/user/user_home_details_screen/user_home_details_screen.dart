@@ -213,13 +213,21 @@ class UserHomeDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   const SpaceWidget(spaceHeight: 32),
-                  FillButtonWidget(
-                    onPressed: () {},
-                    label: 'Buy Ticket',
-                    buttonWidth: double.infinity,
-                    buttonHeight: 56,
-                    buttonRadius: BorderRadius.circular(16),
-                  ),
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      return FillButtonWidget(
+                        onPressed: () {
+                          controller.buyTicket(controller.event!.price);
+                        },
+                        label: 'Buy Ticket',
+                        buttonWidth: double.infinity,
+                        buttonHeight: 56,
+                        buttonRadius: BorderRadius.circular(16),
+                      );
+                    }
+                  }),
                   const SpaceWidget(spaceHeight: 12),
                   StrokeButtonWidget(
                     onPressed: () {

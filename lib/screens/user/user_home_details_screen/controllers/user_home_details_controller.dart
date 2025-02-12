@@ -6,6 +6,7 @@ import 'package:video_player/video_player.dart';
 import '../../../../constants/app_api_url.dart';
 import '../../../../services/repository/profile_repository/profile_repository.dart';
 import '../../../../utils/app_all_log/error_log.dart';
+import '../../../../widgets/app_snack_bar/app_snack_bar.dart';
 
 class UserHomeDetailsController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
@@ -17,6 +18,7 @@ class UserHomeDetailsController extends GetxController {
   bool isVideoInitialized = false;
   bool hasVideoError = false;
   EventModel? event;
+  var isLoading = false.obs;
 
   @override
   void onInit() {
@@ -136,4 +138,20 @@ class UserHomeDetailsController extends GetxController {
   VideoPlayerController get controller => _controller!;
 
   bool get isVideoPlaying => _controller?.value.isPlaying ?? false;
+
+  Future<void> buyTicket(int amount) async {
+    try {
+      isLoading.value = true;
+      bool success = await _eventRepository.buyTicket(amount);
+      if (success) {
+        AppSnackBar.success("Ticket purchased successfully");
+      } else {
+        AppSnackBar.error("Failed to purchase ticket");
+      }
+    } catch (e) {
+      AppSnackBar.error("Error purchasing ticket");
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

@@ -46,4 +46,5 @@ class AppApiUrl {
   static const String allJob = "/job";
   static const String jobApply = "/applicant/create";
   static const String myGroup = "/group/my";
+  static const String createPaymentIntent = "/group/join/paymentIntent";
 }

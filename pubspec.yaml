@@ -64,6 +64,7 @@ dependencies:
   permission_handler:
   connectivity_plus:
   mime:
+  flutter_stripe: ^11.4.0
 
 dev_dependencies:
   flutter_test:

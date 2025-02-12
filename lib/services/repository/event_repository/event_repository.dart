@@ -88,4 +88,17 @@ class EventRepository {
       return false;
     }
   }
+
+  Future<bool> buyTicket(int amount) async {
+    try {
+      final response = await _apiPostServices.apiPostServices(
+        url: '${AppApiUrl.baseUrl}/group/join/paymentIntent',
+        body: {'amount': amount},
+      );
+      return response != null;
+    } catch (e) {
+      errorLog("Error buying ticket", e);
+      return false;
+    }
+  }
 }

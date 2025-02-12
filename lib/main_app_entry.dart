@@ -11,21 +11,24 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        AppSize.size = MediaQueryData.fromWindow(WidgetsBinding.instance.window).size;
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: AppStrings.appName,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),
-            useMaterial3: true,
-            fontFamily: AppStrings.fontFamilyName,
+    return Builder(builder: (context) {
+      AppSize.size =
+          MediaQueryData.fromWindow(WidgetsBinding.instance.window).size;
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: AppStrings.appName,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.blue),
+          useMaterial3: true,
+          fontFamily: AppStrings.fontFamilyName,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
           ),
-          initialRoute: RouteManager.initial,
-          getPages: RouteManager.getPages(),
-        );
-      }
-    );
+        ),
+        initialRoute: RouteManager.initial,
+        getPages: RouteManager.getPages(),
+      );
+    });
   }
 }
