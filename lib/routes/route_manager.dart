@@ -218,7 +218,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userMapScreen,
-        page: () => const UserMapScreen(),
+        page: () => UserMapScreen(),
         // binding: UserBindings(),
       ),
       GetPage(

@@ -5,6 +5,7 @@ import 'package:itzel/screens/user/user_home_details_screen/widgets/stroke_butto
 import 'package:video_player/video_player.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/event_model.dart';
 import '../../../routes/app_routes.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
@@ -222,7 +223,24 @@ class UserHomeDetailsScreen extends StatelessWidget {
                   const SpaceWidget(spaceHeight: 12),
                   StrokeButtonWidget(
                     onPressed: () {
-                      Get.toNamed(AppRoutes.userMapScreen);
+                      final location = controller.event?.location;
+                      if (location is LocationClass) {
+                        Get.toNamed(
+                          AppRoutes.userMapScreen,
+                          arguments: {
+                            'name': controller.event?.name ?? '',
+                            'coordinate': location.coordinate,
+                          },
+                        );
+                      } else if (location is String) {
+                        Get.toNamed(
+                          AppRoutes.userMapScreen,
+                          arguments: {
+                            'name': controller.event?.name ?? '',
+                            'coordinate': [0.0, 0.0],
+                          },
+                        );
+                      }
                     },
                     label: 'See Location',
                     buttonWidth: double.infinity,

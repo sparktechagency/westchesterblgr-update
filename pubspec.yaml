@@ -52,6 +52,10 @@ dependencies:
   flutter_spinkit: ^5.2.1
   flutter_keyboard_visibility: ^6.0.0
   jwt_decoder:
+  google_maps_flutter:
+  location:
+  flutter_polyline_points:
+  geocoding:
 
   http:
   dio:
