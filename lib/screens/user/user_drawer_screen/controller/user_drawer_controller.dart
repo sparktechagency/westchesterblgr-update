@@ -10,6 +10,7 @@ class UserDrawerController extends GetxController {
   AppAuthStorage appAuthStorage = AppAuthStorage();
   final ProfileRepository _profileRepository = ProfileRepository();
   var eventWishlist = <EventWishList>[].obs;
+  var jobWishlist = <JobWishList>[].obs;
 
   Future<void> fetchEventWishlist() async {
     try {
@@ -19,6 +20,17 @@ class UserDrawerController extends GetxController {
       }
     } catch (e) {
       AppSnackBar.error("Error fetching event wishlist: $e");
+    }
+  }
+
+  Future<void> fetchJobWishlist() async {
+    try {
+      final profile = await _profileRepository.fetchProfile();
+      if (profile != null) {
+        jobWishlist.value = profile.jobWishList;
+      }
+    } catch (e) {
+      AppSnackBar.error("Error fetching job wishlist: $e");
     }
   }
 
@@ -36,5 +48,6 @@ class UserDrawerController extends GetxController {
   void onInit() {
     super.onInit();
     fetchEventWishlist();
+    fetchJobWishlist();
   }
 }

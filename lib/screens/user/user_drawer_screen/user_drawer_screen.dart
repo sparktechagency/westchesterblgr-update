@@ -93,7 +93,10 @@ class UserDrawerScreen extends StatelessWidget {
             ),
             DrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.userSavedJobsScreen);
+                Get.toNamed(
+                  AppRoutes.userSavedJobsScreen,
+                  arguments: controller.jobWishlist,
+                );
               },
               text: AppStrings.savedJobs,
               icon: AppIconsPath.savedEventsIcon,
