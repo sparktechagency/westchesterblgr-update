@@ -10,6 +10,7 @@ class SearchTextFieldWidget extends StatefulWidget {
   final IconData? suffixIcon;
   final TextInputType? keyboardType;
   final int maxLines; // Add maxLines as a parameter
+  final ValueChanged<String>? onChanged;
 
   const SearchTextFieldWidget({
     super.key,
@@ -19,6 +20,7 @@ class SearchTextFieldWidget extends StatefulWidget {
     this.suffixIcon,
     this.keyboardType,
     this.maxLines = 1, // Default value is 1
+    this.onChanged,
   });
 
   @override
@@ -41,6 +43,7 @@ class _SearchTextFieldWidgetState extends State<SearchTextFieldWidget> {
         obscureText: obscureText,
         keyboardType: widget.keyboardType,
         maxLines: widget.maxLines,
+        onChanged: widget.onChanged,
         style: const TextStyle(
           color: AppColors.black500,
         ),

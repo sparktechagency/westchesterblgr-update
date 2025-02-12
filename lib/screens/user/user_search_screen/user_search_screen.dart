@@ -14,27 +14,15 @@ import '../../../widgets/text_widget/text_widgets.dart';
 import '../user_all_category_screen/controller/user_all_category_controller.dart';
 import 'controllers/user_all_job_controller.dart';
 
-class UserSearchScreen extends StatefulWidget {
+class UserSearchScreen extends StatelessWidget {
   UserSearchScreen({super.key});
 
-  @override
-  State<UserSearchScreen> createState() => _UserSearchScreenState();
-}
-
-class _UserSearchScreenState extends State<UserSearchScreen> {
   final UserAllCategoryController _controller =
       Get.put(UserAllCategoryController());
 
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   final UserAllJobController jobController = Get.put(UserAllJobController());
-  final List<bool> isSavedList = List.generate(5, (index) => false);
-
-  void toggleSaveState(int index) {
-    setState(() {
-      isSavedList[index] = !isSavedList[index];
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +47,9 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                 hintText: 'Search',
                 controller: _controller.searchController,
                 maxLines: 1,
+                onChanged: (value) {
+                  jobController.searchJobs(value);
+                },
               ),
             ),
             const SpaceWidget(spaceHeight: 12),
@@ -151,6 +142,19 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
             Obx(() {
               if (_controller.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());
+              } else if (jobController.jobs.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: size.width / (size.width / 100)),
+                    child: const TextWidget(
+                      text: 'No jobs found',
+                      fontColor: AppColors.black500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                );
               } else {
                 return Column(
                   children: [

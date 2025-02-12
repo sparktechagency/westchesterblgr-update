@@ -96,4 +96,23 @@ class JobRepository {
       return false;
     }
   }
+
+  Future<Welcome?> searchJobs(String query) async {
+    try {
+      final response = await _apiGetServices
+          .apiGetServices('${AppApiUrl.allJob}?search=$query');
+      if (response != null && response['success'] == true) {
+        return Welcome.fromJson(response);
+      } else {
+        print('API call failed with status: ${response['status']}');
+        print('Response body: ${response['message']}');
+        return null;
+      }
+    } catch (e, stackTrace) {
+      print('Error searching jobs: $e');
+      print('Stack trace: $stackTrace');
+      errorLog('Error searching jobs', e);
+      return null;
+    }
+  }
 }

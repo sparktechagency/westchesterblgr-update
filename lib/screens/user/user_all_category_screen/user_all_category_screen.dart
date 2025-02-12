@@ -7,7 +7,6 @@ import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import '../user_review_screen/user_review_screen.dart';
-import '../user_search_screen/widgets/search_text_field_widget.dart';
 import 'controller/user_all_category_controller.dart';
 
 class UserAllCategoryScreen extends StatelessWidget {
@@ -31,16 +30,6 @@ class UserAllCategoryScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SpaceWidget(spaceHeight: 24),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: size.width / (size.width / 20)),
-                child: SearchTextFieldWidget(
-                  hintText: 'Search',
-                  controller: _controller.searchController,
-                  maxLines: 1,
-                ),
-              ),
-              const SpaceWidget(spaceHeight: 16),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: size.width / (size.width / 20)),

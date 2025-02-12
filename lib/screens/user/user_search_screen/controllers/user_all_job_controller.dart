@@ -78,4 +78,18 @@ class UserAllJobController extends GetxController {
   bool isJobInWishlist(String jobId) {
     return jobWishlist.contains(jobId);
   }
+
+  Future<void> searchJobs(String query) async {
+    try {
+      isLoading.value = true;
+      final searchedJobs = await _jobRepository.searchJobs(query);
+      if (searchedJobs != null) {
+        jobs.value = searchedJobs.data;
+      }
+    } catch (e) {
+      print('Error searching jobs: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }
