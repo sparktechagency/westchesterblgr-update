@@ -77,4 +77,23 @@ class JobRepository {
       return false;
     }
   }
+
+  Future<bool> applyForJob(String jobId, List<Map<String, String>> qna) async {
+    try {
+      final response = await _apiPostServices.apiPostServices(
+        url: '${AppApiUrl.baseUrl}/applicant/create',
+        body: {
+          "job": jobId,
+          "QNA": qna,
+        },
+      );
+      if (response != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      errorLog("Error applying for job", e);
+      return false;
+    }
+  }
 }
