@@ -89,16 +89,19 @@ class EventRepository {
     }
   }
 
-  Future<bool> buyTicket(int amount) async {
+  Future<Map<String, dynamic>?> buyTicket(int amount) async {
     try {
       final response = await _apiPostServices.apiPostServices(
         url: '${AppApiUrl.baseUrl}/group/join/paymentIntent',
         body: {'amount': amount},
       );
-      return response != null;
+      if (response != null && response is Map<String, dynamic>) {
+        return response;
+      }
+      return null;
     } catch (e) {
       errorLog("Error buying ticket", e);
-      return false;
+      return null;
     }
   }
 }

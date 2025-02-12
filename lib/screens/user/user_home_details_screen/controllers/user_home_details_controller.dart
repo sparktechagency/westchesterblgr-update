@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
 import 'package:itzel/models/event_model.dart';
+import 'package:itzel/screens/user/user_home_details_screen/controllers/payment_controller.dart';
 import 'package:itzel/services/repository/event_repository/event_repository.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../constants/app_api_url.dart';
 import '../../../../services/repository/profile_repository/profile_repository.dart';
 import '../../../../utils/app_all_log/error_log.dart';
-import '../../../../widgets/app_snack_bar/app_snack_bar.dart';
 
 class UserHomeDetailsController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
   final ProfileRepository _profileRepository = ProfileRepository();
+  final PaymentController _paymentController = Get.put(PaymentController());
+
   VideoPlayerController? _controller;
   bool isVideoEnded = false;
   bool isBookmarked = false;
@@ -20,10 +22,13 @@ class UserHomeDetailsController extends GetxController {
   EventModel? event;
   var isLoading = false.obs;
 
+  static const String publishableKey = "pk_test_YOUR_PUBLISHABLE_KEY";
+
   @override
   void onInit() {
     super.onInit();
     String eventId = Get.arguments['id'] ?? '';
+
     if (eventId.isNotEmpty) {
       fetchEventDetails(eventId);
       checkIfBookmarked(eventId);
@@ -140,16 +145,22 @@ class UserHomeDetailsController extends GetxController {
   bool get isVideoPlaying => _controller?.value.isPlaying ?? false;
 
   Future<void> buyTicket(int amount) async {
+    isLoading.value = true;
     try {
-      isLoading.value = true;
-      bool success = await _eventRepository.buyTicket(amount);
-      if (success) {
-        AppSnackBar.success("Ticket purchased successfully");
+      final response = await EventRepository().buyTicket(amount);
+      if (response != null && response['data'] != null) {
+        String clientSecret = response['data']['paymentIntent'];
+        print('Client Secret: $clientSecret'); // Debug log
+        await _paymentController
+            .makePayment(clientSecret); // Correctly use _paymentController here
       } else {
-        AppSnackBar.error("Failed to purchase ticket");
+        Get.snackbar('Error', 'Failed to create payment intent',
+            snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
-      AppSnackBar.error("Error purchasing ticket");
+      Get.snackbar('Error', 'Failed to buy ticket: $e',
+          snackPosition: SnackPosition.BOTTOM);
+      errorLog("Error buying ticket", e);
     } finally {
       isLoading.value = false;
     }
