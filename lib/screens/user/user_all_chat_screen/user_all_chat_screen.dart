@@ -7,10 +7,12 @@ import '../../../constants/app_icons_path.dart';
 import '../../../constants/app_images_path.dart';
 import '../../../constants/app_strings.dart';
 import '../../../routes/app_routes.dart';
+import '../../../utils/app_size.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import '../user_group_chat_screen/user_group_chat_screen.dart';
+import 'controllers/user_all_chat_controller.dart';
 
 class UserAllChatScreen extends StatefulWidget {
   const UserAllChatScreen({super.key});
@@ -20,6 +22,7 @@ class UserAllChatScreen extends StatefulWidget {
 }
 
 class _UserAllChatScreenState extends State<UserAllChatScreen> {
+  final UserAllChatController chatController = Get.put(UserAllChatController());
   final TextEditingController searchController = TextEditingController();
   bool isExpanded = false;
 
@@ -186,104 +189,143 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                 ),
               ),
               const SpaceWidget(spaceHeight: 8),
-              ...List.generate(
-                2,
-                (index) {
-                  return InkWell(
-                    onTap: () {
-                      Get.to(() => UserGroupChatScreen());
-                    },
-                    borderRadius: BorderRadius.circular(16),
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      margin: EdgeInsets.only(
-                        left: size.width / (size.width / 20),
-                        right: size.width / (size.width / 20),
-                        bottom: size.width / (size.width / 12),
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: AppColors.grey300,
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Image.asset(
-                                  groupImages[index],
-                                  height: size.width / (size.width / 48),
-                                  width: size.width / (size.width / 48),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SpaceWidget(spaceWidth: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    text: groupName[index],
-                                    fontColor: AppColors.black500,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  const SpaceWidget(spaceHeight: 7),
-                                  const TextWidget(
-                                    text: 'Ana : okay?',
-                                    fontColor: AppColors.black500,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                height: size.width / (size.width / 16),
-                                width: size.width / (size.width / 16),
-                                decoration: BoxDecoration(
-                                  color: AppColors.red,
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: const Center(
-                                  child: TextWidget(
-                                    text: AppStrings.unreadChatQuantity,
-                                    fontColor: AppColors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              const SpaceWidget(spaceHeight: 8),
-                              const TextWidget(
-                                text: '1 day',
-                                fontColor: AppColors.black300,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ],
-                          ),
-                        ],
+
+              // My group
+
+              Obx(() {
+                if (chatController.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (chatController.userGroups.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: size.width / (size.width / 50)),
+                      child: const TextWidget(
+                        text: 'No groups found',
+                        fontColor: AppColors.black500,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   );
-                },
-              ),
+                } else {
+                  return Column(
+                    children: [
+                      ...List.generate(
+                        chatController.userGroups.length,
+                        (index) {
+                          final group = chatController.userGroups[index];
+                          return InkWell(
+                            onTap: () {
+                              Get.to(() => UserGroupChatScreen());
+                            },
+                            borderRadius: BorderRadius.circular(16),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(12),
+                              margin: EdgeInsets.only(
+                                left: size.width / (size.width / 20),
+                                right: size.width / (size.width / 20),
+                                bottom: size.width / (size.width / 12),
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: AppColors.grey300,
+                                    spreadRadius: 1,
+                                    blurRadius: 3,
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: Image.asset(
+                                          groupImages[index],
+                                          height:
+                                              size.width / (size.width / 48),
+                                          width: size.width / (size.width / 48),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SpaceWidget(spaceWidth: 8),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: ResponsiveUtils.width(225),
+                                            child: TextWidget(
+                                              text: group.name,
+                                              fontColor: AppColors.black500,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlignment: TextAlign.start,
+                                            ),
+                                          ),
+                                          const SpaceWidget(spaceHeight: 7),
+                                          const TextWidget(
+                                            text: 'Ana : okay?',
+                                            fontColor: AppColors.black500,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        height: size.width / (size.width / 16),
+                                        width: size.width / (size.width / 16),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                        ),
+                                        child: const Center(
+                                          child: TextWidget(
+                                            text: AppStrings.unreadChatQuantity,
+                                            fontColor: AppColors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      const SpaceWidget(spaceHeight: 8),
+                                      const TextWidget(
+                                        text: '1 day',
+                                        fontColor: AppColors.black300,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }
+              }),
+
               const SpaceWidget(spaceHeight: 16),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -296,6 +338,8 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                 ),
               ),
               const SpaceWidget(spaceHeight: 8),
+
+              // User chats
               ...List.generate(
                 5,
                 (index) {
