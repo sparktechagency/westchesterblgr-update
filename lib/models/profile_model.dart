@@ -68,22 +68,30 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["_id"],
-        name: json["name"],
-        role: json["role"],
-        eventWishList: List<EventWishList>.from(
-            json["eventWishList"].map((x) => EventWishList.fromJson(x))),
-        jobWishList: List<JobWishList>.from(
-            json["jobWishList"].map((x) => JobWishList.fromJson(x))),
-        email: json["email"],
-        profile: json["profile"],
-        status: json["status"],
-        verified: json["verified"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-        contact: json["contact"],
-        location: json["location"],
+        id: json["_id"] ?? '',
+        name: json["name"] ?? '',
+        role: json["role"] ?? '',
+        eventWishList: json["eventWishList"] != null
+            ? List<EventWishList>.from(
+                json["eventWishList"].map((x) => EventWishList.fromJson(x)))
+            : [],
+        jobWishList: json["jobWishList"] != null
+            ? List<JobWishList>.from(
+                json["jobWishList"].map((x) => JobWishList.fromJson(x)))
+            : [],
+        email: json["email"] ?? '',
+        profile: json["profile"] ?? '',
+        status: json["status"] ?? '',
+        verified: json["verified"] ?? false,
+        createdAt: json["createdAt"] != null
+            ? DateTime.parse(json["createdAt"])
+            : DateTime.now(),
+        updatedAt: json["updatedAt"] != null
+            ? DateTime.parse(json["updatedAt"])
+            : DateTime.now(),
+        v: json["__v"] ?? 0,
+        contact: json["contact"] ?? '',
+        location: json["location"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
