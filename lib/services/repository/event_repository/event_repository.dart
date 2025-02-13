@@ -89,18 +89,15 @@ class EventRepository {
     }
   }
 
-  Future<Map<String, dynamic>?> buyTicket(int amount) async {
+  Future<Map<String, dynamic>?> createPaymentIntent(int amount) async {
     try {
       final response = await _apiPostServices.apiPostServices(
-        url: '${AppApiUrl.baseUrl}/group/join/paymentIntent',
+        url: '${AppApiUrl.baseUrl}${AppApiUrl.createPaymentIntent}',
         body: {'amount': amount},
       );
-      if (response != null && response is Map<String, dynamic>) {
-        return response;
-      }
-      return null;
+      return response;
     } catch (e) {
-      errorLog("Error buying ticket", e);
+      errorLog("Error creating payment intent", e);
       return null;
     }
   }

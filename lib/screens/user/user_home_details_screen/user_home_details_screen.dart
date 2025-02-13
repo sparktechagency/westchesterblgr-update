@@ -42,6 +42,8 @@ class UserHomeDetailsScreen extends StatelessWidget {
             String displayText = controller.isExpanded
                 ? controller.event!.description
                 : '${controller.event!.description.substring(0, 200)}...';
+
+            int amount = controller.event?.price ?? 0;
             return SingleChildScrollView(
               padding: EdgeInsets.symmetric(
                   horizontal: size.width / (size.width / 20)),
@@ -219,7 +221,11 @@ class UserHomeDetailsScreen extends StatelessWidget {
                     } else {
                       return FillButtonWidget(
                         onPressed: () {
-                          controller.buyTicket(controller.event!.price);
+                          //int dynamicAmount = getDynamicAmount(); // Replace with the actual method to get the dynamic amount
+                          controller.makePayment(
+                            eventId: controller.event?.id ?? '',
+                            amount: amount,
+                          );
                         },
                         label: 'Buy Ticket',
                         buttonWidth: double.infinity,

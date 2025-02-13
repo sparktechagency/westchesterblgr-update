@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:itzel/models/event_model.dart';
-import 'package:itzel/screens/user/user_home_details_screen/controllers/payment_controller.dart';
+import 'package:itzel/services/api/api_post_services.dart';
 import 'package:itzel/services/repository/event_repository/event_repository.dart';
 import 'package:video_player/video_player.dart';
 
@@ -11,7 +13,7 @@ import '../../../../utils/app_all_log/error_log.dart';
 class UserHomeDetailsController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
   final ProfileRepository _profileRepository = ProfileRepository();
-  final PaymentController _paymentController = Get.put(PaymentController());
+  final ApiPostServices _apiPostServices = ApiPostServices();
 
   VideoPlayerController? _controller;
   bool isVideoEnded = false;
@@ -21,8 +23,6 @@ class UserHomeDetailsController extends GetxController {
   bool hasVideoError = false;
   EventModel? event;
   var isLoading = false.obs;
-
-  static const String publishableKey = "pk_test_YOUR_PUBLISHABLE_KEY";
 
   @override
   void onInit() {
@@ -144,25 +144,79 @@ class UserHomeDetailsController extends GetxController {
 
   bool get isVideoPlaying => _controller?.value.isPlaying ?? false;
 
-  Future<void> buyTicket(int amount) async {
-    isLoading.value = true;
+  ///<============================================================================>
+
+  ///========================= Create Payment Intent =========================
+
+  bool paymentLoader = false;
+
+  Future<Map<String, dynamic>?> createPaymentIntent(int amount) async {
     try {
-      final response = await EventRepository().buyTicket(amount);
-      if (response != null && response['data'] != null) {
-        String clientSecret = response['data']['paymentIntent'];
-        print('Client Secret: $clientSecret'); // Debug log
-        await _paymentController
-            .makePayment(clientSecret); // Correctly use _paymentController here
-      } else {
-        Get.snackbar('Error', 'Failed to create payment intent',
-            snackPosition: SnackPosition.BOTTOM);
+      final ApiPostServices _apiPostServices = ApiPostServices();
+
+      final response = await _apiPostServices.apiPostServices(
+        url: '${AppApiUrl.baseUrl}${AppApiUrl.createPaymentIntent}',
+        body: {'amount': amount},
+      );
+      return response;
+    } catch (e) {
+      errorLog("Error creating payment intent", e);
+      return null;
+    }
+  }
+
+  ///========================= Make Payment =========================
+  Future<bool> makePayment({
+    required String eventId,
+    required int amount,
+  }) async {
+    try {
+      final paymentIntentData = await createPaymentIntent(amount);
+      if (paymentIntentData == null) {
+        debugPrint("Failed to create payment intent");
+        return false;
+      }
+
+      final clientSecret = paymentIntentData["data"]["client_secret"];
+      if (clientSecret == null || clientSecret.isEmpty) {
+        debugPrint("Missing client secret");
+        return false;
+      }
+
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: clientSecret,
+          merchantDisplayName: 'Itzel',
+          style: ThemeMode.system,
+        ),
+      );
+
+      try {
+        await Stripe.instance.presentPaymentSheet();
+        debugPrint('Payment successful');
+
+        final response = await _apiPostServices.apiPostServices(
+          url: '${AppApiUrl.baseUrl}/group/join/',
+          body: {
+            'event': eventId,
+            'transactionId': paymentIntentData["data"]["paymentIntent"],
+          },
+        );
+
+        if (response != null && response['success'] == true) {
+          debugPrint('Payment successfully processed');
+          return true;
+        } else {
+          debugPrint('Failed to process payment on backend');
+          return false;
+        }
+      } catch (e) {
+        debugPrint('Error presenting payment sheet: $e');
+        return false;
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to buy ticket: $e',
-          snackPosition: SnackPosition.BOTTOM);
-      errorLog("Error buying ticket", e);
-    } finally {
-      isLoading.value = false;
+      debugPrint("Error in payment process: $e");
+      return false;
     }
   }
 }
