@@ -24,8 +24,12 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
   final addressController = TextEditingController();
   final roleController = TextEditingController();
   final jobDescriptionController = TextEditingController();
+  final requirementController = TextEditingController();
+  final additionalRequirementController = TextEditingController();
+  final experienceController = TextEditingController();
   final jobTypeController = TextEditingController();
-  final priceController = TextEditingController();
+  final levelController = TextEditingController();
+  final salaryController = TextEditingController();
   final List<Map<String, TextEditingController>> questions = [];
 
   final ImagePicker _picker = ImagePicker();
@@ -41,7 +45,6 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
 
   void addQuestion(BuildContext context) {
     TextEditingController questionController = TextEditingController();
-    TextEditingController answerController = TextEditingController();
 
     showDialog(
       context: context,
@@ -67,7 +70,6 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
                   setState(() {
                     questions.add({
                       'question': questionController,
-                      'answer': answerController,
                     });
                   });
                   Navigator.of(context).pop();
@@ -88,7 +90,7 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
     roleController.dispose();
     jobDescriptionController.dispose();
     jobTypeController.dispose();
-    priceController.dispose();
+    salaryController.dispose();
     for (var question in questions) {
       question['question']?.dispose();
       question['answer']?.dispose();
@@ -173,22 +175,6 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Address',
-                fontColor: AppColors.grey900,
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            const SpaceWidget(spaceHeight: 4),
-            CreatorJobPublishTextFieldWidget(
-              hintText: '',
-              controller: addressController,
-              maxLines: 1,
-            ),
-            const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
                 text: 'Role',
                 fontColor: AppColors.grey900,
                 fontSize: 14,
@@ -205,7 +191,7 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Job Description',
+                text: 'Description',
                 fontColor: AppColors.grey900,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -215,6 +201,86 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
             CreatorJobPublishTextFieldWidget(
               hintText: '',
               controller: jobDescriptionController,
+              maxLines: 4,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Requirements',
+                fontColor: AppColors.grey900,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            CreatorJobPublishTextFieldWidget(
+              hintText: '',
+              controller: requirementController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Additional Requirements',
+                fontColor: AppColors.grey900,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            CreatorJobPublishTextFieldWidget(
+              hintText: '',
+              controller: additionalRequirementController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Experience',
+                fontColor: AppColors.grey900,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            CreatorJobPublishTextFieldWidget(
+              hintText: '',
+              controller: experienceController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Address',
+                fontColor: AppColors.grey900,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            CreatorJobPublishTextFieldWidget(
+              hintText: '',
+              controller: addressController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Expertise Level',
+                fontColor: AppColors.grey900,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            CreatorJobPublishTextFieldWidget(
+              hintText: '',
+              controller: levelController,
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
@@ -237,7 +303,7 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Price',
+                text: 'Salary',
                 fontColor: AppColors.grey900,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -246,7 +312,7 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
             const SpaceWidget(spaceHeight: 4),
             CreatorJobPublishTextFieldWidget(
               hintText: '',
-              controller: priceController,
+              controller: salaryController,
               maxLines: 1,
               keyboardType: TextInputType.number,
             ),
@@ -255,32 +321,22 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
               questions.length,
               (index) {
                 final questionController = questions[index]['question']!;
-                final answerController = questions[index]['answer']!;
+
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: TextWidget(
-                          text: questionController.text,
-                          fontColor: AppColors.grey900,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SpaceWidget(spaceHeight: 4),
-                      CreatorJobPublishTextFieldWidget(
-                        hintText: '',
-                        controller: answerController,
-                        maxLines: 1,
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: TextWidget(
+                      text: questionController.text,
+                      fontColor: AppColors.grey900,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 );
               },
             ),
+            const SpaceWidget(spaceHeight: 8),
             InkWell(
               onTap: () => addQuestion(context),
               splashColor: Colors.transparent,
@@ -289,11 +345,11 @@ class _CreatorJobPublishScreenState extends State<CreatorJobPublishScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   CircleAvatar(
-                    radius: 15,
+                    radius: 13,
                     backgroundColor: AppColors.starIconUnselected,
                     child: Icon(
                       Icons.add,
-                      size: 24,
+                      size: 20,
                     ),
                   ),
                   SpaceWidget(spaceWidth: 9),

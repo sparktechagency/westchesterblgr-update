@@ -50,4 +50,5 @@ class AppApiUrl {
 
   // Creator
   static const String createEvent = "/event/create";
+  static const String createJob = "/job/create";
 }
