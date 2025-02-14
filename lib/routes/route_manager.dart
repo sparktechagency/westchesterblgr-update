@@ -310,7 +310,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorEventCreateScreen,
-        page: () => const CreatorEventCreateScreen(),
+        page: () => CreatorEventCreateScreen(),
         //  binding: CreatorBindings(),
       ),
       GetPage(

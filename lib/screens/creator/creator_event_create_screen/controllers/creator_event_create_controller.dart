@@ -10,8 +10,8 @@ import '../../../../services/repository/event_repository/event_repository.dart';
 class CreatorEventCreateController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
   final picker = ImagePicker();
-  File? image; // Declare this to hold the selected image
-  File? videoFile; // Declare this to hold the selected video
+  Rx<File?> image = Rx<File?>(null); // Make image observable
+  Rx<File?> videoFile = Rx<File?>(null); // Make videoFile observable
 
   final TextEditingController eventNameController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
@@ -27,8 +27,7 @@ class CreatorEventCreateController extends GetxController {
     final XFile? selectedImage =
         await picker.pickImage(source: ImageSource.gallery);
     if (selectedImage != null) {
-      image = File(selectedImage.path);
-      update(); // Notify listeners to update the UI
+      image.value = File(selectedImage.path); // Update observable
     }
   }
 
@@ -70,7 +69,7 @@ class CreatorEventCreateController extends GetxController {
     );
 
     if (pickedFile != null) {
-      videoFile = File(pickedFile.path);
+      videoFile.value = File(pickedFile.path); // Update observable
       filePathController.text = pickedFile.path;
       update(); // Notify listeners to update the UI
     } else {
@@ -93,7 +92,8 @@ class CreatorEventCreateController extends GetxController {
     };
 
     bool result = await _eventRepository.createEvent(eventData,
-        imageFile: image, videoFile: videoFile);
+        imageFile: image.value, videoFile: videoFile.value);
+
     if (result) {
       Get.snackbar('Success', 'Event created successfully!');
     } else {

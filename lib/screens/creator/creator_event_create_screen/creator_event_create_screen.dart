@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,23 +12,11 @@ import 'package:itzel/widgets/text_widget/text_widgets.dart';
 import '../../../constants/app_colors.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 
-class CreatorEventCreateScreen extends StatefulWidget {
-  const CreatorEventCreateScreen({super.key});
+class CreatorEventCreateScreen extends StatelessWidget {
+  CreatorEventCreateScreen({super.key});
 
-  @override
-  State<CreatorEventCreateScreen> createState() =>
-      _CreatorEventCreateScreenState();
-}
-
-class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
   final CreatorEventCreateController controller =
       Get.put(CreatorEventCreateController());
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,33 +45,34 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: SizedBox(
-                    height: size.height / (size.height / 143),
-                    width: double.infinity,
-                    child: Obx(() => controller.image == null
-                        ? const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add,
-                                size: 32,
-                                color: AppColors.black500,
+                      height: size.height / (size.height / 143),
+                      width: double.infinity,
+                      child: Obx(
+                        () => controller.image.value == null
+                            ? const Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    size: 32,
+                                    color: AppColors.black500,
+                                  ),
+                                  SpaceWidget(spaceHeight: 12),
+                                  TextWidget(
+                                    text: 'Upload',
+                                    fontColor: AppColors.black500,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ],
+                              )
+                            : Image.file(
+                                controller.image.value!,
+                                height: size.height / (size.height / 143),
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
-                              SpaceWidget(spaceHeight: 12),
-                              TextWidget(
-                                text: 'Upload',
-                                fontColor: AppColors.black500,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ],
-                          )
-                        : Image.file(
-                            File(controller.image!.path),
-                            height: size.height / (size.height / 143),
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          )),
-                  ),
+                      )),
                 ),
               ),
             ),
