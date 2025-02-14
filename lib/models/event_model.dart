@@ -6,9 +6,9 @@ EventResponse welcomeFromJson(String str) =>
 String welcomeToJson(EventResponse data) => json.encode(data.toJson());
 
 class EventResponse {
-  bool success;
-  String message;
-  List<EventModel> data;
+  final bool success;
+  final String message;
+  final List<EventModel> data;
 
   EventResponse({
     required this.success,
@@ -17,10 +17,10 @@ class EventResponse {
   });
 
   factory EventResponse.fromJson(Map<String, dynamic> json) => EventResponse(
-        success: json["success"],
-        message: json["message"],
+        success: json["success"] ?? false,
+        message: json["message"] ?? "",
         data: List<EventModel>.from(
-            json["data"].map((x) => EventModel.fromJson(x))),
+            (json["data"] ?? []).map((x) => EventModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,20 +31,20 @@ class EventResponse {
 }
 
 class EventModel {
-  dynamic location;
-  String id;
-  String thumbnailImage;
-  String introMedia;
-  String name;
-  DateTime time;
-  String description;
-  List<String> tags;
-  int price;
-  String category;
-  String creator;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  final dynamic location;
+  final String id;
+  final String thumbnailImage;
+  final String introMedia;
+  final String name;
+  final DateTime time;
+  final String description;
+  final List<String> tags;
+  final int price;
+  final String category;
+  final String creator;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
 
   EventModel({
     required this.location,
@@ -63,29 +63,56 @@ class EventModel {
     required this.v,
   });
 
-  factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
-        location: json["location"] is String
-            ? json["location"]
-            : LocationClass.fromJson(json["location"]),
-        id: json["_id"],
-        thumbnailImage: json["thumbnailImage"],
-        introMedia: json["introMedia"],
-        name: json["name"],
-        time: DateTime.parse(json["time"]),
-        description: json["description"],
-        tags: List<String>.from(json["tags"].map((x) => x)),
-        price: json["price"],
-        category: json["category"],
-        creator: json["creator"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
+  factory EventModel.fromJson(Map<String, dynamic> json) {
+    try {
+      return EventModel(
+        location: json["location"] == null
+            ? null
+            : json["location"] is String
+                ? json["location"]
+                : LocationClass.fromJson(json["location"]),
+        id: json["_id"] ?? "",
+        thumbnailImage: json["thumbnailImage"] ?? "",
+        introMedia: json["introMedia"] ?? "",
+        name: json["name"] ?? "",
+        time: DateTime.tryParse(json["time"] ?? "") ?? DateTime.now(),
+        description: json["description"] ?? "",
+        tags: List<String>.from((json["tags"] ?? []).map((x) => x.toString())),
+        price: json["price"]?.toInt() ?? 0,
+        category: json["category"] ?? "",
+        creator: json["creator"] ?? "",
+        createdAt: DateTime.tryParse(json["createdAt"] ?? "") ?? DateTime.now(),
+        updatedAt: DateTime.tryParse(json["updatedAt"] ?? "") ?? DateTime.now(),
+        v: json["__v"]?.toInt() ?? 0,
       );
+    } catch (e) {
+      print('Error parsing EventModel: $e');
+      // Return a default event model in case of parsing errors
+      return EventModel(
+        location: null,
+        id: "",
+        thumbnailImage: "",
+        introMedia: "",
+        name: "Error Loading Event",
+        time: DateTime.now(),
+        description: "",
+        tags: [],
+        price: 0,
+        category: "",
+        creator: "",
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        v: 0,
+      );
+    }
+  }
 
   Map<String, dynamic> toJson() => {
-        "location": location is String
-            ? location
-            : (location as LocationClass).toJson(),
+        "location": location == null
+            ? null
+            : location is String
+                ? location
+                : (location as LocationClass).toJson(),
         "_id": id,
         "thumbnailImage": thumbnailImage,
         "introMedia": introMedia,
@@ -103,19 +130,26 @@ class EventModel {
 }
 
 class LocationClass {
-  String name;
-  List<double> coordinate;
+  final String name;
+  final List<double> coordinate;
 
   LocationClass({
     required this.name,
     required this.coordinate,
   });
 
-  factory LocationClass.fromJson(Map<String, dynamic> json) => LocationClass(
-        name: json["name"],
-        coordinate:
-            List<double>.from(json["coordinate"].map((x) => x.toDouble())),
+  factory LocationClass.fromJson(Map<String, dynamic> json) {
+    try {
+      return LocationClass(
+        name: json["name"] ?? "",
+        coordinate: List<double>.from(
+            (json["coordinate"] ?? []).map((x) => (x ?? 0).toDouble())),
       );
+    } catch (e) {
+      print('Error parsing LocationClass: $e');
+      return LocationClass(name: "", coordinate: []);
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "name": name,

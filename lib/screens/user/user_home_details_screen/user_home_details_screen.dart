@@ -41,7 +41,9 @@ class UserHomeDetailsScreen extends StatelessWidget {
           } else {
             String displayText = controller.isExpanded
                 ? controller.event!.description
-                : '${controller.event!.description.substring(0, 200)}...';
+                : controller.event!.description.length > 200
+                    ? '${controller.event!.description.substring(0, 200)}...'
+                    : controller.event!.description;
 
             int amount = controller.event?.price ?? 0;
             return SingleChildScrollView(

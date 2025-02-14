@@ -270,7 +270,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorDrawerScreen,
-        page: () => const CreatorDrawerScreen(),
+        page: () => CreatorDrawerScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(

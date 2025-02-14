@@ -96,6 +96,7 @@ class CreatorEventCreateController extends GetxController {
 
     if (result) {
       Get.snackbar('Success', 'Event created successfully!');
+      Get.back();
     } else {
       Get.snackbar('Error', 'Failed to create the event.');
     }

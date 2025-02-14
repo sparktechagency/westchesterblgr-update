@@ -129,13 +129,13 @@ class UserDrawerScreen extends StatelessWidget {
               text: AppStrings.changePassword,
               icon: AppIconsPath.changePasswordIcon,
             ),
-            DrawerSectionWidget(
-              onTap: () {
-                Get.toNamed(AppRoutes.userDeleteAccountScreen);
-              },
-              text: AppStrings.deleteAccount,
-              icon: AppIconsPath.deleteAccountIcon,
-            ),
+            // DrawerSectionWidget(
+            //   onTap: () {
+            //     Get.toNamed(AppRoutes.userDeleteAccountScreen);
+            //   },
+            //   text: AppStrings.deleteAccount,
+            //   icon: AppIconsPath.deleteAccountIcon,
+            // ),
             const SpaceWidget(spaceHeight: 80),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

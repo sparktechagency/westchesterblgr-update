@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:itzel/screens/auth_screens/registration_screen/registration_screen.dart';
 import 'package:itzel/screens/creator/creator_drawer_screen/widgets/creator_drawer_section_widget.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
@@ -12,10 +11,12 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import '../../user/user_drawer_screen/widgets/drawer_section_widget.dart';
+import 'controller/creator_drawer_controller.dart';
 
 class CreatorDrawerScreen extends StatelessWidget {
-  const CreatorDrawerScreen({super.key});
+  final controller = Get.put(CreatorDrawerController());
+
+  CreatorDrawerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +83,6 @@ class CreatorDrawerScreen extends StatelessWidget {
             const SpaceWidget(spaceHeight: 16),
             CreatorDrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.creatorProfileScreen);
-              },
-              text: AppStrings.myProfile,
-              icon: AppIconsPath.myProfileIcon,
-            ),
-            CreatorDrawerSectionWidget(
-              onTap: () {
                 Get.toNamed(AppRoutes.creatorBusinessInformationScreen);
               },
               text: AppStrings.businessInformation,
@@ -136,19 +130,19 @@ class CreatorDrawerScreen extends StatelessWidget {
               text: AppStrings.changePassword,
               icon: AppIconsPath.changePasswordIcon,
             ),
-            CreatorDrawerSectionWidget(
-              onTap: () {
-                Get.toNamed(AppRoutes.creatorDeleteAccountScreen);
-              },
-              text: AppStrings.deleteAccount,
-              icon: AppIconsPath.deleteAccountIcon,
-            ),
+            // CreatorDrawerSectionWidget(
+            //   onTap: () {
+            //     Get.toNamed(AppRoutes.creatorDeleteAccountScreen);
+            //   },
+            //   text: AppStrings.deleteAccount,
+            //   icon: AppIconsPath.deleteAccountIcon,
+            // ),
             const SpaceWidget(spaceHeight: 80),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ButtonWidget(
                 onPressed: () {
-                  Get.offAll(() => const RegistrationScreen());
+                  controller.logout();
                 },
                 label: 'Logout',
                 buttonWidth: double.infinity,

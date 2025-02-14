@@ -1,10 +1,4 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
 import 'dart:convert';
-
-import 'event_model.dart';
 
 Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
 
@@ -114,7 +108,6 @@ class Data {
 }
 
 class EventWishList {
-  dynamic location; // Change type to dynamic
   String id;
   String thumbnailImage;
   String introMedia;
@@ -123,14 +116,16 @@ class EventWishList {
   String description;
   List<String> tags;
   int price;
-  String category;
+  String? category;
   String creator;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
+  String? address;
+  LocationData? location;
+  List<double>? coordinate;
 
   EventWishList({
-    required this.location,
     required this.id,
     required this.thumbnailImage,
     required this.introMedia,
@@ -139,17 +134,17 @@ class EventWishList {
     required this.description,
     required this.tags,
     required this.price,
-    required this.category,
+    this.category,
     required this.creator,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
+    this.address,
+    this.location,
+    this.coordinate,
   });
 
   factory EventWishList.fromJson(Map<String, dynamic> json) => EventWishList(
-        location: json["location"] is String
-            ? json["location"]
-            : LocationClass.fromJson(json["location"]),
         id: json["_id"],
         thumbnailImage: json["thumbnailImage"],
         introMedia: json["introMedia"],
@@ -163,12 +158,16 @@ class EventWishList {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
+        address: json["address"],
+        location: json["location"] is Map
+            ? LocationData.fromJson(json["location"])
+            : null,
+        coordinate: json["coordinate"] != null
+            ? List<double>.from(json["coordinate"].map((x) => x.toDouble()))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "location": location is String
-            ? location
-            : (location as LocationClass).toJson(),
         "_id": id,
         "thumbnailImage": thumbnailImage,
         "introMedia": introMedia,
@@ -182,6 +181,32 @@ class EventWishList {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
+        "address": address,
+        "location": location?.toJson(),
+        "coordinate": coordinate != null
+            ? List<dynamic>.from(coordinate!.map((x) => x))
+            : null,
+      };
+}
+
+class LocationData {
+  String name;
+  List<double> coordinate;
+
+  LocationData({
+    required this.name,
+    required this.coordinate,
+  });
+
+  factory LocationData.fromJson(Map<String, dynamic> json) => LocationData(
+        name: json["name"],
+        coordinate:
+            List<double>.from(json["coordinate"].map((x) => x.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "coordinate": List<dynamic>.from(coordinate.map((x) => x)),
       };
 }
 
