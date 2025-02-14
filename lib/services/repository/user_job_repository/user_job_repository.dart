@@ -1,7 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:itzel/constants/app_api_url.dart';
 import 'package:itzel/models/get_job_model.dart';
 import 'package:itzel/services/api/api_get_services.dart';
 import 'package:itzel/utils/app_all_log/error_log.dart';
+import 'package:mime_type/mime_type.dart';
 
 import '../../api/api_delete_services.dart';
 import '../../api/api_post_services.dart';
@@ -114,5 +121,54 @@ class JobRepository {
       errorLog('Error searching jobs', e);
       return null;
     }
+  }
+
+  Future<bool> createJob(Map<String, dynamic> jobDetails, XFile? image) async {
+    FormData formData = FormData();
+
+    // Add image to FormData
+    if (image != null && await File(image.path).exists()) {
+      String fileName = image.path.split('/').last;
+      String? mimeType = mime(image.path);
+      if (mimeType != null) {
+        formData.files.add(
+          MapEntry(
+            'image',
+            await MultipartFile.fromFile(
+              image.path,
+              filename: fileName,
+              contentType: MediaType.parse(mimeType),
+            ),
+          ),
+        );
+      }
+    }
+
+    // Convert array fields to JSON strings
+    List<String> arrayFields = [
+      'questions',
+      'requirements',
+      'experience',
+      'additionalRequirement'
+    ];
+
+    // Add other job details to FormData
+    jobDetails.forEach((key, value) {
+      if (arrayFields.contains(key) && value is List) {
+        formData.fields.add(MapEntry(key, jsonEncode(value)));
+      } else if (value is String) {
+        formData.fields.add(MapEntry(key, value));
+      }
+    });
+
+    // Use ApiPostServices to send the request
+    dynamic response = await _apiPostServices.apiPostServices(
+        url: '${AppApiUrl.baseUrl}/job/create',
+        body: formData,
+        statusCode: 200 // You can specify the expected success code if needed
+        );
+
+    // Evaluate the response
+    return response != null && response['success'];
   }
 }

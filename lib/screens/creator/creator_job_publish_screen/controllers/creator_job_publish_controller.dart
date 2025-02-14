@@ -1,19 +1,25 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../../services/repository/user_job_repository/user_job_repository.dart';
 
 class CreatorJobPublishController extends GetxController {
   final companyNameController = TextEditingController();
   final addressController = TextEditingController();
   final roleController = TextEditingController();
   final jobDescriptionController = TextEditingController();
+  final requirementController = TextEditingController();
+  final additionalRequirementController = TextEditingController();
+  final experienceController = TextEditingController();
   final jobTypeController = TextEditingController();
-  final priceController = TextEditingController();
+  final levelController = TextEditingController();
+  final salaryController = TextEditingController();
   final List<Map<String, TextEditingController>> questions = [];
 
   final ImagePicker _picker = ImagePicker();
   XFile? image;
+  final JobRepository _jobRepository = JobRepository();
 
   Future<void> getImage() async {
     final XFile? pickedImage =
@@ -22,45 +28,29 @@ class CreatorJobPublishController extends GetxController {
     update(); // Notify the UI
   }
 
-  void addQuestion(BuildContext context) {
-    TextEditingController questionController = TextEditingController();
-    TextEditingController answerController = TextEditingController();
+  Future<void> publishJob() async {
+    Map<String, dynamic> jobDetails = {
+      'companyName': companyNameController.text,
+      'address': addressController.text,
+      'role': roleController.text,
+      'description': jobDescriptionController.text,
+      'requirements': [requirementController.text],
+      'additionalRequirement': [additionalRequirementController.text],
+      // Ensure this is a list
+      'experience': [experienceController.text],
+      'jobType': jobTypeController.text,
+      'level': levelController.text,
+      'salary': salaryController.text,
+      'questions': questions.map((q) => q['question']!.text).toList(),
+    };
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Add Question',
-              style: TextStyle(fontWeight: FontWeight.w500)),
-          content: TextField(
-            controller: questionController,
-            decoration: const InputDecoration(
-              hintText: 'Type your question',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel', style: TextStyle(color: Colors.red)),
-            ),
-            TextButton(
-              onPressed: () {
-                if (questionController.text.isNotEmpty) {
-                  questions.add({
-                    'question': questionController,
-                    'answer': answerController,
-                  });
-                  update(); // Notify the UI
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text('Submit'),
-            ),
-          ],
-        );
-      },
-    );
+    bool success = await _jobRepository.createJob(jobDetails, image);
+
+    if (success) {
+      Get.snackbar('Success', 'Job posted successfully!');
+    } else {
+      Get.snackbar('Error', 'Failed to post job.');
+    }
   }
 
   @override
@@ -69,11 +59,14 @@ class CreatorJobPublishController extends GetxController {
     addressController.dispose();
     roleController.dispose();
     jobDescriptionController.dispose();
+    requirementController.dispose();
+    additionalRequirementController.dispose();
+    experienceController.dispose();
     jobTypeController.dispose();
-    priceController.dispose();
+    levelController.dispose();
+    salaryController.dispose();
     for (var question in questions) {
       question['question']?.dispose();
-      question['answer']?.dispose();
     }
     super.onClose();
   }

@@ -67,6 +67,9 @@ dependencies:
   mime:
   flutter_stripe: ^11.4.0
 
+  mime_type:
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

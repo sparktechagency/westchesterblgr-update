@@ -315,7 +315,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorJobPublishScreen,
-        page: () => const CreatorJobPublishScreen(),
+        page: () => CreatorJobPublishScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
