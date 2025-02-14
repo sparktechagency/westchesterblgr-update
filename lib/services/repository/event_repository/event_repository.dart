@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:itzel/constants/app_api_url.dart';
 import 'package:itzel/models/event_model.dart';
 import 'package:itzel/services/api/api_get_services.dart';
+import 'package:mime/mime.dart';
 
 import '../../../utils/app_all_log/error_log.dart';
 import '../../api/api_delete_services.dart';
@@ -99,6 +104,53 @@ class EventRepository {
     } catch (e) {
       errorLog("Error creating payment intent", e);
       return null;
+    }
+  }
+
+// Creator
+
+  Future<bool> createEvent(Map<String, dynamic> eventData,
+      {File? imageFile, File? videoFile}) async {
+    try {
+      FormData formData = FormData.fromMap({
+        ...eventData,
+      });
+
+      if (imageFile != null && await imageFile.exists()) {
+        String imageFileName = imageFile.path.split('/').last;
+        String? imageMimeType = lookupMimeType(imageFile.path);
+        formData.files.add(MapEntry(
+          'thumbnailImage',
+          await MultipartFile.fromFile(
+            imageFile.path,
+            filename: imageFileName,
+            contentType: MediaType.parse(imageMimeType ?? 'image/jpeg'),
+          ),
+        ));
+      }
+
+      if (videoFile != null && await videoFile.exists()) {
+        String videoFileName = videoFile.path.split('/').last;
+        String? videoMimeType = lookupMimeType(videoFile.path);
+        formData.files.add(MapEntry(
+          'introMedia',
+          await MultipartFile.fromFile(
+            videoFile.path,
+            filename: videoFileName,
+            contentType: MediaType.parse(videoMimeType ?? 'video/mp4'),
+          ),
+        ));
+      }
+
+      final response = await _apiPostServices.apiPostServices(
+        url: AppApiUrl.createEvent,
+        body: formData,
+      );
+
+      return response != null;
+    } catch (e) {
+      errorLog("Error creating event with files", e);
+      return false;
     }
   }
 }

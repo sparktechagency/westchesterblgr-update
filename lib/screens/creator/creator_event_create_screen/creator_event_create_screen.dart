@@ -2,15 +2,17 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:itzel/screens/creator/creator_event_create_screen/controllers/creator_event_create_controller.dart';
 import 'package:itzel/screens/creator/creator_event_create_screen/widgets/creator_event_textfield_widget.dart';
+import 'package:itzel/screens/creator/creator_map_screen/creator_map_screen.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
+import 'package:itzel/widgets/space_widget/space_widget.dart';
+import 'package:itzel/widgets/text_widget/text_widgets.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
-import '../../../widgets/space_widget/space_widget.dart';
-import '../../../widgets/text_widget/text_widgets.dart';
 
 class CreatorEventCreateScreen extends StatefulWidget {
   const CreatorEventCreateScreen({super.key});
@@ -21,88 +23,12 @@ class CreatorEventCreateScreen extends StatefulWidget {
 }
 
 class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
-  File? galleryFile;
-  final picker = ImagePicker();
-  XFile? image;
-  File? selectedVideoFile;
-  final TextEditingController filePathController = TextEditingController();
-  final TextEditingController eventNameController = TextEditingController();
-  final TextEditingController timeController = TextEditingController();
-  final TextEditingController locationController = TextEditingController();
-  final TextEditingController eventDescriptionController =
-      TextEditingController();
-  final TextEditingController eventTagController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-
-  Future<void> pickImage() async {
-    final XFile? selectedImage =
-        await picker.pickImage(source: ImageSource.gallery);
-    if (selectedImage != null) {
-      setState(() {
-        image = selectedImage;
-      });
-    }
-  }
-
-  Future<void> pickDateTime(BuildContext context) async {
-    final DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-
-    if (selectedDate != null) {
-      final TimeOfDay? selectedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      );
-
-      if (selectedTime != null) {
-        final DateTime fullDateTime = DateTime(
-          selectedDate.year,
-          selectedDate.month,
-          selectedDate.day,
-          selectedTime.hour,
-          selectedTime.minute,
-        );
-
-        setState(() {
-          timeController.text =
-              DateFormat('yyyy-MM-dd, HH:mm').format(fullDateTime);
-        });
-      }
-    }
-  }
-
-  Future<void> pickVideo(BuildContext context, ImageSource source) async {
-    final pickedFile = await picker.pickVideo(
-      source: source,
-      preferredCameraDevice: CameraDevice.front,
-      maxDuration: const Duration(minutes: 10),
-    );
-
-    if (pickedFile != null) {
-      setState(() {
-        selectedVideoFile = File(pickedFile.path);
-        filePathController.text = pickedFile.path;
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No file selected')),
-      );
-    }
-  }
+  final CreatorEventCreateController controller =
+      Get.put(CreatorEventCreateController());
 
   @override
   void dispose() {
-    filePathController.dispose();
-    eventNameController.dispose();
-    timeController.dispose();
-    locationController.dispose();
-    eventDescriptionController.dispose();
-    eventTagController.dispose();
-    priceController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -128,14 +54,14 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
               borderType: BorderType.RRect,
               radius: const Radius.circular(12),
               child: InkWell(
-                onTap: pickImage,
+                onTap: controller.pickImage,
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                   child: SizedBox(
                     height: size.height / (size.height / 143),
                     width: double.infinity,
-                    child: image == null
+                    child: Obx(() => controller.image == null
                         ? const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -154,11 +80,11 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
                             ],
                           )
                         : Image.file(
-                            File(image!.path),
+                            File(controller.image!.path),
                             height: size.height / (size.height / 143),
                             width: double.infinity,
                             fit: BoxFit.cover,
-                          ),
+                          )),
                   ),
                 ),
               ),
@@ -186,7 +112,7 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: TextField(
-                        controller: filePathController,
+                        controller: controller.filePathController,
                         style: TextStyle(
                           color: AppColors.black500,
                           fontSize: (MediaQuery.sizeOf(context).width /
@@ -202,7 +128,8 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () => pickVideo(context, ImageSource.gallery),
+                    onPressed: () =>
+                        controller.pickVideo(context, ImageSource.gallery),
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(AppColors.black50),
@@ -241,7 +168,7 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
             const SpaceWidget(spaceHeight: 4),
             CreatorEventTextFieldWidget(
               hintText: '',
-              controller: eventNameController,
+              controller: controller.eventNameController,
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 10),
@@ -258,10 +185,27 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
             CreatorEventTextFieldWidget(
               hintText: '',
               // Optional: A meaningful hint
-              controller: timeController,
+              controller: controller.timeController,
               maxLines: 1,
               suffixIcon: Icons.calendar_today,
-              onTapSuffix: () => pickDateTime(context),
+              onTapSuffix: () => controller.pickDateTime(context),
+            ),
+            const SpaceWidget(spaceHeight: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Address',
+                fontColor: AppColors.grey900,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            CreatorEventTextFieldWidget(
+              hintText: '',
+              // Optional: A meaningful hint
+              controller: controller.addressController,
+              maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 10),
             const Padding(
@@ -276,8 +220,23 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
             const SpaceWidget(spaceHeight: 4),
             CreatorEventTextFieldWidget(
               hintText: '',
-              controller: locationController,
+              controller: controller.locationController,
               maxLines: 1,
+              suffixIcon: Icons.location_on,
+              onTapSuffix: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreatorMapScreen(),
+                  ),
+                );
+
+                if (result != null && result is Map<String, dynamic>) {
+                  final coordinates = result['coordinates'];
+                  controller.locationController.text =
+                      '${coordinates[0]}, ${coordinates[1]}';
+                }
+              },
             ),
             const SpaceWidget(spaceHeight: 10),
             const Padding(
@@ -292,7 +251,7 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
             const SpaceWidget(spaceHeight: 4),
             CreatorEventTextFieldWidget(
               hintText: '',
-              controller: eventDescriptionController,
+              controller: controller.eventDescriptionController,
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 10),
@@ -308,7 +267,7 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
             const SpaceWidget(spaceHeight: 4),
             CreatorEventTextFieldWidget(
               hintText: '',
-              controller: eventTagController,
+              controller: controller.eventTagController,
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 10),
@@ -324,13 +283,13 @@ class _CreatorEventCreateScreenState extends State<CreatorEventCreateScreen> {
             const SpaceWidget(spaceHeight: 4),
             CreatorEventTextFieldWidget(
               hintText: '',
-              controller: priceController,
+              controller: controller.priceController,
               maxLines: 1,
               keyboardType: TextInputType.number,
             ),
             const SpaceWidget(spaceHeight: 32),
             ButtonWidget(
-              onPressed: () {},
+              onPressed: controller.createEvent,
               label: 'Publish Event',
               buttonWidth: double.infinity,
               buttonHeight: (MediaQuery.sizeOf(context).height /

@@ -5,13 +5,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class CreatorEventCreateController extends GetxController {
-  File? galleryFile;
-  final picker = ImagePicker();
-  XFile? image; // Declare this to hold the selected image
+import '../../../../services/repository/event_repository/event_repository.dart';
 
-  File? selectedVideoFile;
-  final TextEditingController filePathController = TextEditingController();
+class CreatorEventCreateController extends GetxController {
+  final EventRepository _eventRepository = EventRepository();
+  final picker = ImagePicker();
+  File? image; // Declare this to hold the selected image
+  File? videoFile; // Declare this to hold the selected video
+
   final TextEditingController eventNameController = TextEditingController();
   final TextEditingController timeController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
@@ -19,19 +20,18 @@ class CreatorEventCreateController extends GetxController {
       TextEditingController();
   final TextEditingController eventTagController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController filePathController = TextEditingController();
 
-  // Function to pick an image from the gallery
   Future<void> pickImage() async {
     final XFile? selectedImage =
         await picker.pickImage(source: ImageSource.gallery);
-
     if (selectedImage != null) {
-      image = selectedImage;
-      update(); // Update the UI after the image is selected
+      image = File(selectedImage.path);
+      update(); // Notify listeners to update the UI
     }
   }
 
-  // Function to pick the date and time
   Future<void> pickDateTime(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -57,12 +57,11 @@ class CreatorEventCreateController extends GetxController {
 
         timeController.text =
             DateFormat('yyyy-MM-dd, HH:mm').format(fullDateTime);
-        update(); // Update the UI after the date and time are selected
+        update(); // Notify listeners to update the UI
       }
     }
   }
 
-  // Function to pick a video
   Future<void> pickVideo(BuildContext context, ImageSource source) async {
     final pickedFile = await picker.pickVideo(
       source: source,
@@ -71,24 +70,47 @@ class CreatorEventCreateController extends GetxController {
     );
 
     if (pickedFile != null) {
-      selectedVideoFile = File(pickedFile.path);
+      videoFile = File(pickedFile.path);
       filePathController.text = pickedFile.path;
-      update(); // Update the UI after the video is selected
+      update(); // Notify listeners to update the UI
     } else {
-      Get.snackbar('Error', 'No file selected',
-          snackPosition: SnackPosition.BOTTOM);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No file selected')),
+      );
+    }
+  }
+
+  void createEvent() async {
+    Map<String, dynamic> eventData = {
+      'name': eventNameController.text,
+      'time': timeController.text,
+      'coordinate': '[${locationController.text}]',
+      'description': eventDescriptionController.text,
+      'tags': eventTagController.text.split(' '),
+      // Convert tags to a JSON array
+      'price': int.parse(priceController.text),
+      'address': addressController.text,
+    };
+
+    bool result = await _eventRepository.createEvent(eventData,
+        imageFile: image, videoFile: videoFile);
+    if (result) {
+      Get.snackbar('Success', 'Event created successfully!');
+    } else {
+      Get.snackbar('Error', 'Failed to create the event.');
     }
   }
 
   @override
   void onClose() {
-    filePathController.dispose();
     eventNameController.dispose();
     timeController.dispose();
     locationController.dispose();
     eventDescriptionController.dispose();
     eventTagController.dispose();
     priceController.dispose();
+    addressController.dispose();
+    filePathController.dispose();
     super.onClose();
   }
 }
