@@ -43,6 +43,7 @@ class CreatorJobPublishScreen extends StatelessWidget {
               onPressed: () {
                 if (questionController.text.isNotEmpty) {
                   controller.questions.add({'question': questionController});
+                  controller.update();
                   Navigator.of(context).pop();
                 }
               },
