@@ -7,11 +7,13 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_images_path.dart';
 import '../../../constants/app_strings.dart';
 import '../../../routes/app_routes.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/icon_button_widget/icon_button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_button_widget/text_button_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import '../creator_job_details_screen/creator_job_details_screen.dart';
+import 'controllers/creator_dashboard_controller.dart';
 
 class CreatorDashboardScreen extends StatefulWidget {
   const CreatorDashboardScreen({super.key});
@@ -21,6 +23,8 @@ class CreatorDashboardScreen extends StatefulWidget {
 }
 
 class _CreatorDashboardScreenState extends State<CreatorDashboardScreen> {
+  final CreatorDashboardController _controller =
+      Get.put(CreatorDashboardController());
   String eventStatus =
       'Electro Music Festival - Valleria night with DJ Hardwell';
   int totalEarnings = 632; // Example values
@@ -100,102 +104,107 @@ class _CreatorDashboardScreenState extends State<CreatorDashboardScreen> {
               ),
             ),
             const SpaceWidget(spaceHeight: 12),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-              margin: EdgeInsets.only(
-                left: size.width / (size.width / 20),
-                right: size.width / (size.width / 20),
-                bottom: size.width / (size.width / 12),
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.blueNormal,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: const [
-                  BoxShadow(
-                    color: AppColors.grey200,
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image.asset(
-                              'assets/images/homeImage.png',
-                              height: size.width / (size.width / 45),
-                              width: size.width / (size.width / 71),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SpaceWidget(spaceWidth: 8),
-                          SizedBox(
-                            width: size.width / (size.width / 180),
-                            child: const TextWidget(
-                              text:
-                                  'Electro Music Festival - Valleria night with DJ Hardwell',
-                              fontColor: AppColors.whiteBg,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlignment: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      IconButtonWidget(
-                        icon: AppIconsPath.moreIcon,
-                        onTap: () {},
-                        color: AppColors.whiteBg,
-                        size: 24,
-                      ),
-                    ],
-                  ),
-                  const SpaceWidget(spaceHeight: 16),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 14),
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(4),
+            Obx(() {
+              final eventStatus = _controller.eventStatus.value;
+              return Container(
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                margin: EdgeInsets.only(
+                  left: size.width / (size.width / 20),
+                  right: size.width / (size.width / 20),
+                  bottom: size.width / (size.width / 12),
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.blueNormal,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.grey200,
+                      spreadRadius: 1,
+                      blurRadius: 3,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: _buildStatItem(
-                              'Total Earning', '\$${totalEarnings / 100}'),
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: AppImage(
+                                url: eventStatus.thumbnailImage,
+                                height: size.width / (size.width / 45),
+                                width: size.width / (size.width / 71),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SpaceWidget(spaceWidth: 8),
+                            SizedBox(
+                              width: size.width / (size.width / 180),
+                              child: TextWidget(
+                                text: eventStatus.name,
+                                fontColor: AppColors.whiteBg,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlignment: TextAlign.left,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SpaceWidget(spaceWidth: 2),
-                        _buildDivider(context),
-                        const SpaceWidget(spaceWidth: 2),
-                        Expanded(
-                          flex: 1,
-                          child: _buildStatItem('Total Views', '$totalViews'),
-                        ),
-                        const SpaceWidget(spaceWidth: 2),
-                        _buildDivider(context),
-                        const SpaceWidget(spaceWidth: 2),
-                        Expanded(
-                          flex: 1,
-                          child: _buildStatItem('Tickets Sold', ticketType),
+                        IconButtonWidget(
+                          icon: AppIconsPath.moreIcon,
+                          onTap: () {},
+                          color: AppColors.whiteBg,
+                          size: 24,
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
+                    const SpaceWidget(spaceHeight: 16),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 14),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: _buildStatItem('Total Earning',
+                                '\$${eventStatus.totalEarning / 100}'),
+                          ),
+                          //const SpaceWidget(spaceWidth: 2),
+                          // _buildDivider(context),
+                          // const SpaceWidget(spaceWidth: 2),
+                          // Expanded(
+                          //   flex: 1,
+                          //   child: _buildStatItem(
+                          //       'Total Views', '${eventStatus.ticketSold}'),
+                          // ),
+                          // const SpaceWidget(spaceWidth: 2),
+                          _buildDivider(context),
+                          const SpaceWidget(spaceWidth: 2),
+                          Expanded(
+                            flex: 1,
+                            child: _buildStatItem('Tickets Sold',
+                                eventStatus.ticketSold.toString()),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: size.width / (size.width / 20),

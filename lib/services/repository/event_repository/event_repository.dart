@@ -7,6 +7,7 @@ import 'package:itzel/models/event_model.dart';
 import 'package:itzel/services/api/api_get_services.dart';
 import 'package:mime/mime.dart';
 
+import '../../../models/get_event_status_model.dart';
 import '../../../utils/app_all_log/error_log.dart';
 import '../../api/api_delete_services.dart';
 import '../../api/api_post_services.dart';
@@ -152,5 +153,18 @@ class EventRepository {
       errorLog("Error creating event with files", e);
       return false;
     }
+  }
+
+  Future<EventStatus?> getEventStatus() async {
+    try {
+      final response = await _apiGetServices
+          .apiGetServices('${AppApiUrl.baseUrl}${AppApiUrl.getEventStatus}');
+      if (response != null) {
+        return EventStatus.fromJson(response['data']);
+      }
+    } catch (e) {
+      errorLog("Error fetching event status", e);
+    }
+    return null;
   }
 }

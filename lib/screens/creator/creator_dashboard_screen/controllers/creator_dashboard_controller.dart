@@ -1,48 +1,44 @@
 import 'package:get/get.dart';
 
+import '../../../../models/get_event_status_model.dart';
+import '../../../../services/repository/event_repository/event_repository.dart';
+import '../../../../utils/app_all_log/error_log.dart';
+
 class CreatorDashboardController extends GetxController {
-  String eventStatus =
-      'Electro Music Festival - Valleria night with DJ Hardwell';
-  int totalEarnings = 632; // Example values
-  int totalViews = 20;
-  String ticketType = 'Virtual';
-
-  // List of job applicants
-  List<Map<String, String>> jobApplicants = [
-    {"name": "Itzel Rosengen", "image": "assets/images/chatProfileImage.png"},
-    {"name": "John Doe", "image": "assets/images/chatProfileImage.png"},
-    {"name": "Jane Smith", "image": "assets/images/chatProfileImage.png"},
-    {"name": "Itzel Rosengen", "image": "assets/images/chatProfileImage.png"},
-    {"name": "John Doe", "image": "assets/images/chatProfileImage.png"},
-    {"name": "Jane Smith", "image": "assets/images/chatProfileImage.png"},
-    {"name": "Itzel Rosengen", "image": "assets/images/chatProfileImage.png"},
-    {"name": "John Doe", "image": "assets/images/chatProfileImage.png"},
-    {"name": "Jane Smith", "image": "assets/images/chatProfileImage.png"},
-    {"name": "Itzel Rosengen", "image": "assets/images/chatProfileImage.png"},
-    {"name": "John Doe", "image": "assets/images/chatProfileImage.png"},
-    {"name": "Jane Smith", "image": "assets/images/chatProfileImage.png"},
-  ];
-
-  void updateEventStatus(String newStatus) {
-    eventStatus = newStatus;
-    update(); // This triggers GetBuilder to rebuild
-  }
-
-  void updateStats(int earnings, int views, String ticket) {
-    totalEarnings = earnings;
-    totalViews = views;
-    ticketType = ticket;
-    update();
-  }
-
-  void updateJobApplicants(List<Map<String, String>> newApplicants) {
-    jobApplicants = newApplicants;
-    update();
-  }
+  final EventRepository _eventRepository = EventRepository();
+  var eventStatus = EventStatus(
+    id: '',
+    thumbnailImage: '',
+    introMedia: '',
+    name: '',
+    time: DateTime.now(),
+    description: '',
+    tags: [],
+    price: 0,
+    creator: '',
+    address: '',
+    coordinate: [],
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+    v: 0,
+    totalEarning: 0,
+    ticketSold: 0,
+  ).obs;
 
   @override
-  void onClose() {
-    // Dispose resources if any
-    super.onClose();
+  void onInit() {
+    super.onInit();
+    fetchEventStatus();
+  }
+
+  Future<void> fetchEventStatus() async {
+    try {
+      final status = await _eventRepository.getEventStatus();
+      if (status != null) {
+        eventStatus.value = status;
+      }
+    } catch (e) {
+      errorLog("Error in fetchEventStatus", e);
+    }
   }
 }
