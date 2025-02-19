@@ -5,11 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:itzel/constants/app_api_url.dart';
-import 'package:itzel/models/get_job_model.dart';
+import 'package:itzel/models/get_job_model.dart' as jobModel;
 import 'package:itzel/services/api/api_get_services.dart';
 import 'package:itzel/utils/app_all_log/error_log.dart';
 import 'package:mime_type/mime_type.dart';
 
+import '../../../models/get_job_status_model.dart' as jobStatusModel;
 import '../../api/api_delete_services.dart';
 import '../../api/api_post_services.dart';
 
@@ -18,11 +19,11 @@ class JobRepository {
   final ApiPostServices _apiPostServices = ApiPostServices();
   final ApiDeleteServices _apiDeleteServices = ApiDeleteServices();
 
-  Future<Welcome?> fetchAllJobs() async {
+  Future<jobModel.Welcome?> fetchAllJobs() async {
     try {
       final response = await _apiGetServices.apiGetServices(AppApiUrl.allJob);
       if (response != null && response['success'] == true) {
-        return Welcome.fromJson(response);
+        return jobModel.Welcome.fromJson(response);
       } else {
         print('API call failed with status: ${response['status']}');
         print('Response body: ${response['message']}');
@@ -36,12 +37,12 @@ class JobRepository {
     }
   }
 
-  Future<Datum?> fetchJobDetails(String jobId) async {
+  Future<jobModel.Datum?> fetchJobDetails(String jobId) async {
     try {
       final response =
           await _apiGetServices.apiGetServices('${AppApiUrl.allJob}/$jobId');
       if (response != null && response['success'] == true) {
-        return Datum.fromJson(response['data']);
+        return jobModel.Datum.fromJson(response['data']);
       } else {
         print('API call failed with status: ${response['status']}');
         print('Response body: ${response['message']}');
@@ -104,12 +105,12 @@ class JobRepository {
     }
   }
 
-  Future<Welcome?> searchJobs(String query) async {
+  Future<jobModel.Welcome?> searchJobs(String query) async {
     try {
       final response = await _apiGetServices
           .apiGetServices('${AppApiUrl.allJob}?search=$query');
       if (response != null && response['success'] == true) {
-        return Welcome.fromJson(response);
+        return jobModel.Welcome.fromJson(response);
       } else {
         print('API call failed with status: ${response['status']}');
         print('Response body: ${response['message']}');
@@ -170,5 +171,18 @@ class JobRepository {
 
     // Evaluate the response
     return response != null && response['success'];
+  }
+
+  Future<jobStatusModel.JobStatus?> getJobStatus() async {
+    try {
+      final response = await _apiGetServices
+          .apiGetServices('${AppApiUrl.baseUrl}${AppApiUrl.getJobStatus}');
+      if (response != null) {
+        return jobStatusModel.JobStatus.fromJson(response['data']);
+      }
+    } catch (e) {
+      errorLog("Error fetching job status", e);
+    }
+    return null;
   }
 }

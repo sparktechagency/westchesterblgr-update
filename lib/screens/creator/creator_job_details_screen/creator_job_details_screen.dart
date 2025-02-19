@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../models/get_job_status_model.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 
 class CreatorJobDetailsScreen extends StatelessWidget {
-  const CreatorJobDetailsScreen({super.key});
+  final AllApplicant? applicant;
+
+  const CreatorJobDetailsScreen({super.key, this.applicant});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +25,9 @@ class CreatorJobDetailsScreen extends StatelessWidget {
           children: [
             Center(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Image.asset(
-                  'assets/images/chatProfileImage.png',
+                borderRadius: BorderRadius.circular(100),
+                child: AppImage(
+                  url: applicant?.user.profile,
                   height: size.width / (size.width / 100),
                   width: size.width / (size.width / 100),
                   fit: BoxFit.cover,
@@ -31,27 +35,34 @@ class CreatorJobDetailsScreen extends StatelessWidget {
               ),
             ),
             const SpaceWidget(spaceHeight: 24),
-            const InfoTile(label: "Name:", value: "John Doe"),
+            InfoTile(label: "Name:", value: applicant?.user.name ?? ""),
             const SpaceWidget(spaceHeight: 4),
-            const InfoTile(
-                label: "Address:", value: "123 Main Street, Cityville"),
+            InfoTile(label: "Address:", value: applicant?.user.location ?? ""),
             const SpaceWidget(spaceHeight: 4),
-            const InfoTile(label: "Email:", value: "johndoe@example.com"),
+            InfoTile(label: "Email:", value: applicant?.user.email ?? ""),
             const SpaceWidget(spaceHeight: 4),
-            const InfoTile(label: "Phone Number:", value: "+1 234 567 890"),
+            InfoTile(
+                label: "Phone Number:", value: applicant?.user.contact ?? ""),
             const SpaceWidget(spaceHeight: 4),
-            const InfoTile(
-                label: "Experience:", value: "5 years in software development"),
-            const SpaceWidget(spaceHeight: 4),
-            const InfoTile(label: "Citizenship:", value: "United States"),
-            const SpaceWidget(spaceHeight: 4),
-            const InfoTile(label: "High School:", value: "City High School"),
-            const SpaceWidget(spaceHeight: 4),
-            const InfoTile(label: "Graduated High School Year:", value: "2010"),
-            const SpaceWidget(spaceHeight: 4),
-            const InfoTile(label: "College:", value: "State University"),
-            const SpaceWidget(spaceHeight: 4),
-            const InfoTile(label: "Graduated Year:", value: "2014"),
+            const TextWidget(
+              text: "Q&A",
+              fontColor: AppColors.black500,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            ...?applicant?.qna.asMap().entries.map((entry) {
+              int index = entry.key + 1;
+              Qna qna = entry.value;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InfoTile(label: "Question $index:", value: qna.question),
+                  InfoTile(label: "Answer:", value: qna.answer),
+                  const SpaceWidget(spaceHeight: 8),
+                ],
+              );
+            }).toList(),
             const SpaceWidget(spaceHeight: 16),
           ],
         ),
@@ -94,10 +105,4 @@ class InfoTile extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: CreatorJobDetailsScreen(),
-  ));
 }

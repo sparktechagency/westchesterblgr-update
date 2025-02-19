@@ -53,4 +53,5 @@ class AppApiUrl {
   static const String getEventStatus = "/event/status";
   static const String getAllEventStatus = "/event/status/all";
   static const String createJob = "/job/create";
+  static const String getJobStatus = "/job/status";
 }
