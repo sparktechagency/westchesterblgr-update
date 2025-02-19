@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:itzel/screens/creator/creator_all_event_status_screen/controllers/create_all_event_status_controller.dart';
 import 'package:itzel/screens/creator/creator_all_event_status_screen/widgets/divider_widget.dart';
 import 'package:itzel/screens/creator/creator_all_event_status_screen/widgets/event_card_widget.dart';
 import 'package:itzel/screens/creator/creator_all_event_status_screen/widgets/state_item_widget.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/icon_button_widget/icon_button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 
 class CreatorAllEventStatusScreen extends StatelessWidget {
-  final List<Map<String, String>> eventStatusList = List.generate(
-    10,
-    (index) => {
-      "title": "Electro Music Festival - Valleria night with DJ Hardwell",
-      "totalEarnings": "\$6.32",
-      "totalViews": "20",
-      "ticketsSold": "85",
-    },
-  );
+  final CreatorAllEventStatusController _controller =
+      Get.put(CreatorAllEventStatusController());
 
   CreatorAllEventStatusScreen({super.key});
 
@@ -27,14 +23,15 @@ class CreatorAllEventStatusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-        backgroundColor: AppColors.whiteBg,
-        appBar: const AppbarWidget(text: 'All Event Status'),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SpaceWidget(spaceHeight: 10),
-              ...eventStatusList.map(
-                (event) {
+      backgroundColor: AppColors.whiteBg,
+      appBar: const AppbarWidget(text: 'All Event Status'),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SpaceWidget(spaceHeight: 10),
+            Obx(() {
+              return Column(
+                children: _controller.allEventStatus.map((event) {
                   return EventCardWidget(
                     child: Column(
                       children: [
@@ -45,8 +42,8 @@ class CreatorAllEventStatusScreen extends StatelessWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
-                                  child: Image.asset(
-                                    'assets/images/homeImage.png',
+                                  child: AppImage(
+                                    url: event.thumbnailImage,
                                     height: size.width / (size.width / 45),
                                     width: size.width / (size.width / 71),
                                     fit: BoxFit.cover,
@@ -56,7 +53,7 @@ class CreatorAllEventStatusScreen extends StatelessWidget {
                                 SizedBox(
                                   width: size.width / (size.width / 180),
                                   child: TextWidget(
-                                    text: event["title"] ?? "",
+                                    text: event.name,
                                     fontColor: AppColors.whiteBg,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -88,45 +85,50 @@ class CreatorAllEventStatusScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Expanded(
-                                  flex: 1,
-                                  child: StatItemWidget(
-                                    title: 'Total Earning',
-                                    value: event["totalEarnings"] ?? "",
-                                  )),
+                                flex: 1,
+                                child: StatItemWidget(
+                                  title: 'Total Earning',
+                                  value: '\$${event.totalEarning / 100}',
+                                ),
+                              ),
                               const SpaceWidget(spaceWidth: 2),
+                              // DividerWidget(
+                              //   height: size.height / (size.height / 25),
+                              //   width: size.width / (size.width / 1.5),
+                              // ),
+                              // const SpaceWidget(spaceWidth: 2),
+                              // Expanded(
+                              //   flex: 1,
+                              //   child: StatItemWidget(
+                              //     title: 'Total Views',
+                              //     value: '${event.ticketSold}',
+                              //   ),
+                              // ),
+                              // const SpaceWidget(spaceWidth: 2),
                               DividerWidget(
                                 height: size.height / (size.height / 25),
                                 width: size.width / (size.width / 1.5),
                               ),
                               const SpaceWidget(spaceWidth: 2),
                               Expanded(
-                                  flex: 1,
-                                  child: StatItemWidget(
-                                    title: 'Total Views',
-                                    value: event["totalViews"] ?? "",
-                                  )),
-                              const SpaceWidget(spaceWidth: 2),
-                              DividerWidget(
-                                height: size.height / (size.height / 25),
-                                width: size.width / (size.width / 1.5),
+                                flex: 1,
+                                child: StatItemWidget(
+                                  title: 'Tickets Sold',
+                                  value: event.ticketSold.toString(),
+                                ),
                               ),
-                              const SpaceWidget(spaceWidth: 2),
-                              Expanded(
-                                  flex: 1,
-                                  child: StatItemWidget(
-                                    title: 'Tickets Sold',
-                                    value: event["ticketsSold"] ?? "",
-                                  )),
                             ],
                           ),
                         ),
                       ],
                     ),
                   );
-                },
-              ).toList(),
-            ],
-          ),
-        ));
+                }).toList(),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
   }
 }

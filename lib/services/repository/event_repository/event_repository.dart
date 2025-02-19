@@ -167,4 +167,18 @@ class EventRepository {
     }
     return null;
   }
+
+  Future<List<EventStatus>?> getAllEventStatus() async {
+    try {
+      final response = await _apiGetServices
+          .apiGetServices('${AppApiUrl.baseUrl}${AppApiUrl.getAllEventStatus}');
+      if (response != null && response['data'] != null) {
+        return List<EventStatus>.from(
+            response['data'].map((event) => EventStatus.fromJson(event)));
+      }
+    } catch (e) {
+      errorLog("Error fetching all event status", e);
+    }
+    return null;
+  }
 }

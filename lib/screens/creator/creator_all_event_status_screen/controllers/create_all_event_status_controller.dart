@@ -1,25 +1,27 @@
 import 'package:get/get.dart';
 
-class CreatorAllEventStatusController extends GetxController {
-  List<Map<String, String>> eventStatusList = List.generate(
-    10,
-    (index) => {
-      "title": "Electro Music Festival - Valleria night with DJ Hardwell",
-      "totalEarnings": "\$6.32",
-      "totalViews": "20",
-      "ticketsSold": "85",
-    },
-  );
+import '../../../../models/get_event_status_model.dart';
+import '../../../../services/repository/event_repository/event_repository.dart';
+import '../../../../utils/app_all_log/error_log.dart';
 
-  // Function to update data, if needed
-  void updateEventStatusList(List<Map<String, String>> newList) {
-    eventStatusList = newList;
-    update(); // Notify listeners
+class CreatorAllEventStatusController extends GetxController {
+  final EventRepository _eventRepository = EventRepository();
+  var allEventStatus = <EventStatus>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchAllEventStatus();
   }
 
-   @override
-  void onClose() {
-    // Dispose resources if any
-    super.onClose();
+  Future<void> fetchAllEventStatus() async {
+    try {
+      final statusList = await _eventRepository.getAllEventStatus();
+      if (statusList != null) {
+        allEventStatus.value = statusList;
+      }
+    } catch (e) {
+      errorLog("Error in fetchAllEventStatus", e);
+    }
   }
 }
