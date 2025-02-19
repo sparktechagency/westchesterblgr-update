@@ -1,34 +1,27 @@
 import 'package:get/get.dart';
 
-class CreatorAllJobApplicationController extends GetxController {
-  // Initialize jobApplications as an RxList of Map
-  var jobApplications = <Map<String, dynamic>>[].obs;
+import '../../../../models/get_job_status_model.dart';
+import '../../../../services/repository/user_job_repository/user_job_repository.dart';
+import '../../../../utils/app_all_log/error_log.dart';
 
-  @override
-  void onInit() {
-    super.onInit();
-    // Initial data setup
-    jobApplications.addAll(List.generate(
-      5,
-      (index) => {
-        "title": "Assistant Biology Teacher",
-        "company": "Saint Marry School",
-        "posted": "3 days ago",
-        "totalApplicants": 98,
-        "applicants": List.generate(
-          10,
-          (i) => {
-            "name": "Bryan Lewis",
-            "profileImage": "assets/images/chatProfileImage.png",
-          },
-        ),
-      },
-    ));
+class CreatorAllJobApplicationController extends GetxController {
+  final JobRepository _jobRepository = JobRepository();
+  var allJobStatuses = <JobStatus>[].obs;
+
+  Future<void> fetchAllJobStatuses() async {
+    try {
+      final statuses = await _jobRepository.fetchAllJobStatuses();
+      if (statuses != null) {
+        allJobStatuses.value = statuses;
+      }
+    } catch (e) {
+      errorLog("Error in fetchAllJobStatuses", e);
+    }
   }
 
   @override
-  void onClose() {
-    // Dispose resources if any
-    super.onClose();
+  void onInit() {
+    fetchAllJobStatuses();
+    super.onInit();
   }
 }

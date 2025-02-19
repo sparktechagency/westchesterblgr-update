@@ -11,6 +11,7 @@ import 'package:itzel/utils/app_all_log/error_log.dart';
 import 'package:mime_type/mime_type.dart';
 
 import '../../../models/get_job_status_model.dart' as jobStatusModel;
+import '../../../models/get_job_status_model.dart';
 import '../../api/api_delete_services.dart';
 import '../../api/api_post_services.dart';
 
@@ -184,5 +185,25 @@ class JobRepository {
       errorLog("Error fetching job status", e);
     }
     return null;
+  }
+
+  Future<List<jobStatusModel.JobStatus>?> fetchAllJobStatuses() async {
+    try {
+      final response =
+          await _apiGetServices.apiGetServices(AppApiUrl.getAllJobStatus);
+      if (response != null && response['success'] == true) {
+        return List<jobStatusModel.JobStatus>.from(
+            response['data'].map((x) => JobStatus.fromJson(x)));
+      } else {
+        print('API call failed with status: ${response['status']}');
+        print('Response body: ${response['message']}');
+        return null;
+      }
+    } catch (e, stackTrace) {
+      print('Error fetching all job statuses: $e');
+      print('Stack trace: $stackTrace');
+      errorLog('Error fetching all job statuses', e);
+      return null;
+    }
   }
 }
