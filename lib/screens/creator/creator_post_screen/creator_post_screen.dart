@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:itzel/routes/app_routes.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
 import '../../../utils/app_size.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/button_widget/button_widget.dart';
 import '../../../widgets/icon_button_widget/icon_button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
+import 'controllers/creator_post_controller.dart';
 
 class CreatorPostScreen extends StatefulWidget {
   const CreatorPostScreen({super.key});
@@ -21,8 +24,7 @@ class CreatorPostScreen extends StatefulWidget {
 class _CreatorPostScreenState extends State<CreatorPostScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
-  int eventPostCount = 2;
-  int jobPostCount = 5;
+  final CreatorPostController controller = Get.put(CreatorPostController());
 
   @override
   void initState() {
@@ -45,45 +47,56 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
       ),
       child: Scaffold(
         backgroundColor: AppColors.whiteBg,
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TabBar(
-                unselectedLabelColor: AppColors.grey700,
-                labelColor: AppColors.blueNormal,
-                dividerColor: AppColors.blueLighter,
-                indicator: UnderlineTabIndicator(
-                  borderRadius: BorderRadius.circular(100),
-                  borderSide: BorderSide(
-                    color: AppColors.blueNormal,
-                    width: AppSize.width(value: 5),
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (controller.creatorStatus.value.allJobs.isEmpty &&
+              controller.creatorStatus.value.allEvents.isEmpty) {
+            return const Center(child: Text('No data available.'));
+          } else {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TabBar(
+                    unselectedLabelColor: AppColors.grey700,
+                    labelColor: AppColors.blueNormal,
+                    dividerColor: AppColors.blueLighter,
+                    indicator: UnderlineTabIndicator(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: BorderSide(
+                        color: AppColors.blueNormal,
+                        width: AppSize.width(value: 5),
+                      ),
+                    ),
+                    tabs: [
+                      Tab(
+                        text:
+                            "Event Post (${controller.creatorStatus.value.allEvents.length})",
+                      ),
+                      Tab(
+                        text:
+                            "Job Post (${controller.creatorStatus.value.allJobs.length})",
+                      ),
+                    ],
+                    controller: tabController,
+                    indicatorSize: TabBarIndicatorSize.tab,
                   ),
                 ),
-                tabs: [
-                  Tab(
-                    text: "Event Post ($eventPostCount)",
+                const SpaceWidget(spaceHeight: 16),
+                Expanded(
+                  child: TabBarView(
+                    controller: tabController,
+                    children: [
+                      _buildEventPostTab(size),
+                      _buildJobPostTab(size),
+                    ],
                   ),
-                  Tab(
-                    text: "Job Post ($jobPostCount)",
-                  ),
-                ],
-                controller: tabController,
-                indicatorSize: TabBarIndicatorSize.tab,
-              ),
-            ),
-            const SpaceWidget(spaceHeight: 16),
-            Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: [
-                  _buildEventPostTab(size),
-                  _buildJobPostTab(size),
-                ],
-              ),
-            ),
-          ],
-        ),
+                ),
+              ],
+            );
+          }
+        }),
       ),
     );
   }
@@ -92,9 +105,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
     return SingleChildScrollView(
       child: Column(
         children: [
-          ...List.generate(
-            5,
-            (index) {
+          ...controller.creatorStatus.value.allEvents.map(
+            (event) {
               return Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -123,8 +135,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(6),
-                              child: Image.asset(
-                                'assets/images/homeImage.png',
+                              child: AppImage(
+                                url: event.thumbnailImage,
                                 height: size.width / (size.width / 45),
                                 width: size.width / (size.width / 45),
                                 fit: BoxFit.cover,
@@ -133,9 +145,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                             const SpaceWidget(spaceWidth: 8),
                             SizedBox(
                               width: size.width / (size.width / 215),
-                              child: const TextWidget(
-                                text:
-                                    'Electro Music Festival - Valleria night with DJ Hardwell',
+                              child: TextWidget(
+                                text: event.name,
                                 fontColor: AppColors.black900,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -158,7 +169,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                 ),
               );
             },
-          ),
+          ).toList(),
           const SpaceWidget(spaceHeight: 50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -180,9 +191,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
     return SingleChildScrollView(
       child: Column(
         children: [
-          ...List.generate(
-            5,
-            (index) {
+          ...controller.creatorStatus.value.allJobs.map(
+            (job) {
               return Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -211,8 +221,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(6),
-                              child: Image.asset(
-                                'assets/images/jobProfileImage.png',
+                              child: AppImage(
+                                url: job.image,
                                 height: size.width / (size.width / 45),
                                 width: size.width / (size.width / 45),
                                 fit: BoxFit.cover,
@@ -224,8 +234,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                               children: [
                                 SizedBox(
                                   width: size.width / (size.width / 215),
-                                  child: const TextWidget(
-                                    text: 'Assistant Biology Teacher',
+                                  child: TextWidget(
+                                    text: job.role,
                                     fontColor: AppColors.black900,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -234,20 +244,21 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                                   ),
                                 ),
                                 const SpaceWidget(spaceHeight: 4),
-                                const Row(
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     TextWidget(
-                                      text: 'Saint Marry School',
+                                      text: job.companyName,
                                       fontColor: AppColors.black,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       overflow: TextOverflow.ellipsis,
                                       textAlignment: TextAlign.left,
                                     ),
-                                    SpaceWidget(spaceWidth: 4),
+                                    const SpaceWidget(spaceWidth: 4),
                                     TextWidget(
-                                      text: '3 days ago',
+                                      text: DateFormat('dd.MM.yyyy, hh:mm a')
+                                          .format(job.createdAt),
                                       fontColor: AppColors.grey700,
                                       fontSize: 8,
                                       fontWeight: FontWeight.w500,
@@ -272,7 +283,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                 ),
               );
             },
-          ),
+          ).toList(),
           const SpaceWidget(spaceHeight: 50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
