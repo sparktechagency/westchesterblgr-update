@@ -1,32 +1,36 @@
 import 'package:get/get.dart';
 
+import '../../../../models/subscription_model.dart';
+import '../../../../services/repository/subscription_repository/subscription_repository.dart';
+
 class CreatorSubscriptionsController extends GetxController {
-  final List<String> subscriptionPack = ["Basic", "Standard", "Premium"];
-  final List<String> features = [
-    'Unlimited advertisement',
-    'Priority support',
-    'Analytics dashboard',
-    'Custom branding',
-    'API access',
-    'Advanced reporting'
-  ];
+  final SubscriptionRepository _subscriptionRepository =
+      SubscriptionRepository();
+  var subscriptions = <Subscription>[].obs;
+  var isLoading = true.obs;
+  var selectedPackIndex = 0.obs;
 
-  int selectedPackIndex = 0;
-
-  void selectPack(int index) {
-    selectedPackIndex = index;
-    update();
+  Future<void> fetchSubscriptions() async {
+    try {
+      isLoading(true);
+      final subs = await _subscriptionRepository.fetchSubscriptions();
+      if (subs != null) {
+        subscriptions.value = subs;
+      }
+    } catch (e) {
+      print("Error in fetchSubscriptions: $e");
+    } finally {
+      isLoading(false);
+    }
   }
 
-  void subscribe() {
-    // Implement subscription logic here
-    print('Subscribing to ${subscriptionPack[selectedPackIndex]} pack');
+  void selectPack(int index) {
+    selectedPackIndex.value = index;
   }
 
   @override
-  void onClose() {
-    // Clean up any resources if needed
-    print('CreatorSubscriptionsController is being disposed');
-    super.onClose();
+  void onInit() {
+    fetchSubscriptions();
+    super.onInit();
   }
 }

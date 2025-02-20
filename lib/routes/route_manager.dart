@@ -330,7 +330,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorSubscriptionsScreen,
-        page: () => const CreatorSubscriptionsScreen(),
+        page: () => CreatorSubscriptionsScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
