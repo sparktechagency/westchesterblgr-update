@@ -7,29 +7,24 @@ String welcomeToJson(Welcome data) => json.encode(data.toJson());
 class Welcome {
   bool success;
   String message;
-  Pagination pagination;
-  List<Subscription> data;
+  Subscription data;
 
   Welcome({
     required this.success,
     required this.message,
-    required this.pagination,
     required this.data,
   });
 
   factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
         success: json["success"],
         message: json["message"],
-        pagination: Pagination.fromJson(json["pagination"]),
-        data: List<Subscription>.from(
-            json["data"].map((x) => Subscription.fromJson(x))),
+        data: Subscription.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "message": message,
-        "pagination": pagination.toJson(),
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data.toJson(),
       };
 }
 
@@ -41,6 +36,8 @@ class Subscription {
   List<String> features;
   int price;
   String priceId;
+  String url;
+  String stripeProductId;
   DateTime createdAt;
   DateTime updatedAt;
   int v;
@@ -53,6 +50,8 @@ class Subscription {
     required this.features,
     required this.price,
     required this.priceId,
+    required this.url,
+    required this.stripeProductId,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -66,6 +65,8 @@ class Subscription {
         features: List<String>.from(json["features"].map((x) => x)),
         price: json["price"],
         priceId: json["priceId"],
+        url: json["url"],
+        stripeProductId: json["stripeProductId"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
@@ -79,36 +80,10 @@ class Subscription {
         "features": List<dynamic>.from(features.map((x) => x)),
         "price": price,
         "priceId": priceId,
+        "url": url,
+        "stripeProductId": stripeProductId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
-      };
-}
-
-class Pagination {
-  int limit;
-  int page;
-  int total;
-  int totalPage;
-
-  Pagination({
-    required this.limit,
-    required this.page,
-    required this.total,
-    required this.totalPage,
-  });
-
-  factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
-        limit: json["limit"],
-        page: json["page"],
-        total: json["total"],
-        totalPage: json["totalPage"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "limit": limit,
-        "page": page,
-        "total": total,
-        "totalPage": totalPage,
       };
 }

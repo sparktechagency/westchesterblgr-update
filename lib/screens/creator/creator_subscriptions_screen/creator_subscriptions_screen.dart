@@ -106,7 +106,7 @@ class CreatorSubscriptionsScreen extends StatelessWidget {
                 ),
                 const SpaceWidget(spaceHeight: 24),
                 ButtonWidget(
-                  onPressed: () {},
+                  onPressed: controller.launchSubscriptionUrl,
                   label: 'Subscribe',
                   buttonWidth: double.infinity,
                 ),

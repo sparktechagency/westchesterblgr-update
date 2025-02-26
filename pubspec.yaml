@@ -57,6 +57,8 @@ dependencies:
   flutter_polyline_points:
   geocoding:
   geolocator:
+  url_launcher: ^6.3.1
+  webview_flutter: ^4.10.0
 
   http:
   dio:
