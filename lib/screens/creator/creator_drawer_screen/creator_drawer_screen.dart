@@ -88,13 +88,13 @@ class CreatorDrawerScreen extends StatelessWidget {
               text: AppStrings.businessInformation,
               icon: AppIconsPath.businessInformationIcon,
             ),
-            CreatorDrawerSectionWidget(
-              onTap: () {
-                Get.toNamed(AppRoutes.creatorPaymentMethodScreen);
-              },
-              text: AppStrings.payment,
-              icon: AppIconsPath.paymentIcon,
-            ),
+            // CreatorDrawerSectionWidget(
+            //   onTap: () {
+            //     Get.toNamed(AppRoutes.creatorPaymentMethodScreen);
+            //   },
+            //   text: AppStrings.payment,
+            //   icon: AppIconsPath.paymentIcon,
+            // ),
             CreatorDrawerSectionWidget(
               onTap: () {
                 Get.toNamed(AppRoutes.creatorSubscriptionsScreen);

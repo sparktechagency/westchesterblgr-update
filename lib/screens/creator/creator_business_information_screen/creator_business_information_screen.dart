@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:itzel/screens/creator/creator_business_information_screen/widgets/business_information_textfield_widget.dart';
+import 'package:itzel/screens/creator/creator_business_information_screen/widgets/headerTextWidget.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
@@ -18,10 +19,20 @@ class CreatorBusinessInformationScreen extends StatefulWidget {
 
 class _CreatorBusinessInformationScreenState
     extends State<CreatorBusinessInformationScreen> {
-  final businessNameController = TextEditingController();
-  final businessPhoneNumberController = TextEditingController();
-  final yearsInBusinessController = TextEditingController();
-  final businessWebsiteOrSocialMediaController = TextEditingController();
+  final birthdateController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final emailController = TextEditingController();
+  final idNumberController = TextEditingController();
+  final accountHolderNameController = TextEditingController();
+  final accountHolderTypeController = TextEditingController();
+  final currencyController = TextEditingController();
+  final routingNumberController = TextEditingController();
+  final lineOneController = TextEditingController();
+  final stateController = TextEditingController();
+  final cityController = TextEditingController();
+  final postalCodeController = TextEditingController();
+  final countryController = TextEditingController();
 
   String? fileName;
 
@@ -50,10 +61,12 @@ class _CreatorBusinessInformationScreenState
 
   @override
   void dispose() {
-    businessNameController.dispose();
-    businessPhoneNumberController.dispose();
-    yearsInBusinessController.dispose();
-    businessWebsiteOrSocialMediaController.dispose();
+    birthdateController.dispose();
+    nameController.dispose();
+    phoneNumberController.dispose();
+    emailController.dispose();
+    idNumberController.dispose();
+    accountHolderNameController.dispose();
     super.dispose();
   }
 
@@ -68,10 +81,12 @@ class _CreatorBusinessInformationScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const HeaderTextWidget(text: 'Personal Information'),
+            const SpaceWidget(spaceHeight: 12),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Business Name',
+                text: 'Date of Birth',
                 fontColor: AppColors.grey900,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
@@ -80,14 +95,14 @@ class _CreatorBusinessInformationScreenState
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
-              controller: businessNameController,
+              controller: birthdateController,
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Business Phone Number',
+                text: 'Name',
                 fontColor: AppColors.grey900,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
@@ -96,7 +111,23 @@ class _CreatorBusinessInformationScreenState
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
-              controller: businessPhoneNumberController,
+              controller: nameController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Phone Number',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: phoneNumberController,
               maxLines: 1,
               keyboardType: TextInputType.number,
             ),
@@ -104,7 +135,7 @@ class _CreatorBusinessInformationScreenState
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Years in Business',
+                text: 'Email',
                 fontColor: AppColors.grey900,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
@@ -113,7 +144,7 @@ class _CreatorBusinessInformationScreenState
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
-              controller: yearsInBusinessController,
+              controller: emailController,
               maxLines: 1,
               keyboardType: TextInputType.number,
             ),
@@ -121,7 +152,7 @@ class _CreatorBusinessInformationScreenState
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Business Website or Social Media',
+                text: 'ID Number',
                 fontColor: AppColors.grey900,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
@@ -130,20 +161,175 @@ class _CreatorBusinessInformationScreenState
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
-              controller: businessWebsiteOrSocialMediaController,
+              controller: idNumberController,
               maxLines: 1,
+              keyboardType: TextInputType.number,
             ),
-            const SpaceWidget(spaceHeight: 8),
+            const SpaceWidget(spaceHeight: 12),
+            const HeaderTextWidget(text: 'Bank Information'),
+            const SpaceWidget(spaceHeight: 12),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: TextWidget(
-                text: 'Upload Business License(If Available)',
+                text: 'Account Holder Name',
                 fontColor: AppColors.grey900,
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
             ),
             const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: accountHolderNameController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Account Holder Type',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: accountHolderTypeController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Currency',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: currencyController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Routing Number',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: routingNumberController,
+              maxLines: 1,
+              keyboardType: TextInputType.number,
+            ),
+            const SpaceWidget(spaceHeight: 12),
+            const TextWidget(
+              text: 'Address',
+              fontColor: AppColors.black500,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            const SpaceWidget(spaceHeight: 12),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Line 1',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: lineOneController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'State',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: stateController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'City',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: cityController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Postal Code',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: postalCodeController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextWidget(
+                text: 'Country',
+                fontColor: AppColors.grey900,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 4),
+            BusinessInformationTextFieldWidget(
+              hintText: '',
+              controller: countryController,
+              maxLines: 1,
+            ),
+            const SpaceWidget(spaceHeight: 12),
+            const TextWidget(
+              text: 'Upload File',
+              fontColor: AppColors.black500,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+            const SpaceWidget(spaceHeight: 12),
+
+            // upload
+
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
@@ -156,11 +342,11 @@ class _CreatorBusinessInformationScreenState
                   SizedBox(
                     width: (size.width / (size.width / 165)),
                     child: TextWidget(
-                      text:
-                          fileName ?? 'Upload Business License (If Available)',
+                      text: fileName ?? 'No File Chosen',
                       fontColor: AppColors.black500,
                       fontSize: 14,
                       overflow: TextOverflow.ellipsis,
+                      textAlignment: TextAlign.start,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -183,7 +369,7 @@ class _CreatorBusinessInformationScreenState
             ),
             const SpaceWidget(spaceHeight: 4),
             const TextWidget(
-              text: 'Please Upload JPG format only',
+              text: 'Please Upload PDF, JPG format only',
               fontColor: AppColors.whiteLighter,
               fontSize: 10,
               fontWeight: FontWeight.w400,
