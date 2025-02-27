@@ -46,25 +46,6 @@ class CreatorDrawerScreen extends StatelessWidget {
           height: size.height / (size.height / 45),
           width: size.width / (size.width / 120),
         ),
-        actions: [
-          IconButton(
-            tooltip: "Notifications",
-            onPressed: () {
-              Get.toNamed(AppRoutes.creatorNotificationScreen);
-            },
-            icon: const Badge(
-              isLabelVisible: true,
-              label: Text("3"),
-              //offset: const Offset(8, 8),
-              backgroundColor: AppColors.red,
-              child: IconWidget(
-                icon: 'assets/icons/notificationIcon.svg',
-                width: 24,
-                height: 24,
-              ),
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(

@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:itzel/screens/creator/creator_business_information_screen/widgets/business_information_textfield_widget.dart';
 import 'package:itzel/screens/creator/creator_business_information_screen/widgets/headerTextWidget.dart';
+import 'package:itzel/screens/creator/creator_business_information_screen/widgets/title_text_widget.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
@@ -83,15 +84,7 @@ class _CreatorBusinessInformationScreenState
           children: [
             const HeaderTextWidget(text: 'Personal Information'),
             const SpaceWidget(spaceHeight: 12),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Date of Birth',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Date of Birth'),
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -99,15 +92,7 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Name',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Name'),
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -115,15 +100,7 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Phone Number',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Phone Number'),
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -132,15 +109,7 @@ class _CreatorBusinessInformationScreenState
               keyboardType: TextInputType.number,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Email',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Email'),
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -149,15 +118,7 @@ class _CreatorBusinessInformationScreenState
               keyboardType: TextInputType.number,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'ID Number',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'ID Number'),
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -168,15 +129,8 @@ class _CreatorBusinessInformationScreenState
             const SpaceWidget(spaceHeight: 12),
             const HeaderTextWidget(text: 'Bank Information'),
             const SpaceWidget(spaceHeight: 12),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Account Holder Name',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Account Holder Name'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -184,15 +138,8 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Account Holder Type',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Account Holder Type'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -200,15 +147,8 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Currency',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Currency'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -216,15 +156,8 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Routing Number',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Routing Number'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -233,22 +166,10 @@ class _CreatorBusinessInformationScreenState
               keyboardType: TextInputType.number,
             ),
             const SpaceWidget(spaceHeight: 12),
-            const TextWidget(
-              text: 'Address',
-              fontColor: AppColors.black500,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            const HeaderTextWidget(text: 'Address'),
             const SpaceWidget(spaceHeight: 12),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Line 1',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Line 1'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -256,15 +177,8 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'State',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'State'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -272,15 +186,8 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'City',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'City'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -288,15 +195,8 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Postal Code',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Postal Code'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -304,15 +204,8 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 8),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: TextWidget(
-                text: 'Country',
-                fontColor: AppColors.grey900,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            const TitleTextWidget(text: 'Country'),
+
             const SpaceWidget(spaceHeight: 4),
             BusinessInformationTextFieldWidget(
               hintText: '',
@@ -320,16 +213,9 @@ class _CreatorBusinessInformationScreenState
               maxLines: 1,
             ),
             const SpaceWidget(spaceHeight: 12),
-            const TextWidget(
-              text: 'Upload File',
-              fontColor: AppColors.black500,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            const HeaderTextWidget(text: 'Upload File'),
             const SpaceWidget(spaceHeight: 12),
-
             // upload
-
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
