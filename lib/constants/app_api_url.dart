@@ -27,7 +27,7 @@ class AppApiUrl {
       "http://10.0.70.127:8001"; //////////// live server
   static final String domain = _getDomain();
 
-  // static final String domain = serverDomain;
+  // Auth
   static final String baseUrl = "$domain/api/v1";
   static const String createUser = "/user";
   static const String createCreator = "/user";
@@ -39,6 +39,7 @@ class AppApiUrl {
   static const String changePassword = "/auth/change-password";
   static const String login = "/auth/login";
 
+  // User
   static const String allEvent = "/event";
   static const String profile = "/user/profile";
   static const String updateProfile = "/user";
@@ -47,6 +48,7 @@ class AppApiUrl {
   static const String jobApply = "/applicant/create";
   static const String myGroup = "/group/my";
   static const String createPaymentIntent = "/group/join/paymentIntent";
+  static const String eventSchedule = "/user/events";
 
   // Creator
   static const String createEvent = "/event/create";

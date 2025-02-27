@@ -7,6 +7,7 @@ import 'package:itzel/models/event_model.dart';
 import 'package:itzel/services/api/api_get_services.dart';
 import 'package:mime/mime.dart';
 
+import '../../../models/event_schedule_model.dart' as EventSchedule;
 import '../../../models/get_event_status_model.dart';
 import '../../../utils/app_all_log/error_log.dart';
 import '../../api/api_delete_services.dart';
@@ -180,5 +181,23 @@ class EventRepository {
       errorLog("Error fetching all event status", e);
     }
     return null;
+  }
+
+  Future<EventSchedule.Welcome?> getEventSchedule() async {
+    try {
+      final response =
+          await _apiGetServices.apiGetServices(AppApiUrl.eventSchedule);
+      print('Raw response from getEventSchedule: $response');
+
+      if (response != null) {
+        return EventSchedule.Welcome.fromJson(response as Map<String, dynamic>);
+      }
+      return null;
+    } catch (e, stackTrace) {
+      errorLog("Error fetching event schedule", e);
+      print('Error fetching event schedule: $e');
+      print('Stack trace: $stackTrace');
+      return null;
+    }
   }
 }

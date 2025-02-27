@@ -72,8 +72,8 @@ class AppStrings {
   static const String chatMedia = "Chat Media";
 
   // User Event Screen Strings
-  static const String upcomingEvent = "Upcoming Event (2)";
-  static const String eventHistory = "Event History (20)";
+  static const String upcomingEvent = "Upcoming Event";
+  static const String eventHistory = "Event History";
 
   // User Drawer Screen Strings
   static const String accountSetting = "Account Setting";

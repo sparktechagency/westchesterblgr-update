@@ -190,51 +190,51 @@ class _CreatorAnalyticsScreenState extends State<CreatorAnalyticsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const TextWidget(
+                  TextWidget(
                     text: 'Analytics',
                     fontColor: AppColors.black600,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.blue, // Background color
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: DropdownButton<String>(
-                      //itemHeight: 50,
-                      //menuMaxHeight:50 ,
-                      //isDense: true,
-                      value: selectedValue,
-                      icon: const Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      iconSize: 24,
-                      underline: const SizedBox(),
-                      // Remove default underline
-                      dropdownColor: Colors.blue,
-                      // Dropdown menu color
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      items: dropdownItems
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: updateSelectedValue,
-                    ),
-                  )
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.blue, // Background color
+                  //     borderRadius: BorderRadius.circular(12),
+                  //   ),
+                  //   child: DropdownButton<String>(
+                  //     //itemHeight: 50,
+                  //     //menuMaxHeight:50 ,
+                  //     //isDense: true,
+                  //     value: selectedValue,
+                  //     icon: const Icon(
+                  //       Icons.arrow_drop_down,
+                  //       color: Colors.white,
+                  //       size: 20,
+                  //     ),
+                  //     iconSize: 24,
+                  //     underline: const SizedBox(),
+                  //     // Remove default underline
+                  //     dropdownColor: Colors.blue,
+                  //     // Dropdown menu color
+                  //     style: const TextStyle(
+                  //       color: Colors.white,
+                  //       fontSize: 12,
+                  //       fontWeight: FontWeight.w400,
+                  //     ),
+                  //     items: dropdownItems
+                  //         .map<DropdownMenuItem<String>>((String value) {
+                  //       return DropdownMenuItem<String>(
+                  //         value: value,
+                  //         child: Text(value),
+                  //       );
+                  //     }).toList(),
+                  //     onChanged: updateSelectedValue,
+                  //   ),
+                  // )
                 ],
               ),
               const SpaceWidget(spaceHeight: 16),

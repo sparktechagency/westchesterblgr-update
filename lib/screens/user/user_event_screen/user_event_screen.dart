@@ -5,9 +5,12 @@ import 'package:itzel/utils/app_size.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_strings.dart';
+import '../../../models/event_schedule_model.dart';
 import '../../../routes/app_routes.dart';
+import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
+import 'controllers/user_event_controller.dart';
 
 class UserEventScreen extends StatefulWidget {
   const UserEventScreen({super.key});
@@ -19,6 +22,7 @@ class UserEventScreen extends StatefulWidget {
 class _UserEventScreenState extends State<UserEventScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final UserEventController _controller = Get.put(UserEventController());
 
   @override
   void initState() {
@@ -31,10 +35,6 @@ class _UserEventScreenState extends State<UserEventScreen>
     _tabController.dispose();
     super.dispose();
   }
-
-  final List<String> types = ['Party', 'Night concert', 'DJ Music'];
-  double ticketPrice = 9.32;
-  String eventName = 'Electro Music Festival - Valleria night with DJ Hardwell';
 
   @override
   Widget build(BuildContext context) {
@@ -51,298 +51,74 @@ class _UserEventScreenState extends State<UserEventScreen>
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: TabBar(
-                    unselectedLabelColor: AppColors.grey700,
-                    labelColor: AppColors.blueNormal,
-                    dividerColor: AppColors.blueLighter,
-                    indicator: UnderlineTabIndicator(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(
-                        color: AppColors.blueNormal,
-                        width: AppSize.width(value: 5),
+                  child: Obx(() {
+                    // Get the counts for tabs
+                    final upcomingCount = _controller.eventSchedule.value?.data
+                            ?.upcommingEvents?.length ??
+                        0;
+                    final historyCount = _controller
+                            .eventSchedule.value?.data?.eventHistory?.length ??
+                        0;
+
+                    return TabBar(
+                      unselectedLabelColor: AppColors.grey700,
+                      labelColor: AppColors.blueNormal,
+                      dividerColor: AppColors.blueLighter,
+                      indicator: UnderlineTabIndicator(
+                        borderRadius: BorderRadius.circular(100),
+                        borderSide: BorderSide(
+                          color: AppColors.blueNormal,
+                          width: AppSize.width(value: 5),
+                        ),
                       ),
-                    ),
-                    tabs: const [
-                      Tab(text: AppStrings.upcomingEvent),
-                      Tab(text: AppStrings.eventHistory)
-                    ],
-                    controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                  ),
+                      tabs: [
+                        Tab(
+                          child: Text(
+                              "${AppStrings.upcomingEvent} ($upcomingCount)"),
+                        ),
+                        Tab(
+                          child: Text(
+                              "${AppStrings.eventHistory} ($historyCount)"),
+                        ),
+                      ],
+                      controller: _tabController,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                    );
+                  }),
                 ),
                 const SpaceWidget(spaceHeight: 16),
                 Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ...List.generate(5, (index) {
-                              return InkWell(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.userHomeDetailsScreen);
-                                },
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.all(
-                                      size.width / (size.width / 8)),
-                                  margin: EdgeInsets.only(
-                                    left: size.width / (size.width / 20),
-                                    right: size.width / (size.width / 20),
-                                    bottom: size.width / (size.width / 12),
-                                  ),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: AppColors.greyLighter,
-                                        width: size.width / (size.width / 0.7),
-                                      )),
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.asset(
-                                          'assets/images/homeImage.png',
-                                          height:
-                                              size.width / (size.width / 192),
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      const SpaceWidget(spaceHeight: 6),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              ...types.map((type) {
-                                                return Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: size.width /
-                                                          (size.width / 7),
-                                                      vertical: size.width /
-                                                          (size.width / 4)),
-                                                  margin: EdgeInsets.only(
-                                                      right: size.width /
-                                                          (size.width / 4)),
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.blue50,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                  ),
-                                                  child: TextWidget(
-                                                    text: type,
-                                                    fontColor: AppColors.black,
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                );
-                                              }),
-                                            ],
-                                          ),
-                                          TextWidget(
-                                            text: '\$${ticketPrice.toString()}',
-                                            fontColor: AppColors.black500,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ],
-                                      ),
-                                      const SpaceWidget(spaceHeight: 8),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                            width:
-                                                size.width / (size.width / 200),
-                                            child: TextWidget(
-                                              text: eventName,
-                                              fontColor: AppColors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlignment: TextAlign.start,
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {},
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: size.width /
-                                                      (size.width / 9),
-                                                  vertical: size.width /
-                                                      (size.width / 4)),
-                                              margin: EdgeInsets.only(
-                                                  right: size.width /
-                                                      (size.width / 4)),
-                                              decoration: BoxDecoration(
-                                                color: AppColors.blueNormal,
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                              ),
-                                              child: const TextWidget(
-                                                text: 'Go now',
-                                                fontColor: AppColors.white,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                          ],
+                  child: Obx(() {
+                    if (_controller.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    final schedule = _controller.eventSchedule.value;
+                    if (schedule == null || schedule.data == null) {
+                      return const Center(child: Text('No data available'));
+                    }
+
+                    final data = schedule.data!;
+                    return TabBarView(
+                      controller: _tabController,
+                      children: [
+                        SingleChildScrollView(
+                          child: Column(
+                            children: (data.upcommingEvents ?? []).map((event) {
+                              return EventCard(event: event);
+                            }).toList(),
+                          ),
                         ),
-                      ),
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            ...List.generate(5, (index) {
-                              return InkWell(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.userHomeDetailsScreen);
-                                },
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.all(
-                                      size.width / (size.width / 8)),
-                                  margin: EdgeInsets.only(
-                                    left: size.width / (size.width / 20),
-                                    right: size.width / (size.width / 20),
-                                    bottom: size.width / (size.width / 12),
-                                  ),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        color: AppColors.greyLighter,
-                                        width: size.width / (size.width / 0.7),
-                                      )),
-                                  child: Column(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.asset(
-                                          'assets/images/homeImage.png',
-                                          height:
-                                              size.width / (size.width / 192),
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      const SpaceWidget(spaceHeight: 6),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              ...types.map((type) {
-                                                return Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: size.width /
-                                                          (size.width / 7),
-                                                      vertical: size.width /
-                                                          (size.width / 4)),
-                                                  margin: EdgeInsets.only(
-                                                      right: size.width /
-                                                          (size.width / 4)),
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.blue50,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                  ),
-                                                  child: TextWidget(
-                                                    text: type,
-                                                    fontColor: AppColors.black,
-                                                    fontSize: 11,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                );
-                                              }),
-                                            ],
-                                          ),
-                                          TextWidget(
-                                            text: '\$${ticketPrice.toString()}',
-                                            fontColor: AppColors.black500,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ],
-                                      ),
-                                      const SpaceWidget(spaceHeight: 8),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                            width:
-                                                size.width / (size.width / 200),
-                                            child: TextWidget(
-                                              text: eventName,
-                                              fontColor: AppColors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlignment: TextAlign.start,
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {},
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: size.width /
-                                                      (size.width / 9),
-                                                  vertical: size.width /
-                                                      (size.width / 4)),
-                                              margin: EdgeInsets.only(
-                                                  right: size.width /
-                                                      (size.width / 4)),
-                                              decoration: BoxDecoration(
-                                                color: AppColors.blueNormal,
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                              ),
-                                              child: const TextWidget(
-                                                text: 'Go now',
-                                                fontColor: AppColors.white,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                          ],
+                        SingleChildScrollView(
+                          child: Column(
+                            children: (data.eventHistory ?? []).map((event) {
+                              return EventCard(event: event);
+                            }).toList(),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  }),
                 ),
                 const SpaceWidget(spaceHeight: 80),
               ],
@@ -379,6 +155,72 @@ class _UserEventScreenState extends State<UserEventScreen>
                 ),
               ),
             )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EventCard extends StatelessWidget {
+  final EventHistory event;
+
+  const EventCard({super.key, required this.event});
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+    return InkWell(
+      onTap: () {
+        Get.toNamed(AppRoutes.userHomeDetailsScreen);
+      },
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(size.width / (size.width / 8)),
+        margin: EdgeInsets.only(
+          left: size.width / (size.width / 20),
+          right: size.width / (size.width / 20),
+          bottom: size.width / (size.width / 12),
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.greyLighter,
+            width: size.width / (size.width / 0.7),
+          ),
+        ),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: AppImage(
+                url: event.thumbnailImage ?? '',
+                height: size.width / (size.width / 192),
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SpaceWidget(spaceHeight: 6),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextWidget(
+                  text: event.name ?? 'N/A',
+                  fontColor: AppColors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                TextWidget(
+                  text: '\$${event.price?.toString() ?? 'N/A'}',
+                  fontColor: AppColors.black500,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
           ],
         ),
       ),
