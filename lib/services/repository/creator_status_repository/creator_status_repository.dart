@@ -1,4 +1,5 @@
 import '../../../constants/app_api_url.dart';
+import '../../../models/creator_analytics_status_model.dart';
 import '../../../models/creator_status_model.dart';
 import '../../api/api_get_services.dart';
 
@@ -18,6 +19,24 @@ class CreatorStatusRepository {
       }
     } catch (e, stackTrace) {
       print('Error fetching creator status: $e');
+      print('Stack trace: $stackTrace');
+      return null;
+    }
+  }
+
+  Future<CreatorAnalyticsStatus?> fetchAnalyticsStatus() async {
+    try {
+      final response = await _apiGetServices
+          .apiGetServices(AppApiUrl.creatorAnalyticsStatus);
+      if (response != null && response['success'] == true) {
+        return CreatorAnalyticsStatus.fromJson(response);
+      } else {
+        print('API call failed with status: ${response['status']}');
+        print('Response body: ${response['message']}');
+        return null;
+      }
+    } catch (e, stackTrace) {
+      print('Error fetching analytics status: $e');
       print('Stack trace: $stackTrace');
       return null;
     }
