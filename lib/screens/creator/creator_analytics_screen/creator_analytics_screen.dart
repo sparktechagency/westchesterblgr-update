@@ -125,49 +125,53 @@ class _CreatorAnalyticsScreenState extends State<CreatorAnalyticsScreen> {
     );
   }
 
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.w400,
-      fontSize: 10,
-    );
-    String text;
-    if (value == 0) {
-      text = '\$0';
-    } else if (value == 10) {
-      text = '\$250';
-    } else if (value == 19) {
-      text = '\$500';
-    } else if (value == 29) {
-      text = '\$1K';
-    } else {
-      return Container();
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 0,
-      child: Text(text, style: style),
-    );
-  }
+  // Widget leftTitles(double value, TitleMeta meta) {
+  //   const style = TextStyle(
+  //     color: Color(0xff7589a2),
+  //     fontWeight: FontWeight.w400,
+  //     fontSize: 10,
+  //   );
+  //   String text;
+  //   if (value == 0) {
+  //     text = '\$0';
+  //   } else if (value == 10) {
+  //     text = '\$250';
+  //   } else if (value == 19) {
+  //     text = '\$500';
+  //   } else if (value == 29) {
+  //     text = '\$1K';
+  //   } else {
+  //     return Container();
+  //   }
+  //   return SideTitleWidget(
+  //     fitInside: SideTitleFitInsideData.disable(),
+  //     space: 0,
+  //     child: Text(text, style: style),
+  //     meta: meta,
+  //   );
+  // }
 
-  Widget bottomTitles(double value, TitleMeta meta) {
-    final titles = <String>['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
-
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.w400,
-        fontSize: 10,
-      ),
-    );
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 16,
-      child: text,
-    );
-  }
+  // Widget bottomTitles(double value, TitleMeta meta) {
+  //   final titles = <String>['Mn', 'Te', 'Wd', 'Tu', 'Fr', 'St', 'Su'];
+  //
+  //   final Widget text = Text(
+  //     titles[value.toInt()],
+  //     style: const TextStyle(
+  //       color: Color(0xff7589a2),
+  //       fontWeight: FontWeight.w400,
+  //       fontSize: 10,
+  //     ),
+  //   );
+  //
+  //   return SideTitleWidget(
+  //     fitInside: SideTitleFitInsideData.disable(),
+  //     space: 16,
+  //     child: text,
+  //     key: GlobalKey(),
+  //
+  //     // key: meta,
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -354,7 +358,7 @@ class _CreatorAnalyticsScreenState extends State<CreatorAnalyticsScreen> {
                             bottomTitles: AxisTitles(
                               sideTitles: SideTitles(
                                 showTitles: true,
-                                getTitlesWidget: bottomTitles,
+                                //getTitlesWidget: bottomTitles,
                                 reservedSize: 42,
                               ),
                             ),
@@ -363,7 +367,7 @@ class _CreatorAnalyticsScreenState extends State<CreatorAnalyticsScreen> {
                                 showTitles: true,
                                 reservedSize: 28,
                                 interval: 1,
-                                getTitlesWidget: leftTitles,
+                                // getTitlesWidget: leftTitles,
                               ),
                             ),
                           ),
