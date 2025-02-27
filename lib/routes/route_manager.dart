@@ -106,7 +106,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.chatGptScreen,
-        page: () => const ChatGptScreen(),
+        page: () => ChatGptScreen(),
         // binding: BottomNavBinding(),
       ),
       GetPage(

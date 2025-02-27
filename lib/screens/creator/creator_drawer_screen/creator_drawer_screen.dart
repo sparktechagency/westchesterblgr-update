@@ -35,7 +35,7 @@ class CreatorDrawerScreen extends StatelessWidget {
             Get.back();
           },
           icon: const IconWidget(
-            icon: 'assets/icons/menuIcon.svg',
+            icon: 'assets/icons/closeIcon.svg',
             width: 24,
             height: 24,
           ),

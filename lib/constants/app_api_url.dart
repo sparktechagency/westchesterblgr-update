@@ -57,4 +57,5 @@ class AppApiUrl {
   static const String getAllJobStatus = "/job/status/all";
   static const String getCreatorStatus = "/user/status";
   static const String subscription = "/package";
+  static const String paymentAccountSetup = "/user/payment-account-setup";
 }

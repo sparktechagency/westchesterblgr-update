@@ -68,6 +68,14 @@ class _CreatorBusinessInformationScreenState
     emailController.dispose();
     idNumberController.dispose();
     accountHolderNameController.dispose();
+    accountHolderTypeController.dispose();
+    currencyController.dispose();
+    routingNumberController.dispose();
+    lineOneController.dispose();
+    stateController.dispose();
+    cityController.dispose();
+    postalCodeController.dispose();
+    countryController.dispose();
     super.dispose();
   }
 
