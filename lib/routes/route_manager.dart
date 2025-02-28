@@ -310,7 +310,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorAnalyticsScreen,
-        page: () => const CreatorAnalyticsScreen(),
+        page: () => CreatorAnalyticsScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(

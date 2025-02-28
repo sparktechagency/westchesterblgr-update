@@ -29,9 +29,7 @@ class BottomNavController extends GetxController {
       (userRole == 'User') ? UserHomeScreen() : const CreatorDashboardScreen(),
       (userRole == 'User') ? UserSearchScreen() : const CreatorPostScreen(),
       (userRole == 'User') ? UserAllChatScreen() : CreatorAllChatScreen(),
-      (userRole == 'User')
-          ? const UserEventScreen()
-          : const CreatorAnalyticsScreen(),
+      (userRole == 'User') ? const UserEventScreen() : CreatorAnalyticsScreen(),
       (userRole == 'User') ? UserAccountScreen() : CreatorAccountScreen(),
     ];
   }
