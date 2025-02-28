@@ -92,14 +92,14 @@ class CreatorDrawerScreen extends StatelessWidget {
             ),
             CreatorDrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.creatorFaqScreen);
+                Get.toNamed(AppRoutes.faqScreen);
               },
               text: AppStrings.faq,
               icon: AppIconsPath.faqIcon,
             ),
             CreatorDrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.creatorTermsConditionScreen);
+                Get.toNamed(AppRoutes.termsConditionScreen);
               },
               text: AppStrings.termsConditions,
               icon: AppIconsPath.termsConditionIcon,

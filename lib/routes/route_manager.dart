@@ -22,16 +22,16 @@ import '../screens/creator/creator_dashboard_screen/creator_dashboard_screen.dar
 import '../screens/creator/creator_delete_account_screen/creator_delete_account_screen.dart';
 import '../screens/creator/creator_drawer_screen/creator_drawer_screen.dart';
 import '../screens/creator/creator_event_create_screen/creator_event_create_screen.dart';
-import '../screens/creator/creator_faq_screen/creator_faq_screen.dart';
 import '../screens/creator/creator_job_publish_screen/creator_job_publish_screen.dart';
 import '../screens/creator/creator_notification_screen/creator_notification_screen.dart';
 import '../screens/creator/creator_payment_method_screen/creator_payment_method_screen.dart';
 import '../screens/creator/creator_post_screen/creator_post_screen.dart';
 import '../screens/creator/creator_profile_screen/creator_profile_screen.dart';
 import '../screens/creator/creator_subscriptions_screen/creator_subscriptions_screen.dart';
-import '../screens/creator/creator_terms_condition_screen/creator_terms_condition_screen.dart';
 import '../screens/error_screen/error_screen.dart';
+import '../screens/faq_screen/faq_screen.dart';
 import '../screens/splash_screen/splash_screen.dart';
+import '../screens/terms_condition_screen/terms_condition_screen.dart';
 import '../screens/user/user_account_screen/user_account_screen.dart';
 import '../screens/user/user_all_category_screen/user_all_category_screen.dart';
 import '../screens/user/user_all_chat_screen/user_all_chat_screen.dart';
@@ -43,7 +43,6 @@ import '../screens/user/user_chat_screen/user_chat_screen.dart';
 import '../screens/user/user_delete_account_screen/user_delete_account_screen.dart';
 import '../screens/user/user_drawer_screen/user_drawer_screen.dart';
 import '../screens/user/user_event_screen/user_event_screen.dart';
-import '../screens/user/user_faq_screen/user_faq_screen.dart';
 import '../screens/user/user_give_reviews_screen/user_give_reviews_screen.dart';
 import '../screens/user/user_home_details_screen/user_home_details_screen.dart';
 import '../screens/user/user_home_screen/user_home_screen.dart';
@@ -53,7 +52,6 @@ import '../screens/user/user_notification_screen/user_notification_screen.dart';
 import '../screens/user/user_profile_screen/user_profile_screen.dart';
 import '../screens/user/user_review_screen/user_review_screen.dart';
 import '../screens/user/user_search_screen/user_search_screen.dart';
-import '../screens/user/user_terms_condition_screen/user_terms_condition_screen.dart';
 import 'app_routes.dart';
 import 'bindings/auth_bindings.dart';
 import 'bindings/general_bindings.dart';
@@ -113,6 +111,17 @@ class RouteManager {
         name: AppRoutes.errorScreen,
         page: () => const ErrorScreen(),
         // binding: BottomNavBinding(),
+      ),
+
+      GetPage(
+        name: AppRoutes.faqScreen,
+        page: () => const FaqScreen(),
+        // binding: CreatorBindings(),
+      ),
+      GetPage(
+        name: AppRoutes.termsConditionScreen,
+        page: () => const TermsConditionScreen(),
+        // binding: CreatorBindings(),
       ),
 
       //User Section
@@ -185,16 +194,6 @@ class RouteManager {
         name: AppRoutes.userProfileScreen,
         page: () => UserProfileScreen(),
         // binding: UserBindings(),
-      ),
-      GetPage(
-        name: AppRoutes.userFaqScreen,
-        page: () => const UserFaqScreen(),
-        binding: UserBindings(),
-      ),
-      GetPage(
-        name: AppRoutes.userTermsConditionScreen,
-        page: () => const UserTermsConditionScreen(),
-        //binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userChangePasswordScreen,
@@ -283,16 +282,7 @@ class RouteManager {
         page: () => const CreatorProfileScreen(),
         // binding: CreatorBindings(),
       ),
-      GetPage(
-        name: AppRoutes.creatorFaqScreen,
-        page: () => const CreatorFaqScreen(),
-        // binding: CreatorBindings(),
-      ),
-      GetPage(
-        name: AppRoutes.creatorTermsConditionScreen,
-        page: () => const CreatorTermsConditionScreen(),
-        // binding: CreatorBindings(),
-      ),
+
       GetPage(
         name: AppRoutes.creatorChangePasswordScreen,
         page: () => const CreatorChangePasswordScreen(),

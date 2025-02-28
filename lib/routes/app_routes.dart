@@ -10,6 +10,8 @@ class AppRoutes {
   static const createNewPasswordScreen = '/createNewPasswordScreen';
   static const bottomNavScreen = '/bottomNavScreen';
   static const errorScreen = '/errorScreen';
+  static const faqScreen = '/faqScreen';
+  static const termsConditionScreen = '/termsConditionScreen';
 
   // User Section
   static const userHomeScreen = '/userHomeScreen';
@@ -24,8 +26,6 @@ class AppRoutes {
   static const userAccountScreen = '/userAccountScreen';
   static const userNotificationScreen = '/userNotificationScreen';
   static const userProfileScreen = '/userProfileScreen';
-  static const userFaqScreen = '/userFaqScreen';
-  static const userTermsConditionScreen = '/userTermsConditionScreen';
   static const userChangePasswordScreen = '/userChangePasswordScreen';
   static const userDeleteAccountScreen = '/userDeleteAccountScreen';
   static const userAllCategoryScreen = '/userAllCategoryScreen';
@@ -49,8 +49,6 @@ class AppRoutes {
   static const creatorDrawerScreen = '/creatorDrawerScreen';
   static const creatorNotificationScreen = '/creatorNotificationScreen';
   static const creatorProfileScreen = '/creatorProfileScreen';
-  static const creatorFaqScreen = '/creatorFaqScreen';
-  static const creatorTermsConditionScreen = '/creatorTermsConditionScreen';
   static const creatorChangePasswordScreen = '/creatorChangePasswordScreen';
   static const creatorDeleteAccountScreen = '/creatorDeleteAccountScreen';
   static const creatorPostScreen = '/creatorPostScreen';

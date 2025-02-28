@@ -39,6 +39,9 @@ class AppApiUrl {
   static const String changePassword = "/auth/change-password";
   static const String login = "/auth/login";
 
+  static const String faq = "/faq";
+  static const String termsCondition = "/termsandconditions";
+
   // User
   static const String allEvent = "/event";
   static const String profile = "/user/profile";

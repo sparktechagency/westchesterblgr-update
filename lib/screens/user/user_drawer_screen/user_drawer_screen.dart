@@ -91,14 +91,14 @@ class UserDrawerScreen extends StatelessWidget {
             ),
             DrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.userFaqScreen);
+                Get.toNamed(AppRoutes.faqScreen);
               },
               text: AppStrings.faq,
               icon: AppIconsPath.faqIcon,
             ),
             DrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.userTermsConditionScreen);
+                Get.toNamed(AppRoutes.termsConditionScreen);
               },
               text: AppStrings.termsConditions,
               icon: AppIconsPath.termsConditionIcon,
