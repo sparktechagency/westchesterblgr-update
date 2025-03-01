@@ -1,6 +1,7 @@
 import '../../../constants/app_api_url.dart';
 import '../../../models/creator_analytics_status_model.dart';
 import '../../../models/creator_status_model.dart';
+import '../../../models/earning_status_model.dart';
 import '../../api/api_get_services.dart';
 
 class CreatorStatusRepository {
@@ -37,6 +38,28 @@ class CreatorStatusRepository {
       }
     } catch (e, stackTrace) {
       print('Error fetching analytics status: $e');
+      print('Stack trace: $stackTrace');
+      return null;
+    }
+  }
+
+  Future<List<EarningStatus>?> fetchEarningsByYear(int year) async {
+    try {
+      final response = await _apiGetServices.apiGetServices(
+        AppApiUrl.creatorEarningStatus,
+        queryParameters: {'year': year},
+      );
+      if (response != null && response['success'] == true) {
+        return (response['data'] as List)
+            .map((e) => EarningStatus.fromJson(e))
+            .toList();
+      } else {
+        print('API call failed with status: ${response['status']}');
+        print('Response body: ${response['message']}');
+        return null;
+      }
+    } catch (e, stackTrace) {
+      print('Error fetching earnings by year: $e');
       print('Stack trace: $stackTrace');
       return null;
     }
