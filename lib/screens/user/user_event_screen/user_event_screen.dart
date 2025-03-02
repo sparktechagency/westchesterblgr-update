@@ -36,6 +36,57 @@ class _UserEventScreenState extends State<UserEventScreen>
     super.dispose();
   }
 
+  Future<void> _onRefresh() async {
+    await _controller.fetchEventSchedule();
+  }
+
+  Widget _buildEmptyState(String message) {
+    return ListView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      children: [
+        const SizedBox(height: 100),
+        Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.event_busy,
+                size: 64,
+                color: AppColors.grey700,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                message,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.grey700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Pull down to refresh',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.blueNormal,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              const Icon(
+                Icons.arrow_downward,
+                color: AppColors.blueNormal,
+                size: 24,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -95,26 +146,52 @@ class _UserEventScreenState extends State<UserEventScreen>
 
                     final schedule = _controller.eventSchedule.value;
                     if (schedule == null || schedule.data == null) {
-                      return const Center(child: Text('No data available'));
+                      return RefreshIndicator(
+                        onRefresh: _onRefresh,
+                        child: _buildEmptyState('No data available'),
+                      );
                     }
 
                     final data = schedule.data!;
                     return TabBarView(
                       controller: _tabController,
                       children: [
-                        SingleChildScrollView(
-                          child: Column(
-                            children: (data.upcommingEvents ?? []).map((event) {
-                              return EventCard(event: event);
-                            }).toList(),
-                          ),
+                        // Upcoming Events Tab
+                        RefreshIndicator(
+                          onRefresh: _onRefresh,
+                          child: (data.upcommingEvents?.isEmpty ?? true)
+                              ? _buildEmptyState('No upcoming events')
+                              : ListView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  children: [
+                                    Column(
+                                      children: (data.upcommingEvents ?? [])
+                                          .map((event) {
+                                        return EventCard(event: event);
+                                      }).toList(),
+                                    ),
+                                  ],
+                                ),
                         ),
-                        SingleChildScrollView(
-                          child: Column(
-                            children: (data.eventHistory ?? []).map((event) {
-                              return EventCard(event: event);
-                            }).toList(),
-                          ),
+
+                        // Event History Tab
+                        RefreshIndicator(
+                          onRefresh: _onRefresh,
+                          child: (data.eventHistory?.isEmpty ?? true)
+                              ? _buildEmptyState('No event history')
+                              : ListView(
+                                  physics:
+                                      const AlwaysScrollableScrollPhysics(),
+                                  children: [
+                                    Column(
+                                      children: (data.eventHistory ?? [])
+                                          .map((event) {
+                                        return EventCard(event: event);
+                                      }).toList(),
+                                    ),
+                                  ],
+                                ),
                         ),
                       ],
                     );
