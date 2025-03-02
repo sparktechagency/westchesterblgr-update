@@ -19,7 +19,7 @@ class UserAllChatController extends GetxController {
       isLoading.value = true;
       final fetchedGroups = await _myGroupRepository.fetchUserGroups();
       if (fetchedGroups != null) {
-        userGroups.value = fetchedGroups.data;
+        userGroups.value = fetchedGroups.data ?? [];
       }
     } catch (e) {
       print('Error fetching user groups: $e');

@@ -5,65 +5,110 @@ Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
 String welcomeToJson(Welcome data) => json.encode(data.toJson());
 
 class Welcome {
-  bool success;
-  String message;
-  List<MyGroup> data;
+  bool? success;
+  String? message;
+  List<MyGroup>? data;
 
   Welcome({
-    required this.success,
-    required this.message,
-    required this.data,
+    this.success,
+    this.message,
+    this.data,
   });
 
   factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
         success: json["success"],
         message: json["message"],
-        data: List<MyGroup>.from(json["data"].map((x) => MyGroup.fromJson(x))),
+        data: json["data"] == null
+            ? []
+            : List<MyGroup>.from(json["data"]!.map((x) => MyGroup.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "message": message,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
 class MyGroup {
-  String id;
-  String name;
-  List<String> members;
-  String event;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  String? id;
+  String? name;
+  List<Member>? members;
+  String? event;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
+  bool? is2Message;
 
   MyGroup({
-    required this.id,
-    required this.name,
-    required this.members,
-    required this.event,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
+    this.id,
+    this.name,
+    this.members,
+    this.event,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+    this.is2Message,
   });
 
   factory MyGroup.fromJson(Map<String, dynamic> json) => MyGroup(
         id: json["_id"],
         name: json["name"],
-        members: List<String>.from(json["members"].map((x) => x)),
+        members: json["members"] == null
+            ? []
+            : List<Member>.from(
+                json["members"]!.map((x) => Member.fromJson(x))),
         event: json["event"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        createdAt: json["createdAt"] == null
+            ? null
+            : DateTime.parse(json["createdAt"]),
+        updatedAt: json["updatedAt"] == null
+            ? null
+            : DateTime.parse(json["updatedAt"]),
         v: json["__v"],
+        is2Message: json["is2Message"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
         "name": name,
-        "members": List<dynamic>.from(members.map((x) => x)),
+        "members": members == null
+            ? []
+            : List<dynamic>.from(members!.map((x) => x.toJson())),
         "event": event,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt?.toIso8601String(),
+        "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,
+        "is2Message": is2Message,
+      };
+}
+
+class Member {
+  String? id;
+  String? name;
+  String? email;
+  String? profile;
+
+  Member({
+    this.id,
+    this.name,
+    this.email,
+    this.profile,
+  });
+
+  factory Member.fromJson(Map<String, dynamic> json) => Member(
+        id: json["_id"],
+        name: json["name"],
+        email: json["email"],
+        profile: json["profile"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "name": name,
+        "email": email,
+        "profile": profile,
       };
 }

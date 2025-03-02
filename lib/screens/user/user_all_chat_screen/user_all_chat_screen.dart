@@ -251,7 +251,9 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                                         borderRadius:
                                             BorderRadius.circular(100),
                                         child: Image.asset(
-                                          groupImages[index],
+                                          groupImages.length > index
+                                              ? groupImages[index]
+                                              : AppImagesPath.chatProfileImage,
                                           height:
                                               size.width / (size.width / 48),
                                           width: size.width / (size.width / 48),
@@ -266,7 +268,8 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                                           SizedBox(
                                             width: ResponsiveUtils.width(225),
                                             child: TextWidget(
-                                              text: group.name,
+                                              text:
+                                                  group.name ?? 'Unknown Group',
                                               fontColor: AppColors.black500,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
