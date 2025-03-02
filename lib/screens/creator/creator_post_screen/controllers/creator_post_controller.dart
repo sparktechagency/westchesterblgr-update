@@ -1,31 +1,37 @@
 import 'package:get/get.dart';
 
-import '../../../../models/creator_status_model.dart';
+import '../../../../models/get_event_status_model.dart';
+import '../../../../models/get_job_status_model.dart';
 import '../../../../services/repository/creator_status_repository/creator_status_repository.dart';
 
 class CreatorPostController extends GetxController {
-  final CreatorStatusRepository _creatorStatusRepository =
-      CreatorStatusRepository();
-  var creatorStatus = CreatorStatus(allEvents: [], allJobs: []).obs;
-  var isLoading = true.obs;
+  final CreatorStatusRepository _repository = CreatorStatusRepository();
 
-  Future<void> fetchCreatorStatus() async {
-    try {
-      isLoading(true);
-      final status = await _creatorStatusRepository.fetchCreatorStatus();
-      if (status != null) {
-        creatorStatus.value = status;
-      }
-    } catch (e) {
-      print("Error in fetchCreatorStatus: $e");
-    } finally {
-      isLoading(false);
-    }
-  }
+  var isLoading = true.obs;
+  var allEvents = <EventStatus>[].obs;
+  var allJobs = <JobStatus>[].obs;
 
   @override
   void onInit() {
-    fetchCreatorStatus();
     super.onInit();
+    fetchAllStatuses();
+  }
+
+  Future<void> fetchAllStatuses() async {
+    try {
+      isLoading(true);
+      final events = await _repository.fetchAllEventStatus();
+      final jobs = await _repository.fetchAllJobStatus();
+      if (events != null) {
+        allEvents.assignAll(events);
+      }
+      if (jobs != null) {
+        allJobs.assignAll(jobs);
+      }
+    } catch (e) {
+      print('Error fetching statuses: $e');
+    } finally {
+      isLoading(false);
+    }
   }
 }

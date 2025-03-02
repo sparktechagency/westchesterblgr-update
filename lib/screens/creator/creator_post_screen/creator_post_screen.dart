@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:itzel/routes/app_routes.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
+import '../../../routes/app_routes.dart';
 import '../../../utils/app_size.dart';
 import '../../../widgets/app_image/app_image.dart';
 import '../../../widgets/button_widget/button_widget.dart';
@@ -50,8 +50,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
         body: Obx(() {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
-          } else if (controller.creatorStatus.value.allJobs.isEmpty &&
-              controller.creatorStatus.value.allEvents.isEmpty) {
+          } else if (controller.allEvents.isEmpty &&
+              controller.allJobs.isEmpty) {
             return const Center(child: Text('No data available.'));
           } else {
             return Column(
@@ -71,12 +71,10 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                     ),
                     tabs: [
                       Tab(
-                        text:
-                            "Event Post (${controller.creatorStatus.value.allEvents.length})",
+                        text: "Event Post (${controller.allEvents.length})",
                       ),
                       Tab(
-                        text:
-                            "Job Post (${controller.creatorStatus.value.allJobs.length})",
+                        text: "Job Post (${controller.allJobs.length})",
                       ),
                     ],
                     controller: tabController,
@@ -105,7 +103,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
     return SingleChildScrollView(
       child: Column(
         children: [
-          ...controller.creatorStatus.value.allEvents.map(
+          ...controller.allEvents.map(
             (event) {
               return Container(
                 width: double.infinity,
@@ -191,7 +189,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
     return SingleChildScrollView(
       child: Column(
         children: [
-          ...controller.creatorStatus.value.allJobs.map(
+          ...controller.allJobs.map(
             (job) {
               return Container(
                 width: double.infinity,

@@ -10,7 +10,7 @@ import 'controllers/creator_analytics_controller.dart';
 import 'widgets/analytics_box_widget.dart';
 
 class CreatorAnalyticsScreen extends StatefulWidget {
-  CreatorAnalyticsScreen({super.key});
+  const CreatorAnalyticsScreen({super.key});
 
   @override
   State<CreatorAnalyticsScreen> createState() => _CreatorAnalyticsScreenState();
