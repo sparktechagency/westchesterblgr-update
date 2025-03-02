@@ -1,32 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:itzel/models/all_organizations_model.dart';
+import 'package:itzel/services/repository/category_repository/category_repository.dart';
 
 class UserReviewController extends GetxController {
-  TextEditingController searchController = TextEditingController();
-  TextEditingController feedbackController = TextEditingController();
+  final CategoryRepository _categoryRepository = CategoryRepository();
+  final String categoryId;
+  var organizations = <AllOrganizations>[].obs;
+  var isLoading = true.obs;
+  var searchController = TextEditingController();
 
-  List<String> reviewImages = [
-    'assets/images/reviewImage1.png',
-    'assets/images/reviewImage2.png',
-    'assets/images/reviewImage3.png',
-  ];
+  UserReviewController({required this.categoryId});
 
-  List<String> reviewComments = [
-    'It was awesome service. Recommended for sure',
-    'It was awesome service. Recommended for sure',
-    'It was awesome service. Recommended for sure',
-  ];
-
-  double rating = 3.0;
-
-  void updateRating(double value) {
-    rating = value;
-    update(); // Notify GetBuilder of state changes
+  @override
+  void onInit() {
+    super.onInit();
+    fetchOrganizations();
   }
 
-  void submitReview() {
-    print('Rating: $rating');
-    print('Feedback: ${feedbackController.text}');
-    Get.back();
+  Future<void> fetchOrganizations() async {
+    try {
+      isLoading.value = true;
+      final fetchedOrganizations =
+          await _categoryRepository.fetchOrganizationsByCategory(
+        categoryId,
+        searchController.text,
+      );
+      if (fetchedOrganizations != null) {
+        organizations.value = fetchedOrganizations;
+      } else {
+        organizations.clear();
+      }
+    } catch (e) {
+      print('Error fetching organizations: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

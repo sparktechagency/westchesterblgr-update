@@ -10,6 +10,7 @@ class ReviewSearchTextFieldWidget extends StatefulWidget {
   final IconData? suffixIcon;
   final TextInputType? keyboardType;
   final int maxLines; // Add maxLines as a parameter
+  final ValueChanged<String>? onChanged;
 
   const ReviewSearchTextFieldWidget({
     super.key,
@@ -19,13 +20,16 @@ class ReviewSearchTextFieldWidget extends StatefulWidget {
     this.suffixIcon,
     this.keyboardType,
     this.maxLines = 1, // Default value is 1
+    this.onChanged,
   });
 
   @override
-  State<ReviewSearchTextFieldWidget> createState() => _ReviewSearchTextFieldWidgetState();
+  State<ReviewSearchTextFieldWidget> createState() =>
+      _ReviewSearchTextFieldWidgetState();
 }
 
-class _ReviewSearchTextFieldWidgetState extends State<ReviewSearchTextFieldWidget> {
+class _ReviewSearchTextFieldWidgetState
+    extends State<ReviewSearchTextFieldWidget> {
   bool obscureText = false;
 
   @override
@@ -41,6 +45,7 @@ class _ReviewSearchTextFieldWidgetState extends State<ReviewSearchTextFieldWidge
         obscureText: obscureText,
         keyboardType: widget.keyboardType,
         maxLines: widget.maxLines,
+        onChanged: widget.onChanged,
         style: const TextStyle(
           color: AppColors.black500,
         ),

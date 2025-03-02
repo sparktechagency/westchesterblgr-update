@@ -64,6 +64,7 @@ class UserAllCategoryScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => UserReviewScreen(
                                 categoryTitle: category.name,
+                                categoryId: category.id,
                               ),
                             ),
                           );

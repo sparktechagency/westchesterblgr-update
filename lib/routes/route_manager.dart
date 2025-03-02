@@ -212,7 +212,10 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userReviewScreen,
-        page: () => UserReviewScreen(categoryTitle: ''),
+        page: () => UserReviewScreen(
+          categoryTitle: '',
+          categoryId: "",
+        ),
         // binding: UserBindings(),
       ),
       GetPage(

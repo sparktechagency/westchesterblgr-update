@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:itzel/routes/app_routes.dart';
 import 'package:itzel/screens/user/user_review_screen/widgets/review_search_text_field_widget.dart';
-import 'package:itzel/widgets/button_widget/button_widget.dart';
+import 'package:itzel/widgets/app_image/app_image.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../routes/app_routes.dart';
+import '../../../widgets/button_widget/button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import 'controllers/user_review_controller.dart';
 
 class UserReviewScreen extends StatelessWidget {
   final String categoryTitle;
+  final String categoryId;
 
   final feedbackController = TextEditingController();
 
-  UserReviewScreen({super.key, required this.categoryTitle});
+  UserReviewScreen({
+    super.key,
+    required this.categoryTitle,
+    required this.categoryId,
+  });
 
   // void _showRatingPopup(BuildContext context, UserReviewController controller) {
   //   showCustomPopup(context, [
@@ -104,7 +110,7 @@ class UserReviewScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       body: GetBuilder<UserReviewController>(
-          init: UserReviewController(),
+          init: UserReviewController(categoryId: categoryId),
           builder: (controller) {
             return SafeArea(
               child: SingleChildScrollView(
@@ -119,6 +125,9 @@ class UserReviewScreen extends StatelessWidget {
                         hintText: 'Search',
                         controller: controller.searchController,
                         maxLines: 1,
+                        onChanged: (value) {
+                          controller.fetchOrganizations();
+                        },
                       ),
                     ),
                     const SpaceWidget(spaceHeight: 16),
@@ -133,148 +142,184 @@ class UserReviewScreen extends StatelessWidget {
                       ),
                     ),
                     const SpaceWidget(spaceHeight: 16),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(size.width / (size.width / 12)),
-                      margin: EdgeInsets.only(
-                          left: size.width / (size.width / 20),
-                          right: size.width / (size.width / 20),
-                          bottom: size.width / (size.width / 12)),
-                      decoration: BoxDecoration(
-                        color: AppColors.blue50,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: AppColors.blueDark,
-                          width: size.width / (size.width / 1.35),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: Image.asset(
-                                  'assets/images/homeImage.png',
-                                  height: size.width / (size.width / 45),
-                                  width: size.width / (size.width / 45),
-                                  fit: BoxFit.cover,
+                    Obx(() {
+                      if (controller.isLoading.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (controller.organizations.isEmpty) {
+                        return const Center(
+                          child: TextWidget(
+                            text: 'No organizations found',
+                            fontColor: AppColors.black500,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        );
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.organizations.length,
+                          itemBuilder: (context, index) {
+                            final organization =
+                                controller.organizations[index];
+                            return Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(
+                                  size.width / (size.width / 12)),
+                              margin: EdgeInsets.only(
+                                  left: size.width / (size.width / 20),
+                                  right: size.width / (size.width / 20),
+                                  bottom: size.width / (size.width / 12)),
+                              decoration: BoxDecoration(
+                                color: AppColors.blue50,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: AppColors.blueDark,
+                                  width: size.width / (size.width / 1.35),
                                 ),
                               ),
-                              const SpaceWidget(spaceWidth: 8),
-                              const Column(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  TextWidget(
-                                    text: 'Saint Marry High School',
-                                    fontColor: AppColors.black800,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
+                                  Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: AppImage(
+                                          url: organization.image ?? '',
+                                          height:
+                                              size.width / (size.width / 45),
+                                          width: size.width / (size.width / 45),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SpaceWidget(spaceWidth: 8),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          TextWidget(
+                                            text: organization.name ?? '',
+                                            fontColor: AppColors.black800,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                          const SpaceWidget(spaceHeight: 4),
+                                          TextWidget(
+                                            text:
+                                                organization.locationName ?? '',
+                                            fontColor: AppColors.black800,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  SpaceWidget(spaceHeight: 4),
-                                  TextWidget(
-                                    text: 'New York City',
-                                    fontColor: AppColors.black800,
-                                    fontSize: 10,
+                                  const SpaceWidget(spaceHeight: 12),
+                                  const TextWidget(
+                                    text: 'Reviews',
+                                    fontColor: AppColors.black,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w500,
+                                  ),
+                                  const SpaceWidget(spaceHeight: 8),
+                                  // ...List.generate(
+                                  //   controller.reviewImages.length,
+                                  //   (index) {
+                                  //     return Container(
+                                  //       width: double.infinity,
+                                  //       padding: const EdgeInsets.all(12),
+                                  //       margin:
+                                  //           const EdgeInsets.only(bottom: 12),
+                                  //       decoration: BoxDecoration(
+                                  //         color: AppColors.white,
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(9),
+                                  //         boxShadow: const [
+                                  //           BoxShadow(
+                                  //             color: AppColors.grey200,
+                                  //             spreadRadius: 1,
+                                  //             blurRadius: 3,
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //       child: Row(
+                                  //         mainAxisAlignment:
+                                  //             MainAxisAlignment.spaceBetween,
+                                  //         children: [
+                                  //           Row(
+                                  //             children: [
+                                  //               ClipRRect(
+                                  //                 borderRadius:
+                                  //                     BorderRadius.circular(
+                                  //                         100),
+                                  //                 child: Image.asset(
+                                  //                   controller
+                                  //                       .reviewImages[index],
+                                  //                   height: size.width /
+                                  //                       (size.width / 36),
+                                  //                   width: size.width /
+                                  //                       (size.width / 36),
+                                  //                   fit: BoxFit.cover,
+                                  //                 ),
+                                  //               ),
+                                  //               const SpaceWidget(
+                                  //                   spaceWidth: 8),
+                                  //               SizedBox(
+                                  //                 width: size.width /
+                                  //                     (size.width / 150),
+                                  //                 child: TextWidget(
+                                  //                   text: '',
+                                  //                   fontColor:
+                                  //                       AppColors.black500,
+                                  //                   fontSize: 11,
+                                  //                   fontWeight: FontWeight.w400,
+                                  //                   maxLines: 2,
+                                  //                   textAlignment:
+                                  //                       TextAlign.left,
+                                  //                 ),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //           Row(
+                                  //             children: [
+                                  //               ...List.generate(
+                                  //                 5,
+                                  //                 (i) {
+                                  //                   return Icon(
+                                  //                     Icons.star,
+                                  //                     color: index == 4
+                                  //                         ? AppColors
+                                  //                             .starIconUnselected
+                                  //                         : AppColors.starIcon,
+                                  //                     size: 12,
+                                  //                   );
+                                  //                 },
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  // ),
+                                  const SpaceWidget(spaceHeight: 15),
+                                  ButtonWidget(
+                                    onPressed: () {
+                                      Get.toNamed(
+                                          AppRoutes.userGiveReviewsScreen);
+                                    },
+                                    label: 'Give Reviews',
+                                    buttonWidth: double.infinity,
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                          const SpaceWidget(spaceHeight: 12),
-                          const TextWidget(
-                            text: 'Reviews',
-                            fontColor: AppColors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          const SpaceWidget(spaceHeight: 8),
-                          ...List.generate(
-                            controller.reviewImages.length,
-                            (index) {
-                              return Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(12),
-                                margin: const EdgeInsets.only(bottom: 12),
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(9),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: AppColors.grey200,
-                                      spreadRadius: 1,
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                          child: Image.asset(
-                                            controller.reviewImages[index],
-                                            height:
-                                                size.width / (size.width / 36),
-                                            width:
-                                                size.width / (size.width / 36),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        const SpaceWidget(spaceWidth: 8),
-                                        SizedBox(
-                                          width:
-                                              size.width / (size.width / 150),
-                                          child: TextWidget(
-                                            text: controller
-                                                .reviewComments[index],
-                                            fontColor: AppColors.black500,
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w400,
-                                            maxLines: 2,
-                                            textAlignment: TextAlign.left,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        ...List.generate(
-                                          5,
-                                          (i) {
-                                            return Icon(
-                                              Icons.star,
-                                              color: index == 4
-                                                  ? AppColors.starIconUnselected
-                                                  : AppColors.starIcon,
-                                              size: 12,
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                          const SpaceWidget(spaceHeight: 15),
-                          ButtonWidget(
-                            onPressed: () {
-                              Get.toNamed(AppRoutes.userGiveReviewsScreen);
-                            },
-                            label: 'Give Reviews',
-                            buttonWidth: double.infinity,
-                          ),
-                        ],
-                      ),
-                    ),
+                            );
+                          },
+                        );
+                      }
+                    }),
                   ],
                 ),
               ),
