@@ -47,10 +47,12 @@ class Data {
     return Data(
       upcommingEvents: json['upcommingEvents'] != null
           ? List<EventHistory>.from((json['upcommingEvents'] as List)
+              .where((x) => x != null)
               .map((x) => EventHistory.fromJson(x as Map<String, dynamic>)))
           : null,
       eventHistory: json['eventHistory'] != null
           ? List<EventHistory>.from((json['eventHistory'] as List)
+              .where((x) => x != null)
               .map((x) => EventHistory.fromJson(x as Map<String, dynamic>)))
           : null,
     );
@@ -107,7 +109,9 @@ class EventHistory {
           json['time'] != null ? DateTime.parse(json['time'].toString()) : null,
       description: json['description'] as String?,
       tags: json['tags'] != null
-          ? List<String>.from((json['tags'] as List).map((x) => x.toString()))
+          ? List<String>.from((json['tags'] as List)
+              .where((x) => x != null)
+              .map((x) => x.toString()))
           : null,
       price:
           json['price'] != null ? int.tryParse(json['price'].toString()) : null,
@@ -115,6 +119,7 @@ class EventHistory {
       address: json['address'] as String?,
       coordinate: json['coordinate'] != null
           ? List<double>.from((json['coordinate'] as List)
+              .where((x) => x != null)
               .map((x) => double.parse(x.toString())))
           : null,
       createdAt: json['createdAt'] != null

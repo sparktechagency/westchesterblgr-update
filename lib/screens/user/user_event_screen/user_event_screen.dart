@@ -172,7 +172,10 @@ class EventCard extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return InkWell(
       onTap: () {
-        Get.toNamed(AppRoutes.userHomeDetailsScreen);
+        Get.toNamed(
+          AppRoutes.userHomeDetailsScreen,
+          arguments: {'id': event.id},
+        );
       },
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
