@@ -37,7 +37,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     userRole = Get.put(AppAuthStorage()).getRole() ?? 'USER';
     print('Init state called');
     tabs = [
-      (userRole == 'USER') ? UserHomeScreen() : const CreatorDashboardScreen(),
+      (userRole == 'USER') ? UserHomeScreen() : CreatorDashboardScreen(),
       (userRole == 'USER') ? UserSearchScreen() : const CreatorPostScreen(),
       (userRole == 'USER')
           ? const UserAllChatScreen()

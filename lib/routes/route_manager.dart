@@ -237,7 +237,7 @@ class RouteManager {
       //Creator Section
       GetPage(
         name: AppRoutes.creatorDashboardScreen,
-        page: () => const CreatorDashboardScreen(),
+        page: () => CreatorDashboardScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
