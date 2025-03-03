@@ -38,6 +38,12 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
     super.dispose();
   }
 
+  // Function to refresh data
+  Future<void> _refreshData() async {
+    // Call your controller's refresh method
+    return await controller.refreshData();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -52,7 +58,22 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
             return const Center(child: CircularProgressIndicator());
           } else if (controller.allEvents.isEmpty &&
               controller.allJobs.isEmpty) {
-            return const Center(child: Text('No data available.'));
+            // Even when there's no data, we wrap it with RefreshIndicator
+            return RefreshIndicator(
+              onRefresh: _refreshData,
+              color: AppColors.blueNormal,
+              child: ListView(
+                // ListView needed for RefreshIndicator to work
+                children: const [
+                  SizedBox(
+                    height: 300, // Give enough height for pull
+                    child: Center(
+                        child:
+                            Text('No data available. Pull down to refresh.')),
+                  ),
+                ],
+              ),
+            );
           } else {
             return Column(
               children: [
@@ -100,201 +121,225 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
   }
 
   Widget _buildEventPostTab(Size size) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ...controller.allEvents.map(
-            (event) {
-              return Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                margin: EdgeInsets.only(
-                  left: size.width / (size.width / 20),
-                  right: size.width / (size.width / 20),
-                  bottom: size.width / (size.width / 12),
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppColors.grey200,
-                      spreadRadius: 1,
-                      blurRadius: 3,
+    return RefreshIndicator(
+      onRefresh: _refreshData,
+      color: AppColors.blueNormal,
+      child: SingleChildScrollView(
+        // Ensure this has minimum height for the RefreshIndicator to work
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: size.height - 150, // Approximate height minus tabs
+          ),
+          child: Column(
+            children: [
+              ...controller.allEvents.map(
+                (event) {
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    margin: EdgeInsets.only(
+                      left: size.width / (size.width / 20),
+                      right: size.width / (size.width / 20),
+                      bottom: size.width / (size.width / 12),
                     ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: AppImage(
-                                url: event.thumbnailImage,
-                                height: size.width / (size.width / 45),
-                                width: size.width / (size.width / 45),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SpaceWidget(spaceWidth: 8),
-                            SizedBox(
-                              width: size.width / (size.width / 215),
-                              child: TextWidget(
-                                text: event.name,
-                                fontColor: AppColors.black900,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlignment: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                        IconButtonWidget(
-                          icon: AppIconsPath.newChatIcon,
-                          onTap: () {},
-                          color: AppColors.black900,
-                          size: 24,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.grey200,
+                          spreadRadius: 1,
+                          blurRadius: 3,
                         ),
                       ],
                     ),
-                  ],
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: AppImage(
+                                    url: event.thumbnailImage,
+                                    height: size.width / (size.width / 45),
+                                    width: size.width / (size.width / 45),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SpaceWidget(spaceWidth: 8),
+                                SizedBox(
+                                  width: size.width / (size.width / 215),
+                                  child: TextWidget(
+                                    text: event.name,
+                                    fontColor: AppColors.black900,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlignment: TextAlign.left,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButtonWidget(
+                              icon: AppIconsPath.newChatIcon,
+                              onTap: () {},
+                              color: AppColors.black900,
+                              size: 24,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ).toList(),
+              const SpaceWidget(spaceHeight: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ButtonWidget(
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.creatorEventCreateScreen);
+                  },
+                  label: 'Create Event',
+                  buttonWidth: double.infinity,
+                  buttonHeight: size.height / (size.height / 56),
                 ),
-              );
-            },
-          ).toList(),
-          const SpaceWidget(spaceHeight: 50),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ButtonWidget(
-              onPressed: () {
-                Get.toNamed(AppRoutes.creatorEventCreateScreen);
-              },
-              label: 'Create Event',
-              buttonWidth: double.infinity,
-              buttonHeight: size.height / (size.height / 56),
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildJobPostTab(Size size) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          ...controller.allJobs.map(
-            (job) {
-              return Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                margin: EdgeInsets.only(
-                  left: size.width / (size.width / 20),
-                  right: size.width / (size.width / 20),
-                  bottom: size.width / (size.width / 12),
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppColors.grey200,
-                      spreadRadius: 1,
-                      blurRadius: 3,
+    return RefreshIndicator(
+      onRefresh: _refreshData,
+      color: AppColors.blueNormal,
+      child: SingleChildScrollView(
+        // Ensure this has minimum height for the RefreshIndicator to work
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: size.height - 150, // Approximate height minus tabs
+          ),
+          child: Column(
+            children: [
+              ...controller.allJobs.map(
+                (job) {
+                  return Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    margin: EdgeInsets.only(
+                      left: size.width / (size.width / 20),
+                      right: size.width / (size.width / 20),
+                      bottom: size.width / (size.width / 12),
                     ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppColors.grey200,
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                        ),
+                      ],
+                    ),
+                    child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: AppImage(
-                                url: job.image,
-                                height: size.width / (size.width / 45),
-                                width: size.width / (size.width / 45),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SpaceWidget(spaceWidth: 8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
                               children: [
-                                SizedBox(
-                                  width: size.width / (size.width / 215),
-                                  child: TextWidget(
-                                    text: job.role,
-                                    fontColor: AppColors.black900,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlignment: TextAlign.left,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: AppImage(
+                                    url: job.image,
+                                    height: size.width / (size.width / 45),
+                                    width: size.width / (size.width / 45),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                                const SpaceWidget(spaceHeight: 4),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                const SpaceWidget(spaceWidth: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextWidget(
-                                      text: job.companyName,
-                                      fontColor: AppColors.black,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlignment: TextAlign.left,
+                                    SizedBox(
+                                      width: size.width / (size.width / 215),
+                                      child: TextWidget(
+                                        text: job.role,
+                                        fontColor: AppColors.black900,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlignment: TextAlign.left,
+                                      ),
                                     ),
-                                    const SpaceWidget(spaceWidth: 4),
-                                    TextWidget(
-                                      text: DateFormat('dd.MM.yyyy, hh:mm a')
-                                          .format(job.createdAt),
-                                      fontColor: AppColors.grey700,
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.w500,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlignment: TextAlign.left,
+                                    const SpaceWidget(spaceHeight: 4),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        TextWidget(
+                                          text: job.companyName,
+                                          fontColor: AppColors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlignment: TextAlign.left,
+                                        ),
+                                        const SpaceWidget(spaceWidth: 4),
+                                        TextWidget(
+                                          text:
+                                              DateFormat('dd.MM.yyyy, hh:mm a')
+                                                  .format(job.createdAt),
+                                          fontColor: AppColors.grey700,
+                                          fontSize: 8,
+                                          fontWeight: FontWeight.w500,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlignment: TextAlign.left,
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ],
                             ),
+                            IconButtonWidget(
+                              icon: AppIconsPath.newChatIcon,
+                              onTap: () {},
+                              color: AppColors.black900,
+                              size: 24,
+                            ),
                           ],
-                        ),
-                        IconButtonWidget(
-                          icon: AppIconsPath.newChatIcon,
-                          onTap: () {},
-                          color: AppColors.black900,
-                          size: 24,
                         ),
                       ],
                     ),
-                  ],
+                  );
+                },
+              ).toList(),
+              const SpaceWidget(spaceHeight: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ButtonWidget(
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.creatorJobPublishScreen);
+                  },
+                  label: 'Publish Job Post',
+                  buttonWidth: double.infinity,
+                  buttonHeight: size.height / (size.height / 56),
                 ),
-              );
-            },
-          ).toList(),
-          const SpaceWidget(spaceHeight: 50),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ButtonWidget(
-              onPressed: () {
-                Get.toNamed(AppRoutes.creatorJobPublishScreen);
-              },
-              label: 'Publish Job Post',
-              buttonWidth: double.infinity,
-              buttonHeight: size.height / (size.height / 56),
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

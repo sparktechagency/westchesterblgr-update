@@ -34,4 +34,10 @@ class CreatorPostController extends GetxController {
       isLoading(false);
     }
   }
+
+  Future<void> refreshData() async {
+    // Simply call the existing fetchAllStatuses method
+    // This will refresh both events and jobs data
+    return await fetchAllStatuses();
+  }
 }

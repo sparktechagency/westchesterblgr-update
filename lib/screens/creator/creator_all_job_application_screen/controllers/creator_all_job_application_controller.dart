@@ -7,8 +7,10 @@ import '../../../../utils/app_all_log/error_log.dart';
 class CreatorAllJobApplicationController extends GetxController {
   final JobRepository _jobRepository = JobRepository();
   var allJobStatuses = <JobStatus>[].obs;
+  var isLoading = false.obs;
 
   Future<void> fetchAllJobStatuses() async {
+    isLoading.value = true;
     try {
       final statuses = await _jobRepository.fetchAllJobStatuses();
       if (statuses != null) {
@@ -16,6 +18,8 @@ class CreatorAllJobApplicationController extends GetxController {
       }
     } catch (e) {
       errorLog("Error in fetchAllJobStatuses", e);
+    } finally {
+      isLoading.value = false;
     }
   }
 

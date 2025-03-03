@@ -7,6 +7,7 @@ import '../../../../utils/app_all_log/error_log.dart';
 class CreatorAllEventStatusController extends GetxController {
   final EventRepository _eventRepository = EventRepository();
   var allEventStatus = <EventStatus>[].obs;
+  var isRefreshing = false.obs;
 
   @override
   void onInit() {
@@ -22,6 +23,17 @@ class CreatorAllEventStatusController extends GetxController {
       }
     } catch (e) {
       errorLog("Error in fetchAllEventStatus", e);
+    }
+  }
+
+  Future<void> refreshData() async {
+    try {
+      isRefreshing.value = true;
+      await fetchAllEventStatus();
+    } catch (e) {
+      errorLog("Error in refreshData", e);
+    } finally {
+      isRefreshing.value = false;
     }
   }
 }
