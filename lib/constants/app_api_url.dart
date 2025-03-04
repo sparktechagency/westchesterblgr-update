@@ -42,6 +42,7 @@ class AppApiUrl {
   static const String faq = "/faq";
   static const String termsCondition = "/termsandconditions";
   static const String notification = "/notification";
+  static const String unreadNotification = "/notification/count";
 
   // User
   static const String allEvent = "/event";

@@ -16,6 +16,7 @@ class UserNotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    _controller.fetchNotifications();
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       appBar: const AppbarWidget(text: AppStrings.notification),

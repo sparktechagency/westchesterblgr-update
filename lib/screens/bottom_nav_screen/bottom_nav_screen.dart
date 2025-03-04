@@ -29,8 +29,7 @@ class BottomNavScreen extends StatefulWidget {
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
-  final UserNotificationController _notificationController =
-      Get.put(UserNotificationController());
+  late final UserNotificationController _notificationController;
   int _currentIndex = 0;
   late List<Widget> tabs;
   late String userRole;
@@ -46,10 +45,15 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       (userRole == 'USER')
           ? const UserAllChatScreen()
           : const CreatorAllChatScreen(),
-      (userRole == 'USER') ? const UserEventScreen() : CreatorAnalyticsScreen(),
+      (userRole == 'USER')
+          ? const UserEventScreen()
+          : const CreatorAnalyticsScreen(),
       (userRole == 'USER') ? UserAccountScreen() : CreatorAccountScreen(),
     ];
     print('Tabs: $tabs');
+
+    _notificationController =
+        Get.put(UserNotificationController(), permanent: true);
   }
 
   @override
@@ -67,8 +71,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         leading: IconButton(
           onPressed: () {
             (userRole == 'USER')
-                ? Get.to(() => UserNotificationScreen(),
-                    arguments: _notificationController.notifications)
+                ? Get.to(
+                    () => UserNotificationScreen(),
+                  )
                 : Get.toNamed(AppRoutes.creatorNotificationScreen);
           },
           icon: const IconWidget(
@@ -91,16 +96,16 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                   ? Get.toNamed(AppRoutes.userNotificationScreen)
                   : Get.toNamed(AppRoutes.creatorNotificationScreen);
             },
-            icon: const Badge(
-              isLabelVisible: true,
-              label: Text("3"),
-              backgroundColor: AppColors.red,
-              child: IconWidget(
-                icon: 'assets/icons/notificationIcon.svg',
-                width: 24,
-                height: 24,
-              ),
-            ),
+            icon: Obx(() => Badge(
+                  isLabelVisible: _notificationController.unreadCount.value > 0,
+                  label: Text("${_notificationController.unreadCount.value}"),
+                  backgroundColor: AppColors.red,
+                  child: const IconWidget(
+                    icon: 'assets/icons/notificationIcon.svg',
+                    width: 24,
+                    height: 24,
+                  ),
+                )),
           ),
         ],
       ),
