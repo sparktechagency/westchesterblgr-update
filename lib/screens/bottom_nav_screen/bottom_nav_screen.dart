@@ -18,6 +18,8 @@ import '../creator/creator_analytics_screen/creator_analytics_screen.dart';
 import '../creator/creator_dashboard_screen/creator_dashboard_screen.dart';
 import '../user/user_drawer_screen/user_drawer_screen.dart';
 import '../user/user_event_screen/user_event_screen.dart';
+import '../user/user_notification_screen/controllers/user_notification_controller.dart';
+import '../user/user_notification_screen/user_notification_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -27,6 +29,8 @@ class BottomNavScreen extends StatefulWidget {
 }
 
 class _BottomNavScreenState extends State<BottomNavScreen> {
+  final UserNotificationController _notificationController =
+      Get.put(UserNotificationController());
   int _currentIndex = 0;
   late List<Widget> tabs;
   late String userRole;
@@ -63,8 +67,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         leading: IconButton(
           onPressed: () {
             (userRole == 'USER')
-                ? Navigator.of(context).push(_createUserDrawerRoute())
-                : Navigator.of(context).push(_createCreatorDrawerRoute());
+                ? Get.to(() => UserNotificationScreen(),
+                    arguments: _notificationController.notifications)
+                : Get.toNamed(AppRoutes.creatorNotificationScreen);
           },
           icon: const IconWidget(
             icon: 'assets/icons/menuIcon.svg',

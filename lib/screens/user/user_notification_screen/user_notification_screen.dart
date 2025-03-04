@@ -1,28 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:itzel/constants/app_colors.dart';
+import 'package:itzel/constants/app_strings.dart';
+import 'package:itzel/widgets/appbar_widget/appbar_widget.dart';
+import 'package:itzel/widgets/text_widget/text_widgets.dart';
 
-import '../../../constants/app_colors.dart';
-import '../../../constants/app_strings.dart';
-import '../../../widgets/appbar_widget/appbar_widget.dart';
-import '../../../widgets/text_widget/text_widgets.dart';
+import 'controllers/user_notification_controller.dart';
 
 class UserNotificationScreen extends StatelessWidget {
-  final List<String> title = [
-    "Order is completed",
-    "Delivery is completed",
-    "New Winter Collection Available!",
-  ];
-
-  final List<String> subTitle = [
-    "Payment method is Cash On Delivery",
-    "Your order has been delivered by Mr. Reza",
-    "Check new featured winter collection",
-  ];
-
-  final List<String> date = [
-    "20-Dec-2024, 3:00 PM",
-    "20-Dec-2024, 3:00 PM",
-    "20-Dec-2024, 3:00 PM",
-  ];
+  final UserNotificationController _controller =
+      Get.put(UserNotificationController());
 
   UserNotificationScreen({super.key});
 
@@ -30,12 +17,19 @@ class UserNotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
-        backgroundColor: AppColors.whiteBg,
-        appBar: const AppbarWidget(text: AppStrings.notification),
-        body: ListView.builder(
-            itemCount: title.length,
+      backgroundColor: AppColors.whiteBg,
+      appBar: const AppbarWidget(text: AppStrings.notification),
+      body: Obx(() {
+        if (_controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (_controller.notifications.isEmpty) {
+          return const Center(child: Text('No notifications available'));
+        } else {
+          return ListView.builder(
+            itemCount: _controller.notifications.length,
             padding: EdgeInsets.only(top: size.width / (size.width / 12)),
             itemBuilder: (BuildContext context, int index) {
+              final notification = _controller.notifications[index];
               return Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(size.width / (size.width / 12)),
@@ -52,21 +46,21 @@ class UserNotificationScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWidget(
-                      text: title[index],
+                      text: notification.title ?? '',
                       fontColor: AppColors.whiteBg,
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       maxLines: 2,
                     ),
                     TextWidget(
-                      text: subTitle[index],
+                      text: notification.description ?? '',
                       fontColor: AppColors.whiteBg,
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       maxLines: 2,
                     ),
                     TextWidget(
-                      text: date[index],
+                      text: notification.createdAt?.toString() ?? '',
                       fontColor: AppColors.whiteLight,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -74,6 +68,10 @@ class UserNotificationScreen extends StatelessWidget {
                   ],
                 ),
               );
-            }));
+            },
+          );
+        }
+      }),
+    );
   }
 }

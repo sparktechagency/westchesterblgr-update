@@ -1,24 +1,33 @@
 import 'package:get/get.dart';
+import 'package:itzel/models/notification_model.dart';
+import 'package:itzel/services/repository/notification_repository/notification_repository.dart';
 
 class UserNotificationController extends GetxController {
-  // Define lists for title, subtitle, and date
-  List<String> title = [
-    "Order is completed",
-    "Delivery is completed",
-    "New Winter Collection Available!",
-  ];
+  final NotificationRepository _notificationRepository =
+      NotificationRepository();
+  var notifications = <Notification>[].obs;
+  var isLoading = true.obs;
 
-  List<String> subTitle = [
-    "Payment method is Cash On Delivery",
-    "Your order has been delivered by Mr. Reza",
-    "Check new featured winter collection",
-  ];
+  @override
+  void onInit() {
+    super.onInit();
+    fetchNotifications();
+  }
 
-  List<String> date = [
-    "20-Dec-2024, 3:00 PM",
-    "20-Dec-2024, 3:00 PM",
-    "20-Dec-2024, 3:00 PM",
-  ];
-
-// Future enhancements can include fetching data from an API
+  Future<void> fetchNotifications() async {
+    try {
+      isLoading.value = true;
+      final fetchedNotifications =
+          await _notificationRepository.fetchNotifications();
+      if (fetchedNotifications != null) {
+        notifications.value = fetchedNotifications;
+      } else {
+        notifications.clear();
+      }
+    } catch (e) {
+      print('Error fetching notifications: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }
