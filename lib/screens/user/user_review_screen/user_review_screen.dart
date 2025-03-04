@@ -224,86 +224,86 @@ class UserReviewScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w500,
                                   ),
                                   const SpaceWidget(spaceHeight: 8),
-                                  // ...List.generate(
-                                  //   controller.reviewImages.length,
-                                  //   (index) {
-                                  //     return Container(
-                                  //       width: double.infinity,
-                                  //       padding: const EdgeInsets.all(12),
-                                  //       margin:
-                                  //           const EdgeInsets.only(bottom: 12),
-                                  //       decoration: BoxDecoration(
-                                  //         color: AppColors.white,
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(9),
-                                  //         boxShadow: const [
-                                  //           BoxShadow(
-                                  //             color: AppColors.grey200,
-                                  //             spreadRadius: 1,
-                                  //             blurRadius: 3,
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //       child: Row(
-                                  //         mainAxisAlignment:
-                                  //             MainAxisAlignment.spaceBetween,
-                                  //         children: [
-                                  //           Row(
-                                  //             children: [
-                                  //               ClipRRect(
-                                  //                 borderRadius:
-                                  //                     BorderRadius.circular(
-                                  //                         100),
-                                  //                 child: Image.asset(
-                                  //                   controller
-                                  //                       .reviewImages[index],
-                                  //                   height: size.width /
-                                  //                       (size.width / 36),
-                                  //                   width: size.width /
-                                  //                       (size.width / 36),
-                                  //                   fit: BoxFit.cover,
-                                  //                 ),
-                                  //               ),
-                                  //               const SpaceWidget(
-                                  //                   spaceWidth: 8),
-                                  //               SizedBox(
-                                  //                 width: size.width /
-                                  //                     (size.width / 150),
-                                  //                 child: TextWidget(
-                                  //                   text: '',
-                                  //                   fontColor:
-                                  //                       AppColors.black500,
-                                  //                   fontSize: 11,
-                                  //                   fontWeight: FontWeight.w400,
-                                  //                   maxLines: 2,
-                                  //                   textAlignment:
-                                  //                       TextAlign.left,
-                                  //                 ),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //           Row(
-                                  //             children: [
-                                  //               ...List.generate(
-                                  //                 5,
-                                  //                 (i) {
-                                  //                   return Icon(
-                                  //                     Icons.star,
-                                  //                     color: index == 4
-                                  //                         ? AppColors
-                                  //                             .starIconUnselected
-                                  //                         : AppColors.starIcon,
-                                  //                     size: 12,
-                                  //                   );
-                                  //                 },
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  // ),
+                                  ...organization.reviews!.map(
+                                    (review) {
+                                      return Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.all(12),
+                                        margin:
+                                            const EdgeInsets.only(bottom: 12),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(9),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              color: AppColors.grey200,
+                                              spreadRadius: 1,
+                                              blurRadius: 3,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  child: AppImage(
+                                                    url: review.user!.profile ??
+                                                        '',
+                                                    height: size.width /
+                                                        (size.width / 36),
+                                                    width: size.width /
+                                                        (size.width / 36),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                const SpaceWidget(
+                                                    spaceWidth: 8),
+                                                SizedBox(
+                                                  width: size.width /
+                                                      (size.width / 150),
+                                                  child: TextWidget(
+                                                    text:
+                                                        review.user!.name ?? '',
+                                                    fontColor:
+                                                        AppColors.black500,
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w400,
+                                                    maxLines: 2,
+                                                    textAlignment:
+                                                        TextAlign.left,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.star,
+                                                  color: AppColors.starIcon,
+                                                  size: 12,
+                                                ),
+                                                const SpaceWidget(
+                                                    spaceWidth: 2),
+                                                TextWidget(
+                                                  text: review.star.toString(),
+                                                  fontColor: AppColors.black500,
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   const SpaceWidget(spaceHeight: 15),
                                   ButtonWidget(
                                     onPressed: () {
