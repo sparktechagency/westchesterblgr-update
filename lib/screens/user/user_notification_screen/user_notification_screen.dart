@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:itzel/constants/app_colors.dart';
 import 'package:itzel/constants/app_strings.dart';
 import 'package:itzel/widgets/appbar_widget/appbar_widget.dart';
@@ -61,7 +62,11 @@ class UserNotificationScreen extends StatelessWidget {
                       maxLines: 2,
                     ),
                     TextWidget(
-                      text: notification.createdAt?.toString() ?? '',
+                      text: notification.createdAt != null
+                          ? DateFormat('dd.MM.yyyy, hh:mm a')
+                              .format(notification.createdAt!)
+                          : '',
+                      // text: notification.createdAt?.toString() ?? '',
                       fontColor: AppColors.whiteLight,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,

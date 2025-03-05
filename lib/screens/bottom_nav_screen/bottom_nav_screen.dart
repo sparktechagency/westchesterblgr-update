@@ -19,7 +19,6 @@ import '../creator/creator_dashboard_screen/creator_dashboard_screen.dart';
 import '../user/user_drawer_screen/user_drawer_screen.dart';
 import '../user/user_event_screen/user_event_screen.dart';
 import '../user/user_notification_screen/controllers/user_notification_controller.dart';
-import '../user/user_notification_screen/user_notification_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -71,10 +70,8 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         leading: IconButton(
           onPressed: () {
             (userRole == 'USER')
-                ? Get.to(
-                    () => UserNotificationScreen(),
-                  )
-                : Get.toNamed(AppRoutes.creatorNotificationScreen);
+                ? Navigator.of(context).push(_createUserDrawerRoute())
+                : Navigator.of(context).push(_createCreatorDrawerRoute());
           },
           icon: const IconWidget(
             icon: 'assets/icons/menuIcon.svg',
@@ -90,23 +87,23 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         ),
         actions: [
           IconButton(
-            tooltip: "Notifications",
-            onPressed: () {
-              (userRole == 'USER')
-                  ? Get.toNamed(AppRoutes.userNotificationScreen)
-                  : Get.toNamed(AppRoutes.creatorNotificationScreen);
-            },
-            icon: Obx(() => Badge(
-                  isLabelVisible: _notificationController.unreadCount.value > 0,
-                  label: Text("${_notificationController.unreadCount.value}"),
-                  backgroundColor: AppColors.red,
-                  child: const IconWidget(
-                    icon: 'assets/icons/notificationIcon.svg',
-                    width: 24,
-                    height: 24,
-                  ),
-                )),
-          ),
+              tooltip: "Notifications",
+              onPressed: () {
+                (userRole == 'USER')
+                    ? Get.toNamed(AppRoutes.userNotificationScreen)
+                    : Get.toNamed(AppRoutes.creatorNotificationScreen);
+              },
+              icon: GetBuilder<UserNotificationController>(
+                  builder: (controller) => Obx(() => Badge(
+                        isLabelVisible: controller.unreadCount.value > 0,
+                        label: Text("${controller.unreadCount.value}"),
+                        backgroundColor: AppColors.red,
+                        child: const IconWidget(
+                          icon: 'assets/icons/notificationIcon.svg',
+                          width: 24,
+                          height: 24,
+                        ),
+                      )))),
         ],
       ),
       body: tabs[_currentIndex],
@@ -211,6 +208,15 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Make sure to dispose of the notification controller if needed
+    if (!Get.isRegistered<UserNotificationController>()) {
+      Get.delete<UserNotificationController>();
+    }
+    super.dispose();
   }
 }
 
