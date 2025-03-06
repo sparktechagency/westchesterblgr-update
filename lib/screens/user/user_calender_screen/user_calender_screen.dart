@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:itzel/utils/app_size.dart';
 import 'package:itzel/widgets/appbar_widget/appbar_widget.dart';
 import 'package:itzel/widgets/space_widget/space_widget.dart';
 import 'package:itzel/widgets/text_button_widget/text_button_widget.dart';
@@ -109,10 +111,11 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
               return Column(
                 children: events.map((event) {
                   return _buildClassItem(
-                    event.time.toIso8601String(),
+                    DateFormat('hh:mm a').format(event.time),
+                    //event.time.toIso8601String(),
                     event.name,
-                    event.creator,
-                    event.category,
+                    event.location.toString(),
+                    // event.category,
                     event.price,
                   );
                 }).toList(),
@@ -128,7 +131,7 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
     String time,
     String title,
     String instructor,
-    String type,
+    // String type,
     int duration,
   ) {
     return Column(
@@ -150,33 +153,39 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextWidget(
-                    text: type.toUpperCase(),
-                    fontColor: AppColors.black300,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
+                  // TextWidget(
+                  //   text: type.toUpperCase(),
+                  //   fontColor: AppColors.black300,
+                  //   fontSize: 12,
+                  //   fontWeight: FontWeight.w400,
+                  // ),
+
+                  SizedBox(
+                    width: ResponsiveUtils.width(220),
+                    child: TextWidget(
+                      text: title,
+                      fontColor: AppColors.blue500,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      textAlignment: TextAlign.left,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   const SpaceWidget(spaceHeight: 4),
+
                   TextWidget(
-                    text: title,
-                    fontColor: AppColors.blue500,
-                    fontSize: 16,
+                    text: instructor,
+                    fontColor: AppColors.black500,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                     textAlignment: TextAlign.left,
                   ),
-                  if (instructor.isNotEmpty)
-                    TextWidget(
-                      text: instructor,
-                      fontColor: AppColors.black500,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      textAlignment: TextAlign.left,
-                    ),
                 ],
               ),
             ),
             TextWidget(
-              text: "$duration min",
+              text: "\$$duration",
               fontColor: AppColors.black300,
               fontSize: 14,
               fontWeight: FontWeight.w400,
