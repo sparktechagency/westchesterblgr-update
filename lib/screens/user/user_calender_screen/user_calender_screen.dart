@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:itzel/widgets/appbar_widget/appbar_widget.dart';
 import 'package:itzel/widgets/space_widget/space_widget.dart';
 import 'package:itzel/widgets/text_button_widget/text_button_widget.dart';
@@ -6,6 +7,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
+import '../user_event_screen/controllers/user_event_controller.dart';
 
 class UserCalenderScreen extends StatefulWidget {
   const UserCalenderScreen({super.key});
@@ -18,6 +20,7 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
   DateTime _focusedDate = DateTime.now();
   DateTime? _selectedDate;
   CalendarFormat _calendarFormat = CalendarFormat.week;
+  final UserEventController _controller = Get.put(UserEventController());
 
   void _toggleCalendarFormat() {
     setState(() {
@@ -25,6 +28,14 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
           ? CalendarFormat.month
           : CalendarFormat.week;
     });
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      _selectedDate = selectedDay;
+      _focusedDate = focusedDay;
+    });
+    _controller.fetchEventsByDate(selectedDay);
   }
 
   @override
@@ -46,12 +57,7 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDate, day);
               },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDate = selectedDay;
-                  _focusedDate = focusedDay;
-                });
-              },
+              onDaySelected: _onDaySelected,
               calendarStyle: const CalendarStyle(
                 selectedDecoration: BoxDecoration(
                   color: AppColors.starIcon,
@@ -83,13 +89,35 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
               color: AppColors.grey200,
             ),
             const SpaceWidget(spaceHeight: 16),
-            _buildClassItem(
-                "4:00 AM", "Adult Lap Pool Swim", "", "Adult Swim", 420),
-            _buildClassItem(
-                "5:30 AM", "GTX", "Kristen M.", "Signature Group Training", 60),
-            _buildClassItem("5:30 AM", "SOL GUIDED VINYASA: Medium Heat",
-                "Alessia A.", "Yoga", 60),
-            _buildClassItem("5:45 AM", "SHRED", "Loubna A.", "Strength", 45),
+            Obx(() {
+              if (_controller.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final events = _controller.eventsByDate.value;
+              if (events.isEmpty) {
+                return const Center(
+                  child: TextWidget(
+                    text: 'No event found',
+                    fontColor: AppColors.black500,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                );
+              }
+
+              return Column(
+                children: events.map((event) {
+                  return _buildClassItem(
+                    event.time.toIso8601String(),
+                    event.name,
+                    event.creator,
+                    event.category,
+                    event.price,
+                  );
+                }).toList(),
+              );
+            }),
           ],
         ),
       ),

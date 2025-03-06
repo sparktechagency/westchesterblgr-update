@@ -6,7 +6,6 @@ import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
 import '../../../constants/app_images_path.dart';
 import '../../../constants/app_strings.dart';
-import '../../../routes/app_routes.dart';
 import '../../../utils/app_size.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
@@ -266,7 +265,7 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: ResponsiveUtils.width(225),
+                                            width: ResponsiveUtils.width(200),
                                             child: TextWidget(
                                               text:
                                                   group.name ?? 'Unknown Group',
@@ -330,118 +329,118 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
               }),
 
               const SpaceWidget(spaceHeight: 16),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: size.width / (size.width / 20)),
-                child: const TextWidget(
-                  text: AppStrings.messages,
-                  fontColor: AppColors.grey900,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SpaceWidget(spaceHeight: 8),
-
-              // User chats
-              ...List.generate(
-                5,
-                (index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.userChatScreen);
-                    },
-                    borderRadius: BorderRadius.circular(16),
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(12),
-                      margin: EdgeInsets.only(
-                        left: size.width / (size.width / 20),
-                        right: size.width / (size.width / 20),
-                        bottom: size.width / (size.width / 12),
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: AppColors.grey300,
-                            spreadRadius: 1,
-                            blurRadius: 3,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: Image.asset(
-                                  AppImagesPath.chatProfileImage,
-                                  height: size.width / (size.width / 48),
-                                  width: size.width / (size.width / 48),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SpaceWidget(spaceWidth: 8),
-                              const Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    text: AppStrings.chatUserName,
-                                    fontColor: AppColors.black500,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  SpaceWidget(spaceHeight: 7),
-                                  TextWidget(
-                                    text: AppStrings.chatDetails,
-                                    fontColor: AppColors.black500,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                height: size.width / (size.width / 16),
-                                width: size.width / (size.width / 16),
-                                decoration: BoxDecoration(
-                                  color: AppColors.red,
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: const Center(
-                                  child: TextWidget(
-                                    text: AppStrings.unreadChatQuantity,
-                                    fontColor: AppColors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              const SpaceWidget(spaceHeight: 8),
-                              const TextWidget(
-                                text: AppStrings.unreadChatTime,
-                                fontColor: AppColors.black300,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-              const SpaceWidget(spaceHeight: 80),
+              // Padding(
+              //   padding: EdgeInsets.symmetric(
+              //       horizontal: size.width / (size.width / 20)),
+              //   child: const TextWidget(
+              //     text: AppStrings.messages,
+              //     fontColor: AppColors.grey900,
+              //     fontSize: 12,
+              //     fontWeight: FontWeight.w500,
+              //   ),
+              // ),
+              // const SpaceWidget(spaceHeight: 8),
+              //
+              // // User chats
+              // ...List.generate(
+              //   5,
+              //   (index) {
+              //     return InkWell(
+              //       onTap: () {
+              //         Navigator.pushNamed(context, AppRoutes.userChatScreen);
+              //       },
+              //       borderRadius: BorderRadius.circular(16),
+              //       splashColor: Colors.transparent,
+              //       highlightColor: Colors.transparent,
+              //       child: Container(
+              //         width: double.infinity,
+              //         padding: const EdgeInsets.all(12),
+              //         margin: EdgeInsets.only(
+              //           left: size.width / (size.width / 20),
+              //           right: size.width / (size.width / 20),
+              //           bottom: size.width / (size.width / 12),
+              //         ),
+              //         decoration: BoxDecoration(
+              //           color: AppColors.white,
+              //           borderRadius: BorderRadius.circular(16),
+              //           boxShadow: const [
+              //             BoxShadow(
+              //               color: AppColors.grey300,
+              //               spreadRadius: 1,
+              //               blurRadius: 3,
+              //             ),
+              //           ],
+              //         ),
+              //         child: Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: [
+              //             Row(
+              //               children: [
+              //                 ClipRRect(
+              //                   borderRadius: BorderRadius.circular(100),
+              //                   child: Image.asset(
+              //                     AppImagesPath.chatProfileImage,
+              //                     height: size.width / (size.width / 48),
+              //                     width: size.width / (size.width / 48),
+              //                     fit: BoxFit.cover,
+              //                   ),
+              //                 ),
+              //                 const SpaceWidget(spaceWidth: 8),
+              //                 const Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   children: [
+              //                     TextWidget(
+              //                       text: AppStrings.chatUserName,
+              //                       fontColor: AppColors.black500,
+              //                       fontSize: 16,
+              //                       fontWeight: FontWeight.w500,
+              //                     ),
+              //                     SpaceWidget(spaceHeight: 7),
+              //                     TextWidget(
+              //                       text: AppStrings.chatDetails,
+              //                       fontColor: AppColors.black500,
+              //                       fontSize: 12,
+              //                       fontWeight: FontWeight.w400,
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ],
+              //             ),
+              //             Column(
+              //               crossAxisAlignment: CrossAxisAlignment.end,
+              //               children: [
+              //                 Container(
+              //                   height: size.width / (size.width / 16),
+              //                   width: size.width / (size.width / 16),
+              //                   decoration: BoxDecoration(
+              //                     color: AppColors.red,
+              //                     borderRadius: BorderRadius.circular(100),
+              //                   ),
+              //                   child: const Center(
+              //                     child: TextWidget(
+              //                       text: AppStrings.unreadChatQuantity,
+              //                       fontColor: AppColors.white,
+              //                       fontSize: 12,
+              //                       fontWeight: FontWeight.w600,
+              //                     ),
+              //                   ),
+              //                 ),
+              //                 const SpaceWidget(spaceHeight: 8),
+              //                 const TextWidget(
+              //                   text: AppStrings.unreadChatTime,
+              //                   fontColor: AppColors.black300,
+              //                   fontSize: 10,
+              //                   fontWeight: FontWeight.w500,
+              //                 ),
+              //               ],
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
+              // const SpaceWidget(spaceHeight: 80),
             ],
           ),
         ),

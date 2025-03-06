@@ -109,6 +109,34 @@ class EventRepository {
     }
   }
 
+  Future<List<EventModel>?> getEventsByDate(String date) async {
+    try {
+      print('Attempting to fetch events with date: $date');
+
+      final response = await _apiGetServices.apiGetServices(
+        '${AppApiUrl.baseUrl}/event',
+        queryParameters: {'time': date},
+      );
+
+      print('Raw API response: $response');
+
+      if (response != null && response['data'] != null) {
+        print('Response data type: ${response['data'].runtimeType}');
+        print('Response data: ${response['data']}');
+
+        return List<EventModel>.from(
+            response['data'].map((event) => EventModel.fromJson(event)));
+      } else {
+        print('No data found in the response');
+      }
+    } catch (e, stackTrace) {
+      errorLog("Error fetching events by date", e);
+      print('Error fetching events by date: $e');
+      print('Stacktrace: $stackTrace');
+    }
+    return null;
+  }
+
 // Creator
 
   Future<bool> createEvent(Map<String, dynamic> eventData,
