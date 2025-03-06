@@ -35,20 +35,21 @@ class Welcome {
 
 class EarningStatus {
   String? month;
-  int? totalEarning;
+  double? totalEarning;
 
-  EarningStatus({
-    this.month,
-    this.totalEarning,
-  });
+  EarningStatus({this.month, this.totalEarning});
 
-  factory EarningStatus.fromJson(Map<String, dynamic> json) => EarningStatus(
-        month: json["month"],
-        totalEarning: json["totalEarning"],
-      );
+  factory EarningStatus.fromJson(Map<String, dynamic> json) {
+    return EarningStatus(
+      month: json['month'] as String?,
+      totalEarning: (json['totalEarning'] as num?)?.toDouble(),
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        "month": month,
-        "totalEarning": totalEarning,
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'month': month,
+      'totalEarning': totalEarning,
+    };
+  }
 }
