@@ -2,18 +2,15 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:itzel/screens/creator/creator_business_information_screen/widgets/business_information_textfield_widget.dart';
 import 'package:itzel/screens/creator/creator_business_information_screen/widgets/headerTextWidget.dart';
 import 'package:itzel/screens/creator/creator_business_information_screen/widgets/title_text_widget.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../widgets/app_snack_bar/app_snack_bar.dart';
 import '../../../widgets/appbar_widget/appbar_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controllers/creator_business_information_controller.dart';
 
 class CreatorBusinessInformationScreen extends StatefulWidget {
   const CreatorBusinessInformationScreen({super.key});
@@ -25,9 +22,6 @@ class CreatorBusinessInformationScreen extends StatefulWidget {
 
 class _CreatorBusinessInformationScreenState
     extends State<CreatorBusinessInformationScreen> {
-  final CreatorBusinessInformationController _controller =
-      Get.put(CreatorBusinessInformationController());
-
   final birthdateController = TextEditingController();
   final nameController = TextEditingController();
   final phoneNumberController = TextEditingController();
@@ -59,37 +53,6 @@ class _CreatorBusinessInformationScreenState
     } catch (e) {
       debugPrint('Error picking file: $e');
     }
-  }
-
-  void updateAndSave() async {
-    if (fileData == null || fileName == null) {
-      AppSnackBar.error('Please select a file');
-      return;
-    }
-
-    Map<String, dynamic> data = {
-      "dateOfBirth": birthdateController.text,
-      "name": nameController.text,
-      "phoneNumber": phoneNumberController.text,
-      "email": emailController.text,
-      "idNumber": idNumberController.text,
-      "bank_info": {
-        "account_holder_name": accountHolderNameController.text,
-        "account_holder_type": accountHolderTypeController.text,
-        "currency": currencyController.text,
-        "routing_number": routingNumberController.text,
-        "country": countryController.text,
-      },
-      "address": {
-        "city": cityController.text,
-        "country": countryController.text,
-        "line1": lineOneController.text,
-        "postal_code": postalCodeController.text,
-        "state": stateController.text,
-      }
-    };
-
-    await _controller.postBusinessInformation(data, fileData!, fileName!);
   }
 
   @override
@@ -301,7 +264,7 @@ class _CreatorBusinessInformationScreenState
             ),
             const SpaceWidget(spaceHeight: 36),
             ButtonWidget(
-              onPressed: updateAndSave,
+              onPressed: () {},
               label: 'Update & Save',
               buttonWidth: double.infinity,
             ),

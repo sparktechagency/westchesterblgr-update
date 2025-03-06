@@ -122,7 +122,8 @@ class CreatorAllEventStatusScreen extends StatelessWidget {
                                     flex: 1,
                                     child: StatItemWidget(
                                       title: 'Total Earning',
-                                      value: '\$${event.totalEarning / 100}',
+                                      value:
+                                          '\$${event.totalEarning / 100}', // This should work with double now
                                     ),
                                   ),
                                   const SpaceWidget(spaceWidth: 2),

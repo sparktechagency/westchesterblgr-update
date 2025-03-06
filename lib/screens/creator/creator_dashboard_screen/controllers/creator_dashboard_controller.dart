@@ -23,7 +23,6 @@ class CreatorDashboardController extends GetxController {
     coordinate: [],
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),
-    v: 0,
     totalEarning: 0,
     ticketSold: 0,
   ).obs;

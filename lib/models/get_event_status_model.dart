@@ -42,8 +42,7 @@ class EventStatus {
   List<double> coordinate;
   DateTime createdAt;
   DateTime updatedAt;
-  int v;
-  int totalEarning;
+  double totalEarning;
   int ticketSold;
 
   EventStatus({
@@ -60,29 +59,29 @@ class EventStatus {
     required this.coordinate,
     required this.createdAt,
     required this.updatedAt,
-    required this.v,
     required this.totalEarning,
     required this.ticketSold,
   });
 
   factory EventStatus.fromJson(Map<String, dynamic> json) => EventStatus(
-        id: json["_id"],
-        thumbnailImage: json["thumbnailImage"],
-        introMedia: json["introMedia"],
-        name: json["name"],
-        time: DateTime.parse(json["time"]),
-        description: json["description"],
-        tags: List<String>.from(json["tags"].map((x) => x)),
-        price: json["price"],
-        creator: json["creator"],
-        address: json["address"],
-        coordinate:
-            List<double>.from(json["coordinate"].map((x) => x?.toDouble())),
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        v: json["__v"],
-        totalEarning: json["totalEarning"],
-        ticketSold: json["ticketSold"],
+        id: json["_id"] ?? '',
+        thumbnailImage: json["thumbnailImage"] ?? '',
+        introMedia: json["introMedia"] ?? '',
+        name: json["name"] ?? '',
+        time: DateTime.parse(json["time"] ?? DateTime.now().toIso8601String()),
+        description: json["description"] ?? '',
+        tags: List<String>.from(json["tags"]?.map((x) => x) ?? []),
+        price: json["price"] ?? 0,
+        creator: json["creator"] ?? '',
+        address: json["address"] ?? '',
+        coordinate: List<double>.from(
+            json["coordinate"]?.map((x) => x.toDouble()) ?? []),
+        createdAt: DateTime.parse(
+            json["createdAt"] ?? DateTime.now().toIso8601String()),
+        updatedAt: DateTime.parse(
+            json["updatedAt"] ?? DateTime.now().toIso8601String()),
+        totalEarning: (json["totalEarning"] ?? 0).toDouble(),
+        ticketSold: json["ticketSold"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -99,7 +98,6 @@ class EventStatus {
         "coordinate": List<dynamic>.from(coordinate.map((x) => x)),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-        "__v": v,
         "totalEarning": totalEarning,
         "ticketSold": ticketSold,
       };
