@@ -130,9 +130,8 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
   Widget _buildClassItem(
     String time,
     String title,
-    String instructor,
-    // String type,
-    int duration,
+    String location,
+    int price,
   ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,13 +152,6 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // TextWidget(
-                  //   text: type.toUpperCase(),
-                  //   fontColor: AppColors.black300,
-                  //   fontSize: 12,
-                  //   fontWeight: FontWeight.w400,
-                  // ),
-
                   SizedBox(
                     width: ResponsiveUtils.width(220),
                     child: TextWidget(
@@ -173,9 +165,8 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
                     ),
                   ),
                   const SpaceWidget(spaceHeight: 4),
-
                   TextWidget(
-                    text: instructor,
+                    text: location,
                     fontColor: AppColors.black500,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -185,7 +176,7 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
               ),
             ),
             TextWidget(
-              text: "\$$duration",
+              text: "\$$price",
               fontColor: AppColors.black300,
               fontSize: 14,
               fontWeight: FontWeight.w400,
