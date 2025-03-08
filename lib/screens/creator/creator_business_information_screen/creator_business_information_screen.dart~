@@ -140,7 +140,7 @@ class _CreatorBusinessInformationScreenState
                 _buildField('Date of Birth', controller.birthdateController),
                 _buildField('Name', controller.nameController),
                 _buildField('Phone Number', controller.phoneNumberController,
-                    TextInputType.text),
+                    TextInputType.number),
                 _buildField('Email', controller.emailController),
                 _buildField('ID Number', controller.idNumberController,
                     TextInputType.number),
