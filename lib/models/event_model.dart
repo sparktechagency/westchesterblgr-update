@@ -41,10 +41,11 @@ class EventModel {
   final List<String> tags;
   final int price;
   final String category;
-  final String creator;
+  final Creator creator;
   final DateTime createdAt;
   final DateTime updatedAt;
   final int v;
+  final bool isFavourite;
 
   EventModel({
     required this.location,
@@ -61,33 +62,46 @@ class EventModel {
     required this.createdAt,
     required this.updatedAt,
     required this.v,
+    this.isFavourite = false,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     try {
+      var locationData = json["location"];
+      dynamic parsedLocation;
+
+      if (locationData != null) {
+        if (locationData is String) {
+          parsedLocation = locationData;
+        } else if (locationData is Map<String, dynamic>) {
+          parsedLocation = LocationClass.fromJson(locationData);
+        }
+      }
+
       return EventModel(
-        location: json["location"] == null
-            ? null
-            : json["location"] is String
-                ? json["location"]
-                : LocationClass.fromJson(json["location"]),
+        location: parsedLocation,
         id: json["_id"] ?? "",
         thumbnailImage: json["thumbnailImage"] ?? "",
         introMedia: json["introMedia"] ?? "",
         name: json["name"] ?? "",
-        time: DateTime.tryParse(json["time"] ?? "") ?? DateTime.now(),
+        time:
+            DateTime.tryParse(json["time"]?.toString() ?? "") ?? DateTime.now(),
         description: json["description"] ?? "",
         tags: List<String>.from((json["tags"] ?? []).map((x) => x.toString())),
         price: json["price"]?.toInt() ?? 0,
         category: json["category"] ?? "",
-        creator: json["creator"] ?? "",
-        createdAt: DateTime.tryParse(json["createdAt"] ?? "") ?? DateTime.now(),
-        updatedAt: DateTime.tryParse(json["updatedAt"] ?? "") ?? DateTime.now(),
+        creator: json["creator"] is Map
+            ? Creator.fromJson(json["creator"])
+            : Creator.empty(),
+        createdAt: DateTime.tryParse(json["createdAt"]?.toString() ?? "") ??
+            DateTime.now(),
+        updatedAt: DateTime.tryParse(json["updatedAt"]?.toString() ?? "") ??
+            DateTime.now(),
         v: json["__v"]?.toInt() ?? 0,
+        isFavourite: json["isFavourite"] ?? false,
       );
     } catch (e) {
       print('Error parsing EventModel: $e');
-      // Return a default event model in case of parsing errors
       return EventModel(
         location: null,
         id: "",
@@ -99,7 +113,7 @@ class EventModel {
         tags: [],
         price: 0,
         category: "",
-        creator: "",
+        creator: Creator.empty(),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         v: 0,
@@ -108,11 +122,7 @@ class EventModel {
   }
 
   Map<String, dynamic> toJson() => {
-        "location": location == null
-            ? null
-            : location is String
-                ? location
-                : (location as LocationClass).toJson(),
+        "location": location is LocationClass ? location.toJson() : location,
         "_id": id,
         "thumbnailImage": thumbnailImage,
         "introMedia": introMedia,
@@ -122,10 +132,50 @@ class EventModel {
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "price": price,
         "category": category,
-        "creator": creator,
+        "creator": creator.toJson(),
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
+        "isFavourite": isFavourite,
+      };
+}
+
+class Creator {
+  final String id;
+  final String name;
+  final String email;
+  final String profile;
+
+  Creator({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.profile,
+  });
+
+  factory Creator.fromJson(Map<String, dynamic> json) {
+    return Creator(
+      id: json["_id"] ?? "",
+      name: json["name"] ?? "",
+      email: json["email"] ?? "",
+      profile: json["profile"] ?? "",
+    );
+  }
+
+  factory Creator.empty() {
+    return Creator(
+      id: "",
+      name: "",
+      email: "",
+      profile: "",
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "name": name,
+        "email": email,
+        "profile": profile,
       };
 }
 

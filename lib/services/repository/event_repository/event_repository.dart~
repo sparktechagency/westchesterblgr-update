@@ -21,10 +21,14 @@ class EventRepository {
   Future<List<EventModel>?> getAllEvents() async {
     try {
       final response = await _apiGetServices.apiGetServices(AppApiUrl.allEvent);
-      if (response != null && response['data'] != null) {
-        // Ensure we're getting the data array from the response
-        final List<dynamic> eventList = response['data'];
-        return eventList.map((event) => EventModel.fromJson(event)).toList();
+      if (response != null) {
+        if (response is List) {
+          return List<EventModel>.from(
+              response.map((event) => EventModel.fromJson(event)));
+        } else if (response['data'] != null) {
+          return List<EventModel>.from(
+              response['data'].map((event) => EventModel.fromJson(event)));
+        }
       }
     } catch (e) {
       errorLog("Error fetching events", e);

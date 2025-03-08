@@ -20,15 +20,14 @@ class UserHomeController extends GetxController {
       error('');
       final fetchedEvents = await _eventRepository.getAllEvents();
 
-      if (fetchedEvents != null && fetchedEvents.isNotEmpty) {
+      if (fetchedEvents != null) {
         events.assignAll(fetchedEvents);
       } else {
-        error('No events available');
-        events.clear();
+        error('No events found');
       }
     } catch (e) {
       error('Failed to load events: ${e.toString()}');
-      events.clear();
+      print('Error fetching events: $e');
     } finally {
       isLoading(false);
     }
