@@ -216,7 +216,7 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                           final group = chatController.userGroups[index];
                           return InkWell(
                             onTap: () {
-                              Get.to(() => UserGroupChatScreen());
+                              Get.to(() => UserGroupChatScreen(group: group));
                             },
                             borderRadius: BorderRadius.circular(16),
                             splashColor: Colors.transparent,

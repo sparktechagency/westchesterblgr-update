@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final welcome = welcomeFromJson(jsonString);
+
 import 'dart:convert';
 
 Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
@@ -34,33 +38,39 @@ class Welcome {
 
 class MyGroup {
   String? id;
-  String? name;
-  List<Member>? members;
-  String? event;
+  String? name; // Added name field
+  From? from;
+  dynamic to;
+  String? message;
+  List<dynamic>? images;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
-  bool? is2Message;
+  String? group;
 
   MyGroup({
     this.id,
-    this.name,
-    this.members,
-    this.event,
+    this.name, // Added name field
+    this.from,
+    this.to,
+    this.message,
+    this.images,
     this.createdAt,
     this.updatedAt,
     this.v,
-    this.is2Message,
+    this.group,
   });
 
   factory MyGroup.fromJson(Map<String, dynamic> json) => MyGroup(
         id: json["_id"],
         name: json["name"],
-        members: json["members"] == null
+        // Added name field
+        from: json["from"] == null ? null : From.fromJson(json["from"]),
+        to: json["to"],
+        message: json["message"],
+        images: json["images"] == null
             ? []
-            : List<Member>.from(
-                json["members"]!.map((x) => Member.fromJson(x))),
-        event: json["event"],
+            : List<dynamic>.from(json["images"]!.map((x) => x)),
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -68,37 +78,38 @@ class MyGroup {
             ? null
             : DateTime.parse(json["updatedAt"]),
         v: json["__v"],
-        is2Message: json["is2Message"],
+        group: json["group"],
       );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "name": name,
-        "members": members == null
-            ? []
-            : List<dynamic>.from(members!.map((x) => x.toJson())),
-        "event": event,
+        "name": name, // Added name field
+        "from": from?.toJson(),
+        "to": to,
+        "message": message,
+        "images":
+            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
         "__v": v,
-        "is2Message": is2Message,
+        "group": group,
       };
 }
 
-class Member {
+class From {
   String? id;
   String? name;
   String? email;
   String? profile;
 
-  Member({
+  From({
     this.id,
     this.name,
     this.email,
     this.profile,
   });
 
-  factory Member.fromJson(Map<String, dynamic> json) => Member(
+  factory From.fromJson(Map<String, dynamic> json) => From(
         id: json["_id"],
         name: json["name"],
         email: json["email"],

@@ -1,27 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:itzel/screens/user/user_group_chat_screen/widgets/user_group_appbar_widget.dart';
-import 'package:itzel/widgets/space_widget/space_widget.dart';
+import 'package:itzel/models/my_group_model.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import '../user_group_chat_info_screen/user_group_chat_info_screen.dart';
-
-class ChatMessage {
-  String messageContent;
-  String messageType;
-
-  ChatMessage({
-    required this.messageContent,
-    required this.messageType,
-  });
-}
+import 'controller/user_group_chat_controller.dart';
 
 class UserGroupChatScreen extends StatefulWidget {
-  UserGroupChatScreen({super.key});
+  final MyGroup? group;
+
+  UserGroupChatScreen({super.key, this.group});
 
   @override
   State<UserGroupChatScreen> createState() => _UserGroupChatScreenState();
@@ -29,29 +20,15 @@ class UserGroupChatScreen extends StatefulWidget {
 
 class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
   final TextEditingController messageController = TextEditingController();
+  late final UserGroupChatController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = Get.put(UserGroupChatController(group: widget.group!));
+  }
 
   // Move messages list to state
-  List<ChatMessage> messages = [
-    ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageContent: "How have you been?", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Hey Kriss, I am doing fine dude. wbu?",
-        messageType: "sender"),
-    ChatMessage(messageContent: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(
-        messageContent: "Is there any thing wrong?", messageType: "sender"),
-  ];
-
-  void sendMessage(String content) {
-    if (content.isNotEmpty) {
-      setState(() {
-        messages.add(ChatMessage(
-          messageContent: content,
-          messageType: "sender",
-        ));
-      });
-    }
-  }
 
   @override
   void dispose() {
@@ -68,97 +45,101 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
       ),
       child: Scaffold(
         backgroundColor: AppColors.whiteBg,
-        appBar: UserGroupAppBarWidget(
-          onTitleTap: () {
-            Get.to(() => UserGroupChatInfoScreen());
-          },
-          onInfoTap: () {
-            Get.to(() => UserGroupChatInfoScreen());
-          },
-          onMoreTap: () {
-            showMenu(
-              context: context,
-              position: const RelativeRect.fromLTRB(
-                  100, 100, 0, 0), // Adjust the position as needed
-              items: [
-                const PopupMenuItem<int>(
-                  value: 0,
-                  child: Row(
-                    children: [
-                      Icon(Icons.delete_outline,
-                          color: AppColors.black500, size: 20),
-                      SpaceWidget(spaceWidth: 6),
-                      Text('Delete Chat'),
-                    ],
-                  ),
-                ),
-                const PopupMenuItem<int>(
-                  value: 1,
-                  child: Row(
-                    children: [
-                      Icon(Icons.block, color: AppColors.black500, size: 20),
-                      SpaceWidget(spaceWidth: 6),
-                      Text('Block'),
-                    ],
-                  ),
-                ),
-                const PopupMenuItem<int>(
-                  value: 1,
-                  child: Row(
-                    children: [
-                      Icon(Icons.report, color: AppColors.black500, size: 20),
-                      SpaceWidget(spaceWidth: 6),
-                      Text('Report Problem'),
-                    ],
-                  ),
-                ),
-                // Add more PopupMenuItem widgets for additional menu items
-              ],
-            ).then((value) {
-              if (value != null) {
-                // Handle menu item selection
-                switch (value) {
-                  case 0:
-                    // Action for first menu item
-                    break;
-                  case 1:
-                    // Action for second menu item
-                    break;
-                  // Add more cases for additional menu items
-                  case 2:
-                    // Action for second menu item
-                    break;
-                  // Add more cases for additional menu items
-                }
-              }
-            });
-          },
-          titleText: 'Bryan Lewis',
-          subTitleText: 'Last Seen 12h ago',
+        // appBar: UserGroupAppBarWidget(
+        //   onTitleTap: () {
+        //     Get.to(() => UserGroupChatInfoScreen());
+        //   },
+        //   onInfoTap: () {
+        //     Get.to(() => UserGroupChatInfoScreen());
+        //   },
+        //   onMoreTap: () {
+        //     showMenu(
+        //       context: context,
+        //       position: const RelativeRect.fromLTRB(
+        //           100, 100, 0, 0), // Adjust the position as needed
+        //       items: [
+        //         const PopupMenuItem<int>(
+        //           value: 0,
+        //           child: Row(
+        //             children: [
+        //               Icon(Icons.delete_outline,
+        //                   color: AppColors.black500, size: 20),
+        //               SpaceWidget(spaceWidth: 6),
+        //               Text('Delete Chat'),
+        //             ],
+        //           ),
+        //         ),
+        //         const PopupMenuItem<int>(
+        //           value: 1,
+        //           child: Row(
+        //             children: [
+        //               Icon(Icons.block, color: AppColors.black500, size: 20),
+        //               SpaceWidget(spaceWidth: 6),
+        //               Text('Block'),
+        //             ],
+        //           ),
+        //         ),
+        //         const PopupMenuItem<int>(
+        //           value: 1,
+        //           child: Row(
+        //             children: [
+        //               Icon(Icons.report, color: AppColors.black500, size: 20),
+        //               SpaceWidget(spaceWidth: 6),
+        //               Text('Report Problem'),
+        //             ],
+        //           ),
+        //         ),
+        //         // Add more PopupMenuItem widgets for additional menu items
+        //       ],
+        //     ).then((value) {
+        //       if (value != null) {
+        //         // Handle menu item selection
+        //         switch (value) {
+        //           case 0:
+        //             // Action for first menu item
+        //             break;
+        //           case 1:
+        //             // Action for second menu item
+        //             break;
+        //           // Add more cases for additional menu items
+        //           case 2:
+        //             // Action for second menu item
+        //             break;
+        //           // Add more cases for additional menu items
+        //         }
+        //       }
+        //     });
+        //   },
+        //   titleText: controller.receiverName.value,
+        //   subTitleText: 'Last Seen 12h ago',
+        // ),
+        appBar: AppBar(
+          title: Obx(() => Text(controller.receiverName.value)),
         ),
         body: Stack(
           children: [
             // Chat messages list
             ListView.builder(
-              itemCount: messages.length,
+              itemCount: controller.messages.length,
               padding: const EdgeInsets.only(top: 10, bottom: 70),
               itemBuilder: (context, index) {
-                final message = messages[index];
+                final message = controller.messages[index];
+                final isReceived =
+                    message.from?.id != controller.group.from?.id;
+
                 return Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: size.width / (size.width / 14),
                     vertical: size.width / (size.width / 10),
                   ),
                   child: Align(
-                    alignment: message.messageType == "receiver"
-                        ? Alignment.topLeft
-                        : Alignment.topRight,
+                    alignment:
+                        isReceived ? Alignment.topLeft : Alignment.topRight,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: message.messageType == "receiver"
-                            ? AppColors.white
-                            : AppColors.blueNormal,
+                        color:
+                            isReceived ? AppColors.white : AppColors.blueNormal,
                         boxShadow: const [
                           BoxShadow(
                             color: AppColors.grey300,
@@ -168,13 +149,29 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                         ],
                       ),
                       padding: EdgeInsets.all(size.width / (size.width / 16)),
-                      child: TextWidget(
-                        text: message.messageContent,
-                        fontColor: message.messageType == "receiver"
-                            ? AppColors.black500
-                            : AppColors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
+                      child: Column(
+                        crossAxisAlignment: isReceived
+                            ? CrossAxisAlignment.start
+                            : CrossAxisAlignment.end,
+                        children: [
+                          if (message.from?.name != null)
+                            TextWidget(
+                              text: message.from!.name!,
+                              fontColor: isReceived
+                                  ? AppColors.grey600
+                                  : AppColors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          TextWidget(
+                            text: message.message ?? '',
+                            fontColor: isReceived
+                                ? AppColors.black500
+                                : AppColors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -227,8 +224,8 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                     // Send button
                     GestureDetector(
                       onTap: () {
-                        sendMessage(messageController.text);
-                        messageController.clear();
+                        // sendMessage(messageController.text);
+                        //  messageController.clear();
                       },
                       child: Container(
                         height: size.width / (size.width / 48),

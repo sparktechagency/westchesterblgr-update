@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_icons_path.dart';
@@ -10,7 +9,6 @@ import '../../../routes/app_routes.dart';
 import '../../../widgets/icon_widget/icon_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import '../../user/user_group_chat_screen/user_group_chat_screen.dart';
 
 class CreatorAllChatScreen extends StatefulWidget {
   const CreatorAllChatScreen({super.key});
@@ -189,7 +187,7 @@ class _CreatorAllChatScreenState extends State<CreatorAllChatScreen> {
               (index) {
                 return InkWell(
                   onTap: () {
-                    Get.to(() => UserGroupChatScreen());
+                    // Get.to(() => UserGroupChatScreen());
                   },
                   borderRadius: BorderRadius.circular(16),
                   splashColor: Colors.transparent,

@@ -162,9 +162,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userChatScreen,
-        page: () => UserChatScreen(
-          group: null,
-        ),
+        page: () => UserChatScreen(group: null,),
         // binding: UserBindings(),
       ),
       GetPage(
