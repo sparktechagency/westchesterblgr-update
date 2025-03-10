@@ -1,14 +1,12 @@
-// lib/screens/user/user_profile_screen/controllers/user_profile_controller.dart
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:itzel/services/repository/profile_repository/profile_repository.dart';
-import 'package:itzel/widgets/app_snack_bar/app_snack_bar.dart';
 
 import '../../../../models/profile_model.dart';
+import '../../../../services/repository/profile_repository/profile_repository.dart';
+import '../../../../widgets/app_snack_bar/app_snack_bar.dart';
 import '../../user_account_screen/controllers/user_account_controller.dart';
 
 class UserProfileController extends GetxController {
@@ -24,10 +22,10 @@ class UserProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    final args = Get.arguments;
-    usernameController.text = args['username'];
-    addressController.text = args['address'];
-    phoneNumberController.text = args['contactNumber'];
+    final args = Get.arguments ?? {};
+    usernameController.text = args['username'] ?? '';
+    addressController.text = args['address'] ?? '';
+    phoneNumberController.text = args['contactNumber'] ?? '';
   }
 
   Future<void> pickImage() async {
@@ -64,12 +62,18 @@ class UserProfileController extends GetxController {
     }
   }
 
-  Future<void> fetchProfileData() async {
-    Data? profileData = await _profileRepository.fetchProfile();
-    if (profileData != null) {
-      usernameController.text = profileData.name;
-      addressController.text = profileData.location;
-      phoneNumberController.text = profileData.contact;
+  Future<Data?> fetchProfileData() async {
+    try {
+      Data? profileData = await _profileRepository.fetchProfile();
+      if (profileData != null) {
+        usernameController.text = profileData.name;
+        addressController.text = profileData.location;
+        phoneNumberController.text = profileData.contact;
+      }
+      return profileData;
+    } catch (e) {
+      print('Error fetching user profile: $e');
+      return null;
     }
   }
 

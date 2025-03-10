@@ -58,7 +58,7 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                   itemBuilder: (context, index) {
                     final message = controller.messages[index];
                     final isReceived =
-                        message.from?.id != controller.group.from?.id;
+                        message.from?.id != controller.userProfile?.id;
 
                     return Container(
                       padding: EdgeInsets.symmetric(
