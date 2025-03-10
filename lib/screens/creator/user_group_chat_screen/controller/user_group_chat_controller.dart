@@ -45,7 +45,7 @@ class UserGroupChatController extends GetxController {
 
   void initSocket() {
     socket = IO.io(
-      'http://139.59.0.25:3005',
+      'http://10.0.70.127:8001',
       IO.OptionBuilder()
           .setTransports(['websocket'])
           .enableAutoConnect()

@@ -9,7 +9,7 @@ import '../../../../models/profile_model.dart';
 import '../../../../services/repository/my_group_repository/my_group_repository.dart';
 import '../../../user/user_profile_screen/controllers/user_profile_controller.dart';
 
-class UserGroupChatController extends GetxController {
+class CreatorGroupChatController extends GetxController {
   final MyGroup group;
   RxList<MyGroup> messages = <MyGroup>[].obs;
   final RxString receiverName = ''.obs;
@@ -25,7 +25,7 @@ class UserGroupChatController extends GetxController {
   Data? userProfile;
   late IO.Socket socket;
 
-  UserGroupChatController({required this.group}) {
+  CreatorGroupChatController({required this.group}) {
     receiverName.value = group.name ?? 'Unknown Group';
     init();
   }

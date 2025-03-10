@@ -4,7 +4,6 @@ import 'package:itzel/screens/user/user_review_screen/widgets/review_search_text
 import 'package:itzel/widgets/app_image/app_image.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../routes/app_routes.dart';
 import '../../../widgets/button_widget/button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
@@ -307,8 +306,8 @@ class UserReviewScreen extends StatelessWidget {
                                   const SpaceWidget(spaceHeight: 15),
                                   ButtonWidget(
                                     onPressed: () {
-                                      Get.toNamed(
-                                          AppRoutes.userGiveReviewsScreen);
+                                      // Get.toNamed(
+                                      //     AppRoutes.userGiveReviewsScreen);
                                     },
                                     label: 'Give Reviews',
                                     buttonWidth: double.infinity,

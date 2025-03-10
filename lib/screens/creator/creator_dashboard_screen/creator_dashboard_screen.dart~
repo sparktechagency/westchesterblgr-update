@@ -335,8 +335,8 @@ class CreatorDashboardScreen extends StatelessWidget {
                                           ),
                                           const SpaceWidget(spaceWidth: 8),
                                           SizedBox(
-                                            width:
-                                                size.width / (size.width / 180),
+                                            width: size.width /
+                                                (size.width / 180),
                                             child: TextWidget(
                                               text: applicant.user.name,
                                               fontColor: AppColors.black500,

@@ -22,9 +22,9 @@ class AppApiUrl {
 
   //////////////////////////////////////  base
   static const String localDomain =
-      "http://10.0.70.127:8001"; ///////// local server
+      "http://139.59.0.25:3005"; ///////// local server
   static const String serverDomain =
-      "http://10.0.70.127:8001"; //////////// live server
+      "http://139.59.0.25:3005"; //////////// live server
   static final String domain = _getDomain();
 
   // Auth
