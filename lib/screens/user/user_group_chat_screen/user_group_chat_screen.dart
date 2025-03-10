@@ -53,6 +53,8 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                 return const Center(child: CircularProgressIndicator());
               } else {
                 return ListView.builder(
+                  controller: controller.scrollController,
+                  physics: const BouncingScrollPhysics(),
                   itemCount: controller.messages.length,
                   padding: const EdgeInsets.only(top: 10, bottom: 70),
                   itemBuilder: (context, index) {
