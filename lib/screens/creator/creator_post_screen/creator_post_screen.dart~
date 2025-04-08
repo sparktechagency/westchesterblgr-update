@@ -445,7 +445,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                       onPressed: () {
                         // Get.toNamed(AppRoutes.creatorProductCreateScreen);
                       },
-                      label: 'Create Post',
+                      label: 'Create New Product',
                       buttonWidth: double.infinity,
                       buttonHeight: size.height / (size.height / 56),
                     ),

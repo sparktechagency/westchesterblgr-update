@@ -112,12 +112,9 @@ class CreatorStatusRepository {
 
   Future<List<MyProduct>?> fetchMyProducts() async {
     try {
-      final response =
-          await _apiGetServices.apiGetServices(AppApiUrl.creatorMyProduct);
+      final response = await _apiGetServices.apiGetServices(AppApiUrl.creatorMyProduct);
       if (response != null && response['success'] == true) {
-        return (response['data'] as List)
-            .map((e) => MyProduct.fromJson(e))
-            .toList();
+        return (response['data'] as List).map((e) => MyProduct.fromJson(e)).toList();
       } else {
         AppSnackBar.error(response?['message'] ?? 'Failed to fetch products');
         return null;
