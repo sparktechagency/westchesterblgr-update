@@ -443,9 +443,9 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ButtonWidget(
                       onPressed: () {
-                        // Get.toNamed(AppRoutes.creatorProductCreateScreen);
+                        Get.toNamed(AppRoutes.creatorProductCreateScreen);
                       },
-                      label: 'Create New Product',
+                      label: 'Create Post',
                       buttonWidth: double.infinity,
                       buttonHeight: size.height / (size.height / 56),
                     ),

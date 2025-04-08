@@ -20,32 +20,35 @@ class AppSnackBar {
             Get.closeAllSnackbars();
           });
         },
-        messageText: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const TextWidget(
-              text: "Error!",
-              fontColor: AppColors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w900,
-            ),
-            const SpaceWidget(spaceHeight: 5),
-            TextWidget(
-              text: parameterValue,
-              fontColor: AppColors.white,
-              textAlignment: TextAlign.center,
-            ),
-          ],
+        messageText: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TextWidget(
+                text: "Error!",
+                fontColor: AppColors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
+              ),
+              const SpaceWidget(spaceHeight: 5),
+              TextWidget(
+                text: parameterValue,
+                fontColor: AppColors.white,
+                textAlignment: TextAlign.center,
+              ),
+            ],
+          ),
         ),
-        borderRadius: ResponsiveUtils.width(20),
+        borderRadius: _ensureNonNegative(AppSize.width(value: 20.0)),
         padding: EdgeInsets.all(
-          ResponsiveUtils.width(10),
+          _ensureNonNegative(AppSize.width(value: 10.0)),
         ),
         margin: EdgeInsets.symmetric(
-            horizontal: AppSize.width(value: 40.0),
-            vertical: AppSize.width(value: 30)),
+          horizontal: _ensureNonNegative(AppSize.width(value: 40.0)),
+          vertical: _ensureNonNegative(AppSize.width(value: 30)),
+        ),
       ),
     );
   }
@@ -62,16 +65,19 @@ class AppSnackBar {
             Get.closeAllSnackbars();
           });
         },
-        messageText: TextWidget(
-          text: parameterValue,
-          fontColor: AppColors.white,
-          textAlignment: TextAlign.center,
+        messageText: SingleChildScrollView(
+          child: TextWidget(
+            text: parameterValue,
+            fontColor: AppColors.white,
+            textAlignment: TextAlign.center,
+          ),
         ),
-        borderRadius: AppSize.width(value: 20.0),
-        padding: EdgeInsets.all(AppSize.width(value: 10.0)),
+        borderRadius: _ensureNonNegative(AppSize.width(value: 20.0)),
+        padding: EdgeInsets.all(_ensureNonNegative(AppSize.width(value: 10.0))),
         margin: EdgeInsets.symmetric(
-            horizontal: AppSize.width(value: 40.0),
-            vertical: AppSize.width(value: 30)),
+          horizontal: _ensureNonNegative(AppSize.width(value: 40.0)),
+          vertical: _ensureNonNegative(AppSize.width(value: 30)),
+        ),
       ),
     );
   }
@@ -91,19 +97,27 @@ class AppSnackBar {
             Get.closeAllSnackbars();
           });
         },
-        messageText: TextWidget(
-          text: parameterValue,
-          fontColor: color,
-          fontSize: 16,
-          textAlignment: TextAlign.center,
-          fontWeight: FontWeight.w400,
+        messageText: SingleChildScrollView(
+          child: TextWidget(
+            text: parameterValue,
+            fontColor: color,
+            fontSize: 16,
+            textAlignment: TextAlign.center,
+            fontWeight: FontWeight.w400,
+          ),
         ),
-        borderRadius: AppSize.width(value: 20.0),
-        padding: EdgeInsets.all(AppSize.width(value: 10.0)),
+        borderRadius: _ensureNonNegative(AppSize.width(value: 20.0)),
+        padding: EdgeInsets.all(_ensureNonNegative(AppSize.width(value: 10.0))),
         margin: EdgeInsets.symmetric(
-            horizontal: AppSize.width(value: 40.0),
-            vertical: AppSize.width(value: 30)),
+          horizontal: _ensureNonNegative(AppSize.width(value: 40.0)),
+          vertical: _ensureNonNegative(AppSize.width(value: 30)),
+        ),
       ),
     );
+  }
+
+  // Helper method to ensure non-negative values
+  static double _ensureNonNegative(double value) {
+    return value < 0 ? 0 : value;
   }
 }

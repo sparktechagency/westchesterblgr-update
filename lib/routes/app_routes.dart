@@ -54,6 +54,7 @@ class AppRoutes {
   static const creatorPostScreen = '/creatorPostScreen';
   static const creatorEventCreateScreen = '/creatorEventCreateScreen';
   static const creatorJobPublishScreen = '/creatorJobPublishScreen';
+  static const creatorItemSellingScreen = '/creatorItemSellingScreen';
   static const creatorAnalyticsScreen = '/creatorAnalyticsScreen';
   static const creatorBusinessInformationScreen =
       '/creatorBusinessInformationScreen';

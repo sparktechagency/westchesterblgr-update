@@ -22,6 +22,7 @@ import '../screens/creator/creator_dashboard_screen/creator_dashboard_screen.dar
 import '../screens/creator/creator_delete_account_screen/creator_delete_account_screen.dart';
 import '../screens/creator/creator_drawer_screen/creator_drawer_screen.dart';
 import '../screens/creator/creator_event_create_screen/creator_event_create_screen.dart';
+import '../screens/creator/creator_item_selling_screen/creator_item_selling_screen.dart';
 import '../screens/creator/creator_job_publish_screen/creator_job_publish_screen.dart';
 import '../screens/creator/creator_notification_screen/creator_notification_screen.dart';
 import '../screens/creator/creator_payment_method_screen/creator_payment_method_screen.dart';
@@ -311,6 +312,11 @@ class RouteManager {
       GetPage(
         name: AppRoutes.creatorJobPublishScreen,
         page: () => CreatorJobPublishScreen(),
+        // binding: CreatorBindings(),
+      ),
+      GetPage(
+        name: AppRoutes.creatorItemSellingScreen,
+        page: () => CreatorItemSellingScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(

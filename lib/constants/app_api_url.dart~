@@ -69,5 +69,5 @@ class AppApiUrl {
   static const String paymentAccountSetup = "/user/payment-account-setup";
   static const String creatorAnalyticsStatus = "/user/status";
   static const String creatorEarningStatus = "/user/earnings";
-  static const String creatorEarningStatus = "/sell/my-listings";
+  static const String creatorMyProduct = "/sell/my-listings";
 }
