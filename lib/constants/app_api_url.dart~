@@ -56,7 +56,6 @@ class AppApiUrl {
   static const String eventSchedule = "/user/events";
   static const String allMessage = "/message";
   static const String createMessage = "/message/create";
-  static const String createReview = "/review/create";
 
   // Creator
   static const String createEvent = "/event/create";

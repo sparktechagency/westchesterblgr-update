@@ -16,21 +16,25 @@ class UserHomeController extends GetxController {
 
   Future<void> fetchEvents() async {
     try {
-      isLoading(true);
-      error('');
+      isLoading.value = true; // Use .value for direct assignment
+      error.value = '';
+      print('Fetching events...');
       final fetchedEvents = await _eventRepository.getAllEvents();
 
       if (fetchedEvents != null && fetchedEvents.isNotEmpty) {
         events.assignAll(fetchedEvents);
+        print('Events fetched successfully: ${events.length} events');
       } else {
-        error('No events available');
+        error.value = 'No events available';
         events.clear();
+        print('No events found');
       }
     } catch (e) {
-      error('Failed to load events: ${e.toString()}');
+      error.value = 'Failed to load events: ${e.toString()}';
       events.clear();
+      print('Error fetching events: $e');
     } finally {
-      isLoading(false);
+      isLoading.value = false;
     }
   }
 }
