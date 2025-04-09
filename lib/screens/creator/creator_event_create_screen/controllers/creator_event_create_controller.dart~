@@ -12,7 +12,7 @@ class CreatorEventCreateController extends GetxController {
   final picker = ImagePicker();
   Rx<File?> image = Rx<File?>(null); // Make image observable
   Rx<File?> videoFile = Rx<File?>(null); // Make videoFile observable
-  RxString selectedType = ''.obs;
+  RxString selectedType = 'Select Type'.obs;
 
   final TextEditingController eventNameController = TextEditingController();
   final TextEditingController timeController = TextEditingController();

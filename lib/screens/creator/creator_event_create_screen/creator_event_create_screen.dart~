@@ -172,16 +172,13 @@ class CreatorEventCreateScreen extends StatelessWidget {
             const SpaceWidget(spaceHeight: 4),
             Obx(() {
               return DropdownButton<String>(
-                value: controller.selectedType.value.isEmpty
-                    ? null
-                    : controller.selectedType.value,
-                hint: const Text('Select Type'),
-                // Displayed when no value is selected
+                value: controller.selectedType.value.isEmpty ? null : controller.selectedType.value,
+                hint: const Text('Select Type'), // Displayed when no value is selected
                 items: ['adult', 'kids', 'family']
                     .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type.capitalizeFirst!),
-                        ))
+                  value: type,
+                  child: Text(type.capitalizeFirst!),
+                ))
                     .toList(),
                 onChanged: (value) {
                   if (value != null) {

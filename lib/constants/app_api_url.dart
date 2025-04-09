@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../utils/app_all_log/error_log.dart';
 
 String _getDomain() {
-  String serverDomain = "http://139.59.0.25:3005"; //////////// live server
+  String serverDomain = "http://10.0.80.49:5030"; //////////// live server
   String localDomain = "http://10.0.80.49:5030"; ///////// local server
   try {
     if (kReleaseMode) {
