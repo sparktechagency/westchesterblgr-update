@@ -59,9 +59,10 @@ class CreatorDashboardScreen extends StatelessWidget {
             ),
             const SpaceWidget(spaceHeight: 12),
             Obx(() {
-              if (_controller.eventStatus.value.id.isEmpty) {
+              if (_controller.isEventLoading.value) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (_controller.eventStatus.value.id == 'no_data') {
+              } else if (_controller.eventStatus.value.id.isEmpty) {
+                // Check if id is empty
                 return const Center(child: Text('No data available'));
               } else {
                 final eventStatus = _controller.eventStatus.value;
@@ -194,9 +195,10 @@ class CreatorDashboardScreen extends StatelessWidget {
             ),
             const SpaceWidget(spaceHeight: 8),
             Obx(() {
-              if (_controller.jobStatus.value.id.isEmpty) {
+              if (_controller.isJobLoading.value) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (_controller.jobStatus.value.id == 'no_data') {
+              } else if (_controller.jobStatus.value.id.isEmpty) {
+                // Check if id is empty
                 return const Center(child: Text('No data available'));
               } else {
                 final jobStatus = _controller.jobStatus.value;

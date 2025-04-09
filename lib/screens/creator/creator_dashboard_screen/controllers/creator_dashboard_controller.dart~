@@ -69,16 +69,12 @@ class CreatorDashboardController extends GetxController {
 
   Future<void> fetchJobStatus() async {
     try {
-      isJobLoading.value = true;
       final status = await _jobRepository.getJobStatus();
-      print("Fetched Job Status: ${status?.toJson()}"); // Log the data
       if (status != null) {
         jobStatus.value = status;
       }
     } catch (e) {
       errorLog("Error in fetchJobStatus", e);
-    } finally {
-      isJobLoading.value = false;
     }
   }
 
