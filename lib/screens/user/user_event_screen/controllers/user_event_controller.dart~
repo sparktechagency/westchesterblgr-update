@@ -47,7 +47,10 @@ class UserEventController extends GetxController {
   Future<void> fetchEventsByDate(DateTime selectedDay) async {
     try {
       isLoading.value = true;
+
+      // Format the date to ISO 8601 with milliseconds
       final isoDate = selectedDay.toIso8601String();
+
       print('Fetching events with timestamp: $isoDate');
 
       final events = await _eventRepository.getEventsByDate(isoDate);
@@ -55,7 +58,7 @@ class UserEventController extends GetxController {
       print('Received events: $events');
 
       if (events != null && events.isNotEmpty) {
-        eventsByDate.value = events; // Ensure events is List<EventModel>
+        eventsByDate.value = events;
         print('Events loaded successfully. Count: ${events.length}');
       } else {
         eventsByDate.clear();

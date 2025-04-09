@@ -38,6 +38,8 @@ class EventModel {
   final String name;
   final DateTime time;
   final String description;
+
+  final String type;
   final List<String> tags;
   final int price;
   final String category;
@@ -46,6 +48,7 @@ class EventModel {
   final DateTime updatedAt;
   final int v;
   final bool isFavourite;
+  String? address;
 
   EventModel({
     required this.location,
@@ -55,6 +58,7 @@ class EventModel {
     required this.name,
     required this.time,
     required this.description,
+    required this.type,
     required this.tags,
     required this.price,
     required this.category,
@@ -63,6 +67,7 @@ class EventModel {
     required this.updatedAt,
     required this.v,
     this.isFavourite = false,
+    this.address,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
@@ -87,6 +92,7 @@ class EventModel {
         time:
             DateTime.tryParse(json["time"]?.toString() ?? "") ?? DateTime.now(),
         description: json["description"] ?? "",
+        type: json["type"] ?? "",
         tags: List<String>.from((json["tags"] ?? []).map((x) => x.toString())),
         price: json["price"]?.toInt() ?? 0,
         category: json["category"] ?? "",
@@ -99,6 +105,7 @@ class EventModel {
             DateTime.now(),
         v: json["__v"]?.toInt() ?? 0,
         isFavourite: json["isFavourite"] ?? false,
+        address: json['address'] as String?,
       );
     } catch (e) {
       print('Error parsing EventModel: $e');
@@ -110,6 +117,7 @@ class EventModel {
         name: "Error Loading Event",
         time: DateTime.now(),
         description: "",
+        type: "",
         tags: [],
         price: 0,
         category: "",
@@ -117,6 +125,7 @@ class EventModel {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
         v: 0,
+        address: "",
       );
     }
   }
@@ -129,6 +138,7 @@ class EventModel {
         "name": name,
         "time": time.toIso8601String(),
         "description": description,
+        "type": type,
         "tags": List<dynamic>.from(tags.map((x) => x)),
         "price": price,
         "category": category,
@@ -137,6 +147,7 @@ class EventModel {
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
         "isFavourite": isFavourite,
+        "address": address,
       };
 }
 

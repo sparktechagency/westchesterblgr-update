@@ -181,7 +181,7 @@ class UserHomeDetailsScreen extends StatelessWidget {
                         }).toList(),
                     ],
                   ),
-                  const SpaceWidget(spaceHeight: 8),
+                  const SpaceWidget(spaceHeight: 12),
                   TextWidget(
                     text:
                         "Event type: ${capitalize(controller.event?.type ?? '')}",
