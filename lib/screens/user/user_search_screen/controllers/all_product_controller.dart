@@ -90,10 +90,10 @@ class AllProductController extends GetxController {
       currentPage.value = 1;
 
       if (searchTerm.trim().isEmpty) {
-        filters.remove('name');
+        filters.remove('searchTerm');
         print('Search term empty, removing name filter');
       } else {
-        filters['name'] = searchTerm.trim();
+        filters['searchTerm'] = searchTerm.trim();
         print('Search filter applied: $filters');
       }
 
