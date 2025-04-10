@@ -97,6 +97,14 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
     });
   }
 
+  Future<void> _refreshProducts() async {
+    await controller.fetchAllProducts(); // Fetch fresh data from the controller
+    setState(() {
+      _filteredItems =
+          List.from(_items); // Reset local filtered items if needed
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -108,282 +116,287 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
       appBar: const AppbarWidget(text: "Sell Item Post"),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SpaceWidget(spaceHeight: 16),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: size.width / (size.width / 20)),
-              child: SellItemSearchWidget(
-                hintText: 'Search',
-                controller: searchController,
-                maxLines: 1,
-                onChanged: (value) {
-                  controller.searchProducts(value); // Call search method
-                },
-                onSuffixIconTap: _toggleFilter, // Toggle filter on icon tap
-              ),
-            ),
-            const SpaceWidget(spaceHeight: 16),
-            // Filter Section
-            if (_isFilterVisible)
+      body: RefreshIndicator(
+        onRefresh: _refreshProducts,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SpaceWidget(spaceHeight: 16),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: size.width / (size.width / 20)),
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: AppColors.greyLighter),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // City TextField
-                      const Text(
-                        'City',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      const SpaceWidget(spaceHeight: 8),
-                      TextField(
-                        controller: cityController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide:
-                                const BorderSide(color: AppColors.greyLighter),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
-                        ),
-                      ),
-                      const SpaceWidget(spaceHeight: 16),
-                      // Location TextField
-                      const Text(
-                        'Location',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      const SpaceWidget(spaceHeight: 8),
-                      TextField(
-                        controller: locationController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide:
-                                const BorderSide(color: AppColors.greyLighter),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
-                        ),
-                      ),
-                      const SpaceWidget(spaceHeight: 16),
-                      // Price Range Slider
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Est Budget',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.black,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: AppColors.blue100,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  '\$${_priceRange.start.round()}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.blue,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                              const SpaceWidget(spaceWidth: 8),
-                              const Text(
-                                'to',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: AppColors.grey700,
-                                ),
-                              ),
-                              const SpaceWidget(spaceWidth: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: AppColors.blue100,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  '\$${_priceRange.end.round()}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.blue,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SpaceWidget(spaceHeight: 8),
-
-                      RangeSlider(
-                        values: _priceRange,
-                        min: 0,
-                        max: 1000,
-                        divisions: 100,
-                        activeColor: AppColors.blue,
-                        inactiveColor: AppColors.greyLighter,
-                        onChanged: (RangeValues values) {
-                          setState(() {
-                            _priceRange = values;
-                          });
-                        },
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '\$0',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.grey700,
-                            ),
-                          ),
-                          Text(
-                            '\$1K',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.grey700,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SpaceWidget(spaceHeight: 16),
-                      // Search Now Button
-                      ButtonWidget(
-                        onPressed: () {
-                          _applyFilter();
-                        },
-                        label: "Search Now",
-                        buttonWidth: double.infinity,
-                      )
-                    ],
-                  ),
+                child: SellItemSearchWidget(
+                  hintText: 'Search',
+                  controller: searchController,
+                  maxLines: 1,
+                  onChanged: (value) {
+                    controller.searchProducts(value); // Call search method
+                  },
+                  onSuffixIconTap: _toggleFilter, // Toggle filter on icon tap
                 ),
               ),
-            const SpaceWidget(spaceHeight: 16),
-            // Item List
-            Obx(() {
-              if (controller.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (controller.filteredProducts.isEmpty) {
-                return const Center(child: Text('No products found'));
-              } else {
-                return Column(
-                  children: [
-                    ...List.generate(controller.filteredProducts.length,
-                        (index) {
-                      final product = controller.filteredProducts[index];
-                      return InkWell(
-                        onTap: () {
-                          Get.toNamed(
-                            AppRoutes.userProductDetailsScreen,
-                            arguments: {
-                              'productId': product.id
-                            }, // Pass the product ID
-                          );
-                        },
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                          width: double.infinity,
-                          padding:
-                              EdgeInsets.all(size.width / (size.width / 8)),
-                          margin: EdgeInsets.only(
-                              left: size.width / (size.width / 20),
-                              right: size.width / (size.width / 20),
-                              bottom: size.width / (size.width / 12)),
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: AppColors.greyLighter,
-                              width: size.width / (size.width / 0.7),
-                            ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: AppImage(
-                                  url: product.image,
-                                  height: size.width / (size.width / 58),
-                                  width: size.width / (size.width / 58),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              const SpaceWidget(spaceWidth: 8),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    text: capitalize(product.name ?? 'No Name'),
-                                    fontColor: AppColors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  const SpaceWidget(spaceHeight: 2),
-                                  TextWidget(
-                                    text: '\$${product.price ?? 0}',
-                                    fontColor: AppColors.grey700,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  TextWidget(
-                                    text:
-                                        "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
-                                    fontColor: AppColors.grey700,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                              const SpaceWidget(spaceHeight: 8),
-                            ],
+              const SpaceWidget(spaceHeight: 16),
+              // Filter Section
+              if (_isFilterVisible)
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: size.width / (size.width / 20)),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppColors.greyLighter),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // City TextField
+                        const Text(
+                          'City',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.black,
                           ),
                         ),
-                      );
-                    }),
-                  ],
-                );
-              }
-            }),
-          ],
+                        const SpaceWidget(spaceHeight: 8),
+                        TextField(
+                          controller: cityController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                  color: AppColors.greyLighter),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                          ),
+                        ),
+                        const SpaceWidget(spaceHeight: 16),
+                        // Location TextField
+                        const Text(
+                          'Location',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.black,
+                          ),
+                        ),
+                        const SpaceWidget(spaceHeight: 8),
+                        TextField(
+                          controller: locationController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                  color: AppColors.greyLighter),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                          ),
+                        ),
+                        const SpaceWidget(spaceHeight: 16),
+                        // Price Range Slider
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Est Budget',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.black,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.blue100,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '\$${_priceRange.start.round()}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.blue,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                const SpaceWidget(spaceWidth: 8),
+                                const Text(
+                                  'to',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppColors.grey700,
+                                  ),
+                                ),
+                                const SpaceWidget(spaceWidth: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.blue100,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '\$${_priceRange.end.round()}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.blue,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SpaceWidget(spaceHeight: 8),
+
+                        RangeSlider(
+                          values: _priceRange,
+                          min: 0,
+                          max: 1000,
+                          divisions: 100,
+                          activeColor: AppColors.blue,
+                          inactiveColor: AppColors.greyLighter,
+                          onChanged: (RangeValues values) {
+                            setState(() {
+                              _priceRange = values;
+                            });
+                          },
+                        ),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '\$0',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey700,
+                              ),
+                            ),
+                            Text(
+                              '\$1K',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.grey700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SpaceWidget(spaceHeight: 16),
+                        // Search Now Button
+                        ButtonWidget(
+                          onPressed: () {
+                            _applyFilter();
+                          },
+                          label: "Search Now",
+                          buttonWidth: double.infinity,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              const SpaceWidget(spaceHeight: 16),
+              // Item List
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (controller.filteredProducts.isEmpty) {
+                  return const Center(child: Text('No products found'));
+                } else {
+                  return Column(
+                    children: [
+                      ...List.generate(controller.filteredProducts.length,
+                          (index) {
+                        final product = controller.filteredProducts[index];
+                        return InkWell(
+                          onTap: () {
+                            Get.toNamed(
+                              AppRoutes.userProductDetailsScreen,
+                              arguments: {
+                                'productId': product.id
+                              }, // Pass the product ID
+                            );
+                          },
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          borderRadius: BorderRadius.circular(8),
+                          child: Container(
+                            width: double.infinity,
+                            padding:
+                                EdgeInsets.all(size.width / (size.width / 8)),
+                            margin: EdgeInsets.only(
+                                left: size.width / (size.width / 20),
+                                right: size.width / (size.width / 20),
+                                bottom: size.width / (size.width / 12)),
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: AppColors.greyLighter,
+                                width: size.width / (size.width / 0.7),
+                              ),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: AppImage(
+                                    url: product.image,
+                                    height: size.width / (size.width / 58),
+                                    width: size.width / (size.width / 58),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SpaceWidget(spaceWidth: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    TextWidget(
+                                      text:
+                                          capitalize(product.name ?? 'No Name'),
+                                      fontColor: AppColors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    const SpaceWidget(spaceHeight: 2),
+                                    TextWidget(
+                                      text: '\$${product.price ?? 0}',
+                                      fontColor: AppColors.grey700,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    TextWidget(
+                                      text:
+                                          "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
+                                      fontColor: AppColors.grey700,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ],
+                                ),
+                                const SpaceWidget(spaceHeight: 8),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  );
+                }
+              }),
+            ],
+          ),
         ),
       ),
     );
