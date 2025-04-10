@@ -7,6 +7,7 @@ import '../../../../widgets/app_snack_bar/app_snack_bar.dart';
 class AllProductController extends GetxController {
   final ProductRepository _productRepository = ProductRepository();
   var products = <AllProduct>[].obs;
+  var filteredProducts = <AllProduct>[].obs; // For filtered results
   var isLoading = true.obs;
 
   @override
@@ -21,11 +22,24 @@ class AllProductController extends GetxController {
       final fetchedProducts = await _productRepository.fetchAllProducts();
       if (fetchedProducts != null) {
         products.value = fetchedProducts;
+        filteredProducts.value = fetchedProducts; // Initialize filtered list
       }
     } catch (e) {
       AppSnackBar.error('Error fetching products');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  void searchProducts(String searchTerm) {
+    if (searchTerm.isEmpty) {
+      filteredProducts.value = products; // Reset to all products
+    } else {
+      filteredProducts.value = products
+          .where((product) =>
+              product.name?.toLowerCase().contains(searchTerm.toLowerCase()) ??
+              false)
+          .toList();
     }
   }
 }

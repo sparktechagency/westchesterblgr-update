@@ -10,6 +10,7 @@ class SellItemSearchWidget extends StatefulWidget {
   final IconData? suffixIcon;
   final TextInputType? keyboardType;
   final int maxLines;
+  final Function(String)? onChanged;
   final VoidCallback? onSuffixIconTap; // Add a callback for the suffix icon tap
 
   const SellItemSearchWidget({
@@ -20,6 +21,7 @@ class SellItemSearchWidget extends StatefulWidget {
     this.suffixIcon,
     this.keyboardType,
     this.maxLines = 1,
+    this.onChanged,
     this.onSuffixIconTap, // Initialize the callback
   });
 
@@ -43,6 +45,7 @@ class _SellItemSearchWidgetState extends State<SellItemSearchWidget> {
         obscureText: obscureText,
         keyboardType: widget.keyboardType,
         maxLines: widget.maxLines,
+        onChanged: widget.onChanged,
         style: const TextStyle(
           color: AppColors.black500,
         ),

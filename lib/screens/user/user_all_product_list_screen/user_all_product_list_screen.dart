@@ -120,6 +120,9 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                 hintText: 'Search',
                 controller: searchController,
                 maxLines: 1,
+                onChanged: (value) {
+                  controller.searchProducts(value); // Call search method
+                },
                 onSuffixIconTap: _toggleFilter, // Toggle filter on icon tap
               ),
             ),
@@ -296,13 +299,14 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
             Obx(() {
               if (controller.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (controller.products.isEmpty) {
+              } else if (controller.filteredProducts.isEmpty) {
                 return const Center(child: Text('No products found'));
               } else {
                 return Column(
                   children: [
-                    ...List.generate(controller.products.length, (index) {
-                      final product = controller.products[index];
+                    ...List.generate(controller.filteredProducts.length,
+                        (index) {
+                      final product = controller.filteredProducts[index];
                       return InkWell(
                         onTap: () {
                           Get.toNamed(
@@ -360,7 +364,6 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  // SpaceWidget(spaceWidth: 4),
                                   TextWidget(
                                     text:
                                         "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
