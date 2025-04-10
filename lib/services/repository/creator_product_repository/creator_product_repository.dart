@@ -8,6 +8,8 @@ import 'package:itzel/widgets/app_snack_bar/app_snack_bar.dart';
 import 'package:mime/mime.dart';
 
 import '../../../constants/app_api_url.dart';
+import '../../../models/get_all_product_model.dart';
+import '../../api/api_get_services.dart';
 
 class ProductRepository {
   Future<dynamic> sellProduct({
@@ -58,6 +60,40 @@ class ProductRepository {
         AppSnackBar.error(
             "Something went wrong while posting product: ${e.toString()}");
       }
+      return null;
+    }
+  }
+
+  Future<List<AllProduct>?> fetchAllProducts() async {
+    try {
+      final response = await ApiGetServices().apiGetServices(
+        '${AppApiUrl.baseUrl}${AppApiUrl.getAllProduct}',
+      );
+
+      // Log the response for debugging
+      errorLog('API Response:', response);
+
+      if (response != null && response['success'] == true) {
+        // Extract the 'data' list from the response
+        final productList = response['data']?['data'] as List<dynamic>?;
+
+        if (productList != null) {
+          return productList
+              .map((product) => AllProduct.fromJson(product))
+              .toList();
+        } else {
+          AppSnackBar.error('No products found');
+          return null;
+        }
+      } else {
+        final errorMessage = response?['message'] ?? 'Failed to fetch products';
+        errorLog('Error Message:', errorMessage);
+        AppSnackBar.error(errorMessage);
+        return null;
+      }
+    } catch (e) {
+      errorLog('Exception while fetching products:', e);
+      AppSnackBar.error('Something went wrong while fetching products');
       return null;
     }
   }

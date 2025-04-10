@@ -48,8 +48,7 @@ class UserSearchScreen extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
-      body: RefreshIndicator(
-        onRefresh: _refreshData,
+      body: widget(
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
