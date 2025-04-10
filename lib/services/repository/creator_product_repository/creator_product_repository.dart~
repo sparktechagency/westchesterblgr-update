@@ -108,10 +108,7 @@ class ProductRepository {
 
         if (productList != null && meta != null) {
           return {
-            'products': productList
-                .map((product) =>
-                    AllProduct.fromJson(product as Map<String, dynamic>))
-                .toList(),
+            'products': productList.map((product) => AllProduct.fromJson(product as Map<String, dynamic>)).toList(),
             'totalPages': meta['totalPage'] as int? ?? 1,
           };
         } else {

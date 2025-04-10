@@ -23,48 +23,64 @@ class UserAllProductListScreen extends StatefulWidget {
 class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
   final AllProductController controller = Get.put(AllProductController());
   final TextEditingController searchController = TextEditingController();
-  final TextEditingController cityController = TextEditingController(text: '');
-  final TextEditingController locationController =
-      TextEditingController(text: '');
+  final TextEditingController cityController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   bool _isFilterVisible = false;
   RangeValues _priceRange = const RangeValues(50, 200);
 
-  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+  String capitalize(String s) =>
+      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        controller.loadMoreProducts();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    searchController.dispose();
+    cityController.dispose();
+    locationController.dispose();
+    super.dispose();
   }
 
   void _toggleFilter() {
-    setState(() {
-      _isFilterVisible = !_isFilterVisible;
-    });
+    setState(() => _isFilterVisible = !_isFilterVisible);
   }
 
   void _applyFilter() {
-    // Map the existing UI fields to the new filter parameters
     controller.applyFilters(
-      state: locationController.text, // Map "Location" to "state"
-      city: cityController.text, // Map "City" to "city"
-      minPrice: _priceRange.start, // Map slider start to "minPrice"
-      maxPrice: _priceRange.end, // Map slider end to "maxPrice"
+      state: locationController.text,
+      city: cityController.text,
+      minPrice: _priceRange.start,
+      maxPrice: _priceRange.end,
     );
-    setState(() {
-      _isFilterVisible = false;
-    });
+    setState(() => _isFilterVisible = false);
   }
 
   Future<void> _refreshProducts() async {
-    await controller.fetchAllProducts();
+    // Clear UI inputs
+    searchController.clear();
+    cityController.clear();
+    locationController.clear();
+    setState(() => _priceRange = const RangeValues(50, 200));
+
+    // Reset filters and fetch all products
+    await controller.resetAndFetchAll();
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-      ),
+      const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark),
     );
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
@@ -73,6 +89,7 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
       body: RefreshIndicator(
         onRefresh: _refreshProducts,
         child: SingleChildScrollView(
+          controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,17 +99,17 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: size.width / (size.width / 20)),
                 child: SellItemSearchWidget(
-                  hintText: 'Search',
+                  hintText: 'Search products...',
                   controller: searchController,
                   maxLines: 1,
                   onChanged: (value) {
+                    print('Search input changed: $value');
                     controller.searchProducts(value);
                   },
                   onSuffixIconTap: _toggleFilter,
                 ),
               ),
               const SpaceWidget(spaceHeight: 16),
-              // Filter Section (unchanged design)
               if (_isFilterVisible)
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -107,7 +124,6 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // City TextField
                         const Text(
                           'City',
                           style: TextStyle(
@@ -130,9 +146,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           ),
                         ),
                         const SpaceWidget(spaceHeight: 16),
-                        // Location TextField
                         const Text(
-                          'Location',
+                          'State',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -153,7 +168,6 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           ),
                         ),
                         const SpaceWidget(spaceHeight: 16),
-                        // Price Range Slider
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -246,11 +260,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           ],
                         ),
                         const SpaceWidget(spaceHeight: 16),
-                        // Search Now Button
                         ButtonWidget(
-                          onPressed: () {
-                            _applyFilter();
-                          },
+                          onPressed: _applyFilter,
                           label: "Search Now",
                           buttonWidth: double.infinity,
                         ),
@@ -259,7 +270,6 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                   ),
                 ),
               const SpaceWidget(spaceHeight: 16),
-              // Item List
               Obx(() {
                 if (controller.isLoading.value) {
                   return const Center(child: CircularProgressIndicator());
@@ -286,9 +296,10 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                             padding:
                                 EdgeInsets.all(size.width / (size.width / 8)),
                             margin: EdgeInsets.only(
-                                left: size.width / (size.width / 20),
-                                right: size.width / (size.width / 20),
-                                bottom: size.width / (size.width / 12)),
+                              left: size.width / (size.width / 20),
+                              right: size.width / (size.width / 20),
+                              bottom: size.width / (size.width / 12),
+                            ),
                             decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(8),
@@ -310,37 +321,52 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                                   ),
                                 ),
                                 const SpaceWidget(spaceWidth: 8),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    TextWidget(
-                                      text:
-                                          capitalize(product.name ?? 'No Name'),
-                                      fontColor: AppColors.black,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    const SpaceWidget(spaceHeight: 2),
-                                    TextWidget(
-                                      text: '\$${product.price ?? 0}',
-                                      fontColor: AppColors.grey700,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    TextWidget(
-                                      text:
-                                          "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
-                                      fontColor: AppColors.grey700,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextWidget(
+                                        text: capitalize(
+                                            product.name ?? 'No Name'),
+                                        fontColor: AppColors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SpaceWidget(spaceHeight: 2),
+                                      TextWidget(
+                                        text: '\$${product.price ?? 0}',
+                                        fontColor: AppColors.grey700,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      TextWidget(
+                                        text:
+                                            "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
+                                        fontColor: AppColors.grey700,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         );
                       }),
+                      if (controller.isLoadingMore.value)
+                        const Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      if (controller.currentPage.value <
+                          controller.totalPages.value)
+                        const SizedBox(height: 20),
                     ],
                   );
                 }
