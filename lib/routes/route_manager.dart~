@@ -242,8 +242,7 @@ class RouteManager {
         name: AppRoutes.userAllProductListScreen,
         page: () => UserAllProductListScreen(),
         // binding: UserBindings(),
-      ),
-      GetPage(
+      ),GetPage(
         name: AppRoutes.userProductDetailsScreen,
         page: () => UserProductDetailsScreen(),
         // binding: UserBindings(),

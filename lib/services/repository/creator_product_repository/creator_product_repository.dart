@@ -9,6 +9,7 @@ import 'package:mime/mime.dart';
 
 import '../../../constants/app_api_url.dart';
 import '../../../models/get_all_product_model.dart';
+import '../../../models/single_product_model.dart';
 import '../../api/api_get_services.dart';
 
 class ProductRepository {
@@ -94,6 +95,31 @@ class ProductRepository {
     } catch (e) {
       errorLog('Exception while fetching products:', e);
       AppSnackBar.error('Something went wrong while fetching products');
+      return null;
+    }
+  }
+
+  Future<SingleProduct?> fetchProductDetails(String productId) async {
+    try {
+      final response = await ApiGetServices().apiGetServices(
+        '${AppApiUrl.baseUrl}${AppApiUrl.getAllProduct}$productId',
+      );
+
+      // Log the response for debugging
+      errorLog('Product Details API Response:', response);
+
+      if (response != null && response['success'] == true) {
+        return SingleProduct.fromJson(response['data']);
+      } else {
+        final errorMessage =
+            response?['message'] ?? 'Failed to fetch product details';
+        errorLog('Error Message:', errorMessage);
+        AppSnackBar.error(errorMessage);
+        return null;
+      }
+    } catch (e) {
+      errorLog('Exception while fetching product details:', e);
+      AppSnackBar.error('Something went wrong while fetching product details');
       return null;
     }
   }

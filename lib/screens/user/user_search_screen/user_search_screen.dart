@@ -443,7 +443,7 @@ class UserSearchScreen extends StatelessWidget {
                     ),
                     TextButtonWidget(
                       onPressed: () {
-                        // Get.toNamed(AppRoutes.userSellItemPostScreen);
+                        Get.toNamed(AppRoutes.userAllProductListScreen);
                       },
                       text: AppStrings.seeAll,
                       textColor: AppColors.blueLight,
@@ -471,7 +471,12 @@ class UserSearchScreen extends StatelessWidget {
                         final product = controller.products[index];
                         return InkWell(
                           onTap: () {
-                            // Get.toNamed(AppRoutes.userSellItemDetailsScreen);
+                            Get.toNamed(
+                              AppRoutes.userProductDetailsScreen,
+                              arguments: {
+                                'productId': product.id
+                              }, // Pass the product ID
+                            );
                           },
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
@@ -504,18 +509,19 @@ class UserSearchScreen extends StatelessWidget {
                                   ),
                                 ),
                                 const SpaceWidget(spaceWidth: 8),
-                                const Column(
+                                Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     TextWidget(
-                                      text: 'The Unicorn Duckie',
+                                      text:
+                                          capitalize(product.name ?? 'No Name'),
                                       fontColor: AppColors.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                     ),
-                                    SpaceWidget(spaceHeight: 2),
+                                    const SpaceWidget(spaceHeight: 2),
                                     TextWidget(
-                                      text: 'Price - \$23 per piece',
+                                      text: '\$${product.price ?? 0}',
                                       fontColor: AppColors.grey700,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
@@ -523,7 +529,7 @@ class UserSearchScreen extends StatelessWidget {
                                     // SpaceWidget(spaceWidth: 4),
                                     TextWidget(
                                       text:
-                                          '2464 Royal Ln. Mesa, New Jersey 45463',
+                                          "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
                                       fontColor: AppColors.grey700,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,

@@ -36,6 +36,8 @@ class AppRoutes {
   static const userCalenderScreen = '/userCalenderScreen';
   static const userGiveReviewsScreen = '/userGiveReviewsScreen';
   static const chatGptScreen = '/chatGptScreen';
+  static const userAllProductListScreen = '/userAllProductListScreen';
+  static const userProductDetailsScreen = '/userProductDetailsScreen';
 
   // Creator Section
   static const creatorDashboardScreen = '/creatorDashboardScreen';
