@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:itzel/widgets/app_snack_bar/app_snack_bar.dart';
 
 import '../../../../models/get_all_product_model.dart';
 import '../../../../services/repository/creator_product_repository/creator_product_repository.dart';
-import '../../../../widgets/app_snack_bar/app_snack_bar.dart';
 
 class AllProductController extends GetxController {
   final ProductRepository _productRepository = ProductRepository();
@@ -38,6 +38,8 @@ class AllProductController extends GetxController {
         if (filters != null) {
           currentFilters.value = filters;
           print('API call with filters: $filters');
+        } else {
+          print('API call with no filters');
         }
       }
 
@@ -58,6 +60,7 @@ class AllProductController extends GetxController {
         print('API response received: ${products.length} products');
       } else {
         print('API returned null response');
+        AppSnackBar.error('No products received from API');
       }
     } catch (e) {
       print('API fetch error: $e');
@@ -79,14 +82,21 @@ class AllProductController extends GetxController {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
 
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      print('Preparing to hit API with search term: $searchTerm');
+      print('Hitting API with search term: "$searchTerm"');
       Map<String, dynamic> filters =
           Map<String, dynamic>.from(currentFilters.value);
-      if (searchTerm.isEmpty) {
+
+      // Always reset to first page when searching
+      currentPage.value = 1;
+
+      if (searchTerm.trim().isEmpty) {
         filters.remove('name');
+        print('Search term empty, removing name filter');
       } else {
-        filters['name'] = searchTerm;
+        filters['name'] = searchTerm.trim();
+        print('Search filter applied: $filters');
       }
+
       fetchAllProducts(filters: filters);
     });
   }
@@ -128,7 +138,6 @@ class AllProductController extends GetxController {
     fetchAllProducts(filters: filters);
   }
 
-  // New method to reset filters and fetch all data
   Future<void> resetAndFetchAll() async {
     currentFilters.clear();
     print('Filters reset, fetching all products');

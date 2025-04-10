@@ -67,13 +67,10 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
   }
 
   Future<void> _refreshProducts() async {
-    // Clear UI inputs
     searchController.clear();
     cityController.clear();
     locationController.clear();
     setState(() => _priceRange = const RangeValues(50, 200));
-
-    // Reset filters and fetch all products
     await controller.resetAndFetchAll();
   }
 
@@ -103,7 +100,7 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                   controller: searchController,
                   maxLines: 1,
                   onChanged: (value) {
-                    print('Search input changed: $value');
+                    print('Search input changed: "$value"');
                     controller.searchProducts(value);
                   },
                   onSuffixIconTap: _toggleFilter,
