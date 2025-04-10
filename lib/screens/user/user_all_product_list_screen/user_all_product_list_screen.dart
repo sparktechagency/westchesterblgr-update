@@ -23,50 +23,17 @@ class UserAllProductListScreen extends StatefulWidget {
 class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
   final AllProductController controller = Get.put(AllProductController());
   final TextEditingController searchController = TextEditingController();
-  final TextEditingController cityController =
-      TextEditingController(text: 'New Jersey'); // Controller for city
+  final TextEditingController cityController = TextEditingController(text: '');
   final TextEditingController locationController =
-      TextEditingController(text: 'New Jersey'); // Controller for location
-  bool _isFilterVisible = false; // Toggle filter visibility
-  RangeValues _priceRange = const RangeValues(50, 200); // Default price range
+      TextEditingController(text: '');
+  bool _isFilterVisible = false;
+  RangeValues _priceRange = const RangeValues(50, 200);
+
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
-
-  // Sample list of items (for demonstration)
-  final List<Map<String, dynamic>> _items = [
-    {
-      'name': 'The Unicorn Duckie',
-      'price': 23,
-      'address': '2464 Royal Ln. Mesa, New Jersey 45463',
-    },
-    {
-      'name': 'The Unicorn Duckie',
-      'price': 23,
-      'address': '2464 Royal Ln. Mesa, New Jersey 45463',
-    },
-    {
-      'name': 'The Unicorn Duckie',
-      'price': 23,
-      'address': '2464 Royal Ln. Mesa, New Jersey 45463',
-    },
-    {
-      'name': 'The Unicorn Duckie',
-      'price': 23,
-      'address': '2464 Royal Ln. Mesa, New Jersey 45463',
-    },
-    {
-      'name': 'The Unicorn Duckie',
-      'price': 23,
-      'address': '2464 Royal Ln. Mesa, New Jersey 45463',
-    },
-    // Add more items as needed
-  ];
-
-  List<Map<String, dynamic>> _filteredItems = [];
 
   @override
   void initState() {
     super.initState();
-    _filteredItems = List.from(_items); // Initialize filtered items
   }
 
   void _toggleFilter() {
@@ -76,33 +43,20 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
   }
 
   void _applyFilter() {
+    // Map the existing UI fields to the new filter parameters
+    controller.applyFilters(
+      state: locationController.text, // Map "Location" to "state"
+      city: cityController.text, // Map "City" to "city"
+      minPrice: _priceRange.start, // Map slider start to "minPrice"
+      maxPrice: _priceRange.end, // Map slider end to "maxPrice"
+    );
     setState(() {
-      _filteredItems = _items.where((item) {
-        // Case-insensitive search for city and location
-        bool matchesCity = cityController.text.isEmpty ||
-            item['city']
-                .toString()
-                .toLowerCase()
-                .contains(cityController.text.toLowerCase());
-        bool matchesLocation = locationController.text.isEmpty ||
-            item['location']
-                .toString()
-                .toLowerCase()
-                .contains(locationController.text.toLowerCase());
-        bool matchesPrice = item['price'] >= _priceRange.start &&
-            item['price'] <= _priceRange.end;
-        return matchesCity && matchesLocation && matchesPrice;
-      }).toList();
-      _isFilterVisible = false; // Hide filter after applying
+      _isFilterVisible = false;
     });
   }
 
   Future<void> _refreshProducts() async {
-    await controller.fetchAllProducts(); // Fetch fresh data from the controller
-    setState(() {
-      _filteredItems =
-          List.from(_items); // Reset local filtered items if needed
-    });
+    await controller.fetchAllProducts();
   }
 
   @override
@@ -132,13 +86,13 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                   controller: searchController,
                   maxLines: 1,
                   onChanged: (value) {
-                    controller.searchProducts(value); // Call search method
+                    controller.searchProducts(value);
                   },
-                  onSuffixIconTap: _toggleFilter, // Toggle filter on icon tap
+                  onSuffixIconTap: _toggleFilter,
                 ),
               ),
               const SpaceWidget(spaceHeight: 16),
-              // Filter Section
+              // Filter Section (unchanged design)
               if (_isFilterVisible)
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -259,11 +213,10 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           ],
                         ),
                         const SpaceWidget(spaceHeight: 8),
-
                         RangeSlider(
                           values: _priceRange,
                           min: 0,
-                          max: 1000,
+                          max: 10000,
                           divisions: 100,
                           activeColor: AppColors.blue,
                           inactiveColor: AppColors.greyLighter,
@@ -284,7 +237,7 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                               ),
                             ),
                             Text(
-                              '\$1K',
+                              '\$10K',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: AppColors.grey700,
@@ -300,7 +253,7 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           },
                           label: "Search Now",
                           buttonWidth: double.infinity,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -322,9 +275,7 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           onTap: () {
                             Get.toNamed(
                               AppRoutes.userProductDetailsScreen,
-                              arguments: {
-                                'productId': product.id
-                              }, // Pass the product ID
+                              arguments: {'productId': product.id},
                             );
                           },
                           splashColor: Colors.transparent,
@@ -385,7 +336,6 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                                     ),
                                   ],
                                 ),
-                                const SpaceWidget(spaceHeight: 8),
                               ],
                             ),
                           ),

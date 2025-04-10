@@ -7,7 +7,7 @@ import '../../../../widgets/app_snack_bar/app_snack_bar.dart';
 class AllProductController extends GetxController {
   final ProductRepository _productRepository = ProductRepository();
   var products = <AllProduct>[].obs;
-  var filteredProducts = <AllProduct>[].obs; // For filtered results
+  var filteredProducts = <AllProduct>[].obs;
   var isLoading = true.obs;
 
   @override
@@ -22,7 +22,7 @@ class AllProductController extends GetxController {
       final fetchedProducts = await _productRepository.fetchAllProducts();
       if (fetchedProducts != null) {
         products.value = fetchedProducts;
-        filteredProducts.value = fetchedProducts; // Initialize filtered list
+        filteredProducts.value = fetchedProducts;
       }
     } catch (e) {
       AppSnackBar.error('Error fetching products');
@@ -33,7 +33,7 @@ class AllProductController extends GetxController {
 
   void searchProducts(String searchTerm) {
     if (searchTerm.isEmpty) {
-      filteredProducts.value = products; // Reset to all products
+      filteredProducts.value = products;
     } else {
       filteredProducts.value = products
           .where((product) =>
@@ -41,5 +41,30 @@ class AllProductController extends GetxController {
               false)
           .toList();
     }
+  }
+
+  void applyFilters({
+    String? state,
+    String? city,
+    double? minPrice,
+    double? maxPrice,
+  }) {
+    filteredProducts.value = products.where((product) {
+      // Filter by state (mapped from "Location")
+      bool matchesState = state == null ||
+          state.isEmpty ||
+          (product.state?.toLowerCase().contains(state.toLowerCase()) ?? false);
+
+      // Filter by city
+      bool matchesCity = city == null ||
+          city.isEmpty ||
+          (product.city?.toLowerCase().contains(city.toLowerCase()) ?? false);
+
+      // Filter by price range
+      bool matchesPrice = (product.price ?? 0) >= (minPrice ?? 0) &&
+          (product.price ?? 0) <= (maxPrice ?? double.infinity);
+
+      return matchesState && matchesCity && matchesPrice;
+    }).toList();
   }
 }
