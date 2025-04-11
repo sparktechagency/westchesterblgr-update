@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -37,30 +38,182 @@ class EventRepository {
     try {
       final response = await _apiGetServices
           .apiGetServices('${AppApiUrl.baseUrl}/event/$id');
-      if (response != null) {
-        if (response is List && response.isNotEmpty) {
-          // If response is a list, take the first item
-          return EventModel.fromJson(response[0]);
-        } else if (response is Map<String, dynamic>) {
-          // If response is an object with data property
-          if (response['data'] != null) {
-            if (response['data'] is List) {
-              return response['data'].isNotEmpty
-                  ? EventModel.fromJson(response['data'][0])
-                  : null;
+
+      print("Response type: ${response.runtimeType}");
+
+      if (response is Map<String, dynamic>) {
+        print("Processing Map response");
+        if (response['data'] != null) {
+          final data = response['data'];
+          print("Data type: ${data.runtimeType}");
+
+          if (data is List) {
+            if (data.isNotEmpty) {
+              try {
+                final eventData = data[0];
+                print("Processing event data: $eventData");
+                return _createEventModelSafely(eventData);
+              } catch (e) {
+                errorLog(
+                    "Error creating EventModel from list data", e.toString());
+                return null;
+              }
             }
-            return EventModel.fromJson(response['data']);
+            return null;
+          } else if (data is Map<String, dynamic>) {
+            try {
+              print("Processing event data: $data");
+              return _createEventModelSafely(data);
+            } catch (e) {
+              errorLog("Error creating EventModel from map data", e.toString());
+              return null;
+            }
+          } else {
+            errorLog("Data is neither List nor Map", data.toString());
+            return null;
           }
-          // If response is a direct object
-          return EventModel.fromJson(response);
+        }
+      } else if (response is String) {
+        try {
+          final Map<String, dynamic> jsonResponse = json.decode(response);
+          print("Decoded JSON: $jsonResponse");
+
+          if (jsonResponse['data'] != null) {
+            final data = jsonResponse['data'];
+            print("Data type: ${data.runtimeType}");
+
+            if (data is List) {
+              return data.isNotEmpty ? _createEventModelSafely(data[0]) : null;
+            } else if (data is Map<String, dynamic>) {
+              return _createEventModelSafely(data);
+            } else {
+              errorLog("Data is neither List nor Map", data.toString());
+              return null;
+            }
+          }
+        } catch (e) {
+          errorLog("Error parsing JSON string", e.toString());
+          return null;
         }
       }
     } catch (e) {
       errorLog("Error fetching event by ID", e);
-      print('Error fetching event by ID: $e');
     }
     return null;
   }
+
+  EventModel? _createEventModelSafely(dynamic data) {
+    if (data == null) return null;
+
+    try {
+      // Manually extract and validate each field to find the problematic one
+      final id = data['_id']?.toString();
+      final thumbnailImage = data['thumbnailImage']?.toString();
+      final introMedia = data['introMedia']?.toString();
+      final name = data['name']?.toString();
+
+      // Handle time field specially
+      DateTime? time;
+      if (data['time'] != null) {
+        try {
+          time = DateTime.parse(data['time'].toString());
+        } catch (e) {
+          print("Error parsing time: ${data['time']}");
+        }
+      }
+
+      final description = data['description']?.toString();
+
+      // Handle tags field carefully
+      List<String> tags = [];
+      if (data['tags'] != null && data['tags'] is List) {
+        tags = (data['tags'] as List).map((item) => item.toString()).toList();
+      }
+
+      final price = data['price'] is int
+          ? data['price']
+          : (data['price'] != null
+              ? int.tryParse(data['price'].toString()) ?? 0
+              : 0);
+
+      // Handle creator field
+      Creator? creator;
+      if (data['creator'] != null) {
+        try {
+          if (data['creator'] is Map<String, dynamic>) {
+            creator = Creator.fromJson(data['creator']);
+          } else if (data['creator'] is String) {
+            // Try to parse creator from string
+            creator = Creator.fromJson(json.decode(data['creator']));
+          }
+        } catch (e) {
+          print("Error parsing creator: $e");
+        }
+      }
+
+      final type = data['type']?.toString();
+      final address = data['address']?.toString();
+
+      // Handle coordinate field carefully
+      List<double> coordinates = [];
+      if (data['coordinate'] != null && data['coordinate'] is List) {
+        coordinates = (data['coordinate'] as List)
+            .map((item) => (item is double)
+                ? item
+                : double.tryParse(item.toString()) ?? 0.0)
+            .toList();
+      }
+
+      // Handle dates
+      DateTime? createdAt;
+      DateTime? updatedAt;
+      try {
+        if (data['createdAt'] != null) {
+          createdAt = DateTime.parse(data['createdAt'].toString());
+        }
+        if (data['updatedAt'] != null) {
+          updatedAt = DateTime.parse(data['updatedAt'].toString());
+        }
+      } catch (e) {
+        print("Error parsing dates: $e");
+      }
+
+      final v = data['__v'] is int
+          ? data['__v']
+          : (data['__v'] != null
+              ? int.tryParse(data['__v'].toString()) ?? 0
+              : 0);
+
+      final isFavourite = data['isFavourite'] is bool
+          ? data['isFavourite']
+          : (data['isFavourite'] == 'true' || data['isFavourite'] == '1');
+
+      // Create model with manually extracted fields
+      return EventModel(
+        id: id,
+        thumbnailImage: thumbnailImage,
+        introMedia: introMedia,
+        name: name,
+        time: time,
+        description: description,
+        tags: tags,
+        price: price,
+        creator: creator,
+        type: type,
+        address: address,
+        coordinate: coordinates,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        v: v,
+        isFavourite: isFavourite,
+      );
+    } catch (e) {
+      print("Error in _createEventModelSafely: $e");
+      return null;
+    }
+  }
+
+// Your other repository methods...
 
   Future<bool> addToWishlist(String eventId) async {
     try {

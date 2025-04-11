@@ -19,7 +19,7 @@ class EventResponse {
         data: json["data"] == null
             ? []
             : List<EventModel>.from(
-                (json["data"] as List).map((x) => EventModel.fromJson(x))),
+            (json["data"] as List).map((x) => EventModel.fromJson(x))),
       );
     } catch (e) {
       print("Error in EventResponse.fromJson: $e");
@@ -28,12 +28,12 @@ class EventResponse {
   }
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "message": message,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-      };
+    "success": success,
+    "message": message,
+    "data": data == null
+        ? []
+        : List<dynamic>.from(data!.map((x) => x.toJson())),
+  };
 }
 
 class EventModel {
@@ -141,8 +141,7 @@ class EventModel {
             // Try to decode JSON string if it's a serialized list
             var decodedTags = jsonDecode(json["tags"]);
             if (decodedTags is List) {
-              tagsList =
-                  List<String>.from(decodedTags.map((x) => x.toString()));
+              tagsList = List<String>.from(decodedTags.map((x) => x.toString()));
             }
           } catch (e) {
             // If not a JSON string, just add the string itself
@@ -232,25 +231,25 @@ class EventModel {
   }
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "thumbnailImage": thumbnailImage,
-        "introMedia": introMedia,
-        "name": name,
-        "time": time?.toIso8601String(),
-        "description": description,
-        "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
-        "price": price,
-        "creator": creator?.toJson(),
-        "type": type,
-        "address": address,
-        "coordinate": coordinate == null
-            ? []
-            : List<dynamic>.from(coordinate!.map((x) => x)),
-        "createdAt": createdAt?.toIso8601String(),
-        "updatedAt": updatedAt?.toIso8601String(),
-        "__v": v,
-        "isFavourite": isFavourite,
-      };
+    "_id": id,
+    "thumbnailImage": thumbnailImage,
+    "introMedia": introMedia,
+    "name": name,
+    "time": time?.toIso8601String(),
+    "description": description,
+    "tags": tags == null ? [] : List<dynamic>.from(tags!.map((x) => x)),
+    "price": price,
+    "creator": creator?.toJson(),
+    "type": type,
+    "address": address,
+    "coordinate": coordinate == null
+        ? []
+        : List<dynamic>.from(coordinate!.map((x) => x)),
+    "createdAt": createdAt?.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "__v": v,
+    "isFavourite": isFavourite,
+  };
 }
 
 class Creator {
@@ -297,9 +296,9 @@ class Creator {
   }
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
-        "name": name,
-        "email": email,
-        "profile": profile,
-      };
+    "_id": id,
+    "name": name,
+    "email": email,
+    "profile": profile,
+  };
 }

@@ -98,7 +98,7 @@ class UserHomeScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      ...event.tags.map((type) {
+                                      ...event.tags!.map((type) {
                                         return Container(
                                           padding: EdgeInsets.symmetric(
                                               horizontal:

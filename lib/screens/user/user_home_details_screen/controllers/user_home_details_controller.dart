@@ -27,9 +27,9 @@ class UserHomeDetailsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    String eventId = Get.arguments['id'] ?? '';
+    String? eventId = Get.arguments['id'];
 
-    if (eventId.isNotEmpty) {
+    if (eventId != null && eventId.isNotEmpty) {
       fetchEventDetails(eventId);
       checkIfBookmarked(eventId);
     } else {
@@ -62,29 +62,27 @@ class UserHomeDetailsController extends GetxController {
     } catch (e) {
       hasVideoError = true;
       errorLog("Error initializing video player", e);
-      print('Error initializing video player: $e');
       update();
     }
   }
 
   void fetchEventDetails(String id) async {
     try {
+      isLoading.value = true;
       event = await _eventRepository.getEventById(id);
-      if (event != null && event!.introMedia.isNotEmpty) {
-        // Check if the URL already contains the domain
-        String videoUrl = event!.introMedia.startsWith('http')
-            ? event!.introMedia
+      isLoading.value = false;
+
+      if (event != null && (event!.introMedia?.isNotEmpty ?? false)) {
+        String videoUrl = event!.introMedia!.startsWith('http')
+            ? event!.introMedia!
             : '${AppApiUrl.domain}/${event!.introMedia}';
 
-        print('Video URL: $videoUrl'); // Debug log
         await initializeVideoPlayer(videoUrl);
-      } else {
-        errorLog("Event or video URL is null", "No video available");
       }
       update();
     } catch (e) {
+      isLoading.value = false;
       errorLog("Error fetching event details", e);
-      print('Error fetching event details: $e');
     }
   }
 
@@ -112,8 +110,6 @@ class UserHomeDetailsController extends GetxController {
       if (success) {
         isBookmarked = !isBookmarked;
         update();
-      } else {
-        // Handle error (e.g., show a snackbar)
       }
     } catch (e) {
       errorLog("Error toggling bookmark", e);
@@ -144,16 +140,8 @@ class UserHomeDetailsController extends GetxController {
 
   bool get isVideoPlaying => _controller?.value.isPlaying ?? false;
 
-  ///<============================================================================>
-
-  ///========================= Create Payment Intent =========================
-
-  bool paymentLoader = false;
-
   Future<Map<String, dynamic>?> createPaymentIntent(int amount) async {
     try {
-      final ApiPostServices _apiPostServices = ApiPostServices();
-
       final response = await _apiPostServices.apiPostServices(
         url: '${AppApiUrl.baseUrl}${AppApiUrl.createPaymentIntent}',
         body: {'amount': amount},
@@ -165,23 +153,16 @@ class UserHomeDetailsController extends GetxController {
     }
   }
 
-  ///========================= Make Payment =========================
   Future<bool> makePayment({
     required String eventId,
     required int amount,
   }) async {
     try {
       final paymentIntentData = await createPaymentIntent(amount);
-      if (paymentIntentData == null) {
-        debugPrint("Failed to create payment intent");
-        return false;
-      }
+      if (paymentIntentData == null) return false;
 
       final clientSecret = paymentIntentData["data"]["client_secret"];
-      if (clientSecret == null || clientSecret.isEmpty) {
-        debugPrint("Missing client secret");
-        return false;
-      }
+      if (clientSecret == null || clientSecret.isEmpty) return false;
 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
@@ -193,8 +174,6 @@ class UserHomeDetailsController extends GetxController {
 
       try {
         await Stripe.instance.presentPaymentSheet();
-        debugPrint('Payment successful');
-
         final response = await _apiPostServices.apiPostServices(
           url: '${AppApiUrl.baseUrl}/group/join/',
           body: {
@@ -203,19 +182,11 @@ class UserHomeDetailsController extends GetxController {
           },
         );
 
-        if (response != null && response['success'] == true) {
-          debugPrint('Payment successfully processed');
-          return true;
-        } else {
-          debugPrint('Failed to process payment on backend');
-          return false;
-        }
+        return response != null && response['success'] == true;
       } catch (e) {
-        debugPrint('Error presenting payment sheet: $e');
         return false;
       }
     } catch (e) {
-      debugPrint("Error in payment process: $e");
       return false;
     }
   }
