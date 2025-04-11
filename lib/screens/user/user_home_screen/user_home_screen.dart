@@ -28,32 +28,36 @@ class UserHomeScreen extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: AppColors.whiteBg,
-        body: Obx(() {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (controller.events.isEmpty) {
-            return const Center(child: Text('No events found'));
-          } else {
-            return RefreshIndicator(
-              onRefresh: controller.fetchEvents, // Directly return the Future
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                // Ensure scrollability
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SpaceWidget(spaceHeight: 12),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: ResponsiveUtils.width(20)),
-                      child: const TextWidget(
-                        text: 'Featured',
-                        fontColor: AppColors.black500,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                      ),
+        body: RefreshIndicator(
+          onRefresh: controller.fetchEvents, // Directly return the Future
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpaceWidget(spaceHeight: 12),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: ResponsiveUtils.width(20)),
+                    child: const TextWidget(
+                      text: 'Featured',
+                      fontColor: AppColors.black500,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
                     ),
-                    const SpaceWidget(spaceHeight: 5),
+                  ),
+                  const SpaceWidget(spaceHeight: 5),
+                  if (controller.events.isEmpty)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height -
+                          100, // Ensure enough height for scrolling
+                      child: const Center(child: Text('No events found')),
+                    )
+                  else
                     ...controller.events.map((event) {
                       return InkWell(
                         onTap: () {
@@ -189,13 +193,12 @@ class UserHomeScreen extends StatelessWidget {
                         ),
                       );
                     }),
-                    const SpaceWidget(spaceHeight: 80),
-                  ],
-                ),
+                  const SpaceWidget(spaceHeight: 80),
+                ],
               ),
             );
-          }
-        }),
+          }),
+        ),
       ),
     );
   }

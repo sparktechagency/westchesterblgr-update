@@ -188,36 +188,11 @@ class UserHomeDetailsScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                   const SpaceWidget(spaceHeight: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: size.width / (size.width / 300),
-                        child: TextWidget(
-                          text: controller.event?.name ?? '',
-                          fontColor: AppColors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          overflow: TextOverflow.ellipsis,
-                          textAlignment: TextAlign.start,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => controller
-                            .toggleBookmark(controller.event?.id ?? ''),
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        style: const ButtonStyle(
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        icon: Icon(
-                          controller.isBookmarked
-                              ? Icons.bookmark
-                              : Icons.bookmark_border,
-                          color: AppColors.black,
-                        ),
-                      )
-                    ],
+                  TextWidget(
+                    text: controller.event?.name ?? '',
+                    fontColor: AppColors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
                   const SpaceWidget(spaceHeight: 12),
                   const TextWidget(
