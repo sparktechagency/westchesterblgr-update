@@ -76,8 +76,8 @@ class ProductRepository {
         'limit': limit.toString(),
       };
 
-      if (filters.containsKey('name')) {
-        queryParams['name'] = filters['name'] as String;
+      if (filters.containsKey('searchTerm')) {
+        queryParams['searchTerm'] = filters['searchTerm'] as String;
       }
       if (filters.containsKey('state')) {
         queryParams['state'] = filters['state'] as String;

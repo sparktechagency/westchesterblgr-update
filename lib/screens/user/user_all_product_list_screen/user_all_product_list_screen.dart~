@@ -16,7 +16,8 @@ class UserAllProductListScreen extends StatefulWidget {
   const UserAllProductListScreen({super.key});
 
   @override
-  _UserAllProductListScreenState createState() => _UserAllProductListScreenState();
+  _UserAllProductListScreenState createState() =>
+      _UserAllProductListScreenState();
 }
 
 class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
@@ -28,13 +29,15 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
   bool _isFilterVisible = false;
   RangeValues _priceRange = const RangeValues(50, 200);
 
-  String capitalize(String s) => s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
+  String capitalize(String s) =>
+      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
         controller.loadMoreProducts();
       }
     });
@@ -55,6 +58,7 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
 
   void _applyFilter() {
     controller.applyFilters(
+      searchTerm: searchController.text,
       state: locationController.text,
       city: cityController.text,
       minPrice: _priceRange.start,
@@ -90,14 +94,15 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
             children: [
               const SpaceWidget(spaceHeight: 16),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width / (size.width / 20)),
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width / (size.width / 20)),
                 child: SellItemSearchWidget(
                   hintText: 'Search products...',
                   controller: searchController,
                   maxLines: 1,
                   onChanged: (value) {
-                    print('Search input changed: "$value"');
-                    controller.searchProducts(value);
+                    controller.applyFilters(searchTerm: value);
+                    print('😇😇😇Search input changed: "$value"');
                   },
                   onSuffixIconTap: _toggleFilter,
                 ),
@@ -105,7 +110,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
               const SpaceWidget(spaceHeight: 16),
               if (_isFilterVisible)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: size.width / (size.width / 20)),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: size.width / (size.width / 20)),
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -130,9 +136,11 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(color: AppColors.greyLighter),
+                              borderSide: const BorderSide(
+                                  color: AppColors.greyLighter),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
                           ),
                         ),
                         const SpaceWidget(spaceHeight: 16),
@@ -150,9 +158,11 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: const BorderSide(color: AppColors.greyLighter),
+                              borderSide: const BorderSide(
+                                  color: AppColors.greyLighter),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
                           ),
                         ),
                         const SpaceWidget(spaceHeight: 16),
@@ -170,7 +180,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: AppColors.blue100,
                                     borderRadius: BorderRadius.circular(8),
@@ -194,7 +205,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                                 ),
                                 const SpaceWidget(spaceWidth: 8),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
                                   decoration: BoxDecoration(
                                     color: AppColors.blue100,
                                     borderRadius: BorderRadius.circular(8),
@@ -264,7 +276,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                 } else {
                   return Column(
                     children: [
-                      ...List.generate(controller.filteredProducts.length, (index) {
+                      ...List.generate(controller.filteredProducts.length,
+                          (index) {
                         final product = controller.filteredProducts[index];
                         return InkWell(
                           onTap: () {
@@ -278,7 +291,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           borderRadius: BorderRadius.circular(8),
                           child: Container(
                             width: double.infinity,
-                            padding: EdgeInsets.all(size.width / (size.width / 8)),
+                            padding:
+                                EdgeInsets.all(size.width / (size.width / 8)),
                             margin: EdgeInsets.only(
                               left: size.width / (size.width / 20),
                               right: size.width / (size.width / 20),
@@ -302,16 +316,17 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                                     height: size.width / (size.width / 58),
                                     width: size.width / (size.width / 58),
                                     fit: BoxFit.cover,
-                                   
                                   ),
                                 ),
                                 const SpaceWidget(spaceWidth: 8),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       TextWidget(
-                                        text: capitalize(product.name ?? 'No Name'),
+                                        text: capitalize(
+                                            product.name ?? 'No Name'),
                                         fontColor: AppColors.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -326,7 +341,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                       TextWidget(
-                                        text: "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
+                                        text:
+                                            "${capitalize(product.city ?? '')}, ${capitalize(product.state ?? '')}, ${capitalize(product.country ?? '')}",
                                         fontColor: AppColors.grey700,
                                         fontSize: 10,
                                         fontWeight: FontWeight.w500,
@@ -346,7 +362,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                           padding: EdgeInsets.all(16.0),
                           child: CircularProgressIndicator(),
                         ),
-                      if (controller.currentPage.value < controller.totalPages.value)
+                      if (controller.currentPage.value <
+                          controller.totalPages.value)
                         const SizedBox(height: 20),
                     ],
                   );

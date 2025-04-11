@@ -58,6 +58,7 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
 
   void _applyFilter() {
     controller.applyFilters(
+      searchTerm: searchController.text,
       state: locationController.text,
       city: cityController.text,
       minPrice: _priceRange.start,
@@ -100,8 +101,8 @@ class _UserAllProductListScreenState extends State<UserAllProductListScreen> {
                   controller: searchController,
                   maxLines: 1,
                   onChanged: (value) {
-                    print('Search input changed: "$value"');
-                    controller.searchProducts(value);
+                    controller.onSearchChanged(value); // Use debounced method
+                    print('😇😇😇Search input changed: "$value"');
                   },
                   onSuffixIconTap: _toggleFilter,
                 ),

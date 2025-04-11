@@ -78,14 +78,6 @@ class AllProductController extends GetxController {
     }
   }
 
-  void onSearchChanged(String value) {
-    _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      print('Debounced search term: "$value"');
-      applyFilters(searchTerm: value);
-    });
-  }
-
   void applyFilters({
     String? state,
     String? searchTerm,
