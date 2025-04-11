@@ -8,6 +8,7 @@ import 'package:itzel/widgets/text_button_widget/text_button_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../constants/app_colors.dart';
+import '../../../routes/app_routes.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import '../user_event_screen/controllers/user_event_controller.dart';
 
@@ -112,13 +113,24 @@ class _UserCalenderScreenState extends State<UserCalenderScreen> {
 
               return Column(
                 children: events.map((event) {
-                  return _buildClassItem(
-                    DateFormat('hh:mm a').format(event.time ?? DateTime.now()),
-                    // Fallback for null time
-                    event.name ?? 'Unnamed Event', // Fallback for null name
-                    event.address ?? 'No address available', // Use address
-                    event.type ?? 'Unknown', // Fallback for null type
-                    event.price ?? 0, // Fallback for null price
+                  return InkWell(
+                    onTap: () {
+                      Get.toNamed(
+                        AppRoutes.userHomeDetailsScreen,
+                        arguments: {'id': event.id},
+                      );
+                    },
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    child: _buildClassItem(
+                      DateFormat('hh:mm a')
+                          .format(event.time ?? DateTime.now()),
+                      // Fallback for null time
+                      event.name ?? 'Unnamed Event', // Fallback for null name
+                      event.address ?? 'No address available', // Use address
+                      event.type ?? 'Unknown', // Fallback for null type
+                      event.price ?? 0, // Fallback for null price
+                    ),
                   );
                 }).toList(),
               );
