@@ -297,7 +297,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorProfileScreen,
-        page: () => const CreatorProfileScreen(),
+        page: () => CreatorProfileScreen(),
         // binding: CreatorBindings(),
       ),
 

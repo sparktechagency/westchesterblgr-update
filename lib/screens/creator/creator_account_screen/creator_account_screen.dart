@@ -15,8 +15,10 @@ class CreatorAccountScreen extends StatelessWidget {
   final CreatorAccountController controller =
       Get.put(CreatorAccountController());
 
-  String capitalize(String s) =>
-      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
+  String capitalize(String s) {
+    if (s.isEmpty) return '';
+    return s[0].toUpperCase() + s.substring(1);
+  }
 
   CreatorAccountScreen({super.key});
 

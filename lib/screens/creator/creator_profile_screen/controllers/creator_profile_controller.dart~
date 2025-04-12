@@ -18,7 +18,6 @@ class CreatorProfileController extends GetxController {
   var phoneNumberController = TextEditingController();
   var selectedImage = Rx<File?>(null);
   var isUpdated = false.obs;
-  var isLoading = false.obs;
 
   @override
   void onInit() {
@@ -45,31 +44,21 @@ class CreatorProfileController extends GetxController {
   }
 
   Future<void> updateProfile() async {
-    try {
-      isLoading.value = true; // Show loading
-      bool success = await _profileRepository.updateProfile(
-        username: usernameController.text,
-        address: addressController.text,
-        contactNumber: phoneNumberController.text,
-        imageFile: selectedImage.value,
-      );
+    bool success = await _profileRepository.updateProfile(
+      username: usernameController.text,
+      address: addressController.text,
+      contactNumber: phoneNumberController.text,
+      imageFile: selectedImage.value,
+    );
 
-      if (success) {
-        AppSnackBar.success('Profile updated successfully');
-        // Delay Get.back() to ensure snackbar is visible
-        await Future.delayed(const Duration(milliseconds: 1500));
-        Get.back();
-        Get.find<CreatorAccountController>().fetchProfileData();
-        isUpdated.value = false;
-      } else {
-        AppSnackBar.error('Failed to update profile');
-        print('Profile update failed: Unknown error from repository');
-      }
-    } catch (e) {
-      AppSnackBar.error('Failed to update profile: $e');
-      print('Profile update error: $e');
-    } finally {
-      isLoading.value = false; // Hide loading
+    if (success) {
+      AppSnackBar.success('Profile updated successfully');
+      Get.back();
+      Get.find<CreatorAccountController>().fetchProfileData();
+
+      isUpdated.value = false;
+    } else {
+      AppSnackBar.error('Failed to update profile');
     }
   }
 

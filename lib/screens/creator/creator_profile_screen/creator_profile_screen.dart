@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
@@ -14,66 +11,11 @@ import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 import 'controllers/creator_profile_controller.dart';
 
-class CreatorProfileScreen extends StatefulWidget {
-  const CreatorProfileScreen({super.key});
+class CreatorProfileScreen extends StatelessWidget {
+  CreatorProfileScreen({super.key});
 
-  @override
-  State<CreatorProfileScreen> createState() => _CreatorProfileScreenState();
-}
-
-class _CreatorProfileScreenState extends State<CreatorProfileScreen> {
   final CreatorProfileController _controller =
       Get.put(CreatorProfileController());
-  File? _selectedImage;
-  final ImagePicker _picker = ImagePicker();
-
-  final TextEditingController _usernameController =
-      TextEditingController(text: "John Bryan");
-  final TextEditingController _addressController =
-      TextEditingController(text: "California, Rankin Street 121");
-  final TextEditingController _phoneNumberController =
-      TextEditingController(text: "012568554526345");
-
-  bool _isUpdated = false;
-
-  // Function to pick an image
-  Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-        _checkForUpdates();
-      });
-    }
-  }
-
-  // Check if fields are updated
-  void _checkForUpdates() {
-    setState(() {
-      _isUpdated = _usernameController.text != "John Bryan" ||
-          _addressController.text != "California, Rankin Street 121" ||
-          _phoneNumberController.text != "012568554526345" ||
-          _selectedImage != null;
-    });
-  }
-
-  // Handle the update button
-  void _handleUpdate() {
-    setState(() {
-      _isUpdated = false;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Profile updated successfully!")),
-    );
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _addressController.dispose();
-    _phoneNumberController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

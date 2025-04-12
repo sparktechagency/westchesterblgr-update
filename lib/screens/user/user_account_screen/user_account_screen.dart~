@@ -14,10 +14,7 @@ import 'controllers/user_account_controller.dart';
 class UserAccountScreen extends StatelessWidget {
   final UserAccountController controller = Get.put(UserAccountController());
 
-  String capitalize(String s) {
-    if (s.isEmpty) return '';
-    return s[0].toUpperCase() + s.substring(1);
-  }
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   UserAccountScreen({super.key});
 

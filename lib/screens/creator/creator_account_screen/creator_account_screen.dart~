@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:itzel/routes/app_routes.dart';
 import 'package:itzel/screens/user/user_account_screen/widgets/profile_info_widget.dart';
-import 'package:itzel/widgets/button_widget/button_widget.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_strings.dart';
+import '../../../routes/app_routes.dart';
 import '../../../widgets/app_image/app_image.dart';
+import '../../../widgets/button_widget/button_widget.dart';
 import '../../../widgets/space_widget/space_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
-import 'controllers/user_account_controller.dart';
+import 'controllers/creator_account_controller.dart';
 
-class UserAccountScreen extends StatelessWidget {
-  final UserAccountController controller = Get.put(UserAccountController());
+class CreatorAccountScreen extends StatelessWidget {
+  final CreatorAccountController controller =
+      Get.put(CreatorAccountController());
 
-  String capitalize(String s) {
-    if (s.isEmpty) return '';
-    return s[0].toUpperCase() + s.substring(1);
-  }
+  String capitalize(String s) =>
+      s.isNotEmpty ? s[0].toUpperCase() + s.substring(1) : '';
 
-  UserAccountScreen({super.key});
+  CreatorAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +29,8 @@ class UserAccountScreen extends StatelessWidget {
         () {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
+          } else if (controller.username.value.isEmpty) {
+            return const Center(child: Text('No profile data available'));
           } else {
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -81,7 +82,7 @@ class UserAccountScreen extends StatelessWidget {
                   ButtonWidget(
                     onPressed: () {
                       Get.toNamed(
-                        AppRoutes.userProfileScreen,
+                        AppRoutes.creatorProfileScreen,
                         arguments: {
                           'username': controller.username.value,
                           'email': controller.email.value,
