@@ -56,7 +56,7 @@ class _CreatorGroupChatScreenState extends State<CreatorGroupChatScreen> {
                   controller: controller.scrollController,
                   physics: const BouncingScrollPhysics(),
                   itemCount: controller.messages.length,
-                  padding: const EdgeInsets.only(top: 10, bottom: 70),
+                  padding: const EdgeInsets.only(top: 10, bottom: 100),
                   itemBuilder: (context, index) {
                     final message = controller.messages[index];
                     final isReceived =
@@ -117,6 +117,20 @@ class _CreatorGroupChatScreenState extends State<CreatorGroupChatScreen> {
                 );
               }
             }),
+            Obx(() =>
+                controller.isLoading.value && controller.messages.isNotEmpty
+                    ? const Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: SizedBox(
+                          height: 2,
+                          child: LinearProgressIndicator(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink()),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(

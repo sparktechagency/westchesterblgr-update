@@ -7,9 +7,9 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../../models/my_group_model.dart';
 import '../../../../models/profile_model.dart';
 import '../../../../services/repository/my_group_repository/my_group_repository.dart';
-import '../../creator_profile_screen/controllers/creator_profile_controller.dart';
+import '../../../user/user_profile_screen/controllers/user_profile_controller.dart';
 
-class CreatorGroupChatController extends GetxController {
+class UserGroupChatController extends GetxController {
   final MyGroup group;
   RxList<MyGroup> messages = <MyGroup>[].obs;
   final RxString receiverName = ''.obs;
@@ -24,12 +24,12 @@ class CreatorGroupChatController extends GetxController {
   final Set<String> _messageIds = <String>{};
 
   final MyGroupRepository _myGroupRepository = MyGroupRepository();
-  final CreatorProfileController _creatorProfileController =
+  final CreatorProfileController _userProfileController =
       Get.put(CreatorProfileController());
   Data? userProfile;
   late IO.Socket socket;
 
-  CreatorGroupChatController({required this.group}) {
+  UserGroupChatController({required this.group}) {
     if (group.id == null) {
       print('⚠️ Warning: Group ID is null');
     }
@@ -39,7 +39,7 @@ class CreatorGroupChatController extends GetxController {
 
   Future<void> init() async {
     print('🟠 Initializing controller for group: ${group.id}');
-    await fetchCreatorProfile();
+    await fetchUserProfile();
     await fetchMessages();
     initSocket();
     _startPeriodicRefresh();
@@ -166,9 +166,9 @@ class CreatorGroupChatController extends GetxController {
     });
   }
 
-  Future<void> fetchCreatorProfile() async {
+  Future<void> fetchUserProfile() async {
     try {
-      userProfile = await _creatorProfileController.fetchProfileData();
+      userProfile = await _userProfileController.fetchProfileData();
       print('👤 User profile fetched: ${userProfile?.id}');
     } catch (e) {
       print('Error fetching user profile: $e');

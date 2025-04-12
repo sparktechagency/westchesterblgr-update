@@ -73,12 +73,18 @@ class CreatorProfileController extends GetxController {
     }
   }
 
-  Future<void> fetchProfileData() async {
-    Data? profileData = await _profileRepository.fetchProfile();
-    if (profileData != null) {
-      usernameController.text = profileData.name;
-      addressController.text = profileData.location;
-      phoneNumberController.text = profileData.contact;
+  Future<Data?> fetchProfileData() async {
+    try {
+      Data? profileData = await _profileRepository.fetchProfile();
+      if (profileData != null) {
+        usernameController.text = profileData.name;
+        addressController.text = profileData.location;
+        phoneNumberController.text = profileData.contact;
+      }
+      return profileData; // Return the fetched profile data
+    } catch (e) {
+      print('Error fetching profile data: $e');
+      return null; // Return null in case of an error
     }
   }
 

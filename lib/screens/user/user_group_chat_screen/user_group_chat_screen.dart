@@ -56,7 +56,7 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                   controller: controller.scrollController,
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: controller.messages.length,
-                  padding: const EdgeInsets.only(top: 10, bottom: 70),
+                  padding: const EdgeInsets.only(top: 10, bottom: 100),
                   itemBuilder: (context, index) {
                     final message = controller.messages[index];
                     final isReceived =
@@ -117,21 +117,23 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                 );
               }
             }),
+
             // Loading indicator for refresh
             Obx(() =>
                 controller.isLoading.value && controller.messages.isNotEmpty
-                    ? Positioned(
+                    ? const Positioned(
                         top: 0,
                         left: 0,
                         right: 0,
-                        child: Container(
+                        child: SizedBox(
                           height: 2,
-                          child: const LinearProgressIndicator(
+                          child: LinearProgressIndicator(
                             color: Colors.transparent,
                           ),
                         ),
                       )
                     : const SizedBox.shrink()),
+
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(

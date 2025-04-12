@@ -7,6 +7,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../../models/my_group_model.dart';
 import '../../../../models/profile_model.dart';
 import '../../../../services/repository/my_group_repository/my_group_repository.dart';
+
 import '../../creator_profile_screen/controllers/creator_profile_controller.dart';
 
 class CreatorGroupChatController extends GetxController {
@@ -25,7 +26,7 @@ class CreatorGroupChatController extends GetxController {
 
   final MyGroupRepository _myGroupRepository = MyGroupRepository();
   final CreatorProfileController _creatorProfileController =
-      Get.put(CreatorProfileController());
+  Get.put(CreatorProfileController());
   Data? userProfile;
   late IO.Socket socket;
 
@@ -254,7 +255,7 @@ class CreatorGroupChatController extends GetxController {
       print('🌐 Fetching messages via HTTP for group: ${group.id}');
       if (group.id != null) {
         final fetchedMessages =
-            await _myGroupRepository.fetchMessagesByGroupId(group.id!);
+        await _myGroupRepository.fetchMessagesByGroupId(group.id!);
 
         if (fetchedMessages != null) {
           print('📚 Received ${fetchedMessages.length} messages via HTTP');
