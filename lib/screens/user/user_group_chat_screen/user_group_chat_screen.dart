@@ -49,12 +49,12 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
         body: Stack(
           children: [
             Obx(() {
-              if (controller.isLoading.value) {
+              if (controller.isLoading.value && controller.messages.isEmpty) {
                 return const Center(child: CircularProgressIndicator());
               } else {
                 return ListView.builder(
                   controller: controller.scrollController,
-                  physics: const BouncingScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: controller.messages.length,
                   padding: const EdgeInsets.only(top: 10, bottom: 70),
                   itemBuilder: (context, index) {
@@ -117,6 +117,21 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                 );
               }
             }),
+            // Loading indicator for refresh
+            Obx(() =>
+                controller.isLoading.value && controller.messages.isNotEmpty
+                    ? Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 2,
+                          child: const LinearProgressIndicator(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink()),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -161,8 +176,10 @@ class _UserGroupChatScreenState extends State<UserGroupChatScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        controller.sendMessage(messageController.text);
-                        messageController.clear();
+                        if (messageController.text.isNotEmpty) {
+                          controller.sendMessage(messageController.text);
+                          messageController.clear();
+                        }
                       },
                       child: Container(
                         height: size.width / (size.width / 48),
