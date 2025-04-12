@@ -500,8 +500,7 @@ class UserSearchScreen extends StatelessWidget {
                             padding:
                                 EdgeInsets.all(size.width / (size.width / 8)),
                             margin: EdgeInsets.only(
-                                left: size.width / (size.width / 20),
-                                right: size.width / (size.width / 20),
+                                left: size.width / (size.width / 20), right: size.width / (size.width / 20),
                                 bottom: size.width / (size.width / 12)),
                             decoration: BoxDecoration(
                               color: AppColors.white,
