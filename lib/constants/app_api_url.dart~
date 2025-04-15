@@ -39,6 +39,7 @@ class AppApiUrl {
   static const String changePassword = "/auth/change-password";
   static const String login = "/auth/login";
 
+  // Common Urls
   static const String faq = "/faq";
   static const String termsCondition = "/termsandconditions";
   static const String notification = "/notification";
@@ -57,7 +58,7 @@ class AppApiUrl {
   static const String allMessage = "/message";
   static const String createMessage = "/message/create";
   static const String createReview = "/review/create";
-  static const String createReview = "/sell/";
+  static const String getAllProduct = "/sell/";
 
   // Creator
   static const String createEvent = "/event/create";

@@ -74,4 +74,5 @@ class AppApiUrl {
   static const String creatorEarningStatus = "/user/earnings";
   static const String creatorMyProduct = "/sell/my-listings";
   static const String creatorSellProduct = "/sell";
+  static const String creatorUpdateSellProduct = "/sell";
 }

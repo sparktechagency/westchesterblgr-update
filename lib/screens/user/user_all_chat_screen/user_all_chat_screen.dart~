@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:itzel/widgets/app_image/app_image.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_images_path.dart';
@@ -245,19 +244,19 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                        child: AppImage(
-                                          url: group.images!.length > 0
-                                              ? group.images![0]
-                                              : AppImagesPath.chatProfileImage,
-                                          height:
-                                              size.width / (size.width / 48),
-                                          width: size.width / (size.width / 48),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                                      // ClipRRect(
+                                      //   borderRadius:
+                                      //       BorderRadius.circular(100),
+                                      //   child: AppImage(
+                                      //     url: group.images!.isNotEmpty
+                                      //         ? group.images![0]
+                                      //         : AppImagesPath.chatProfileImage,
+                                      //     height:
+                                      //         size.width / (size.width / 48),
+                                      //     width: size.width / (size.width / 48),
+                                      //     fit: BoxFit.cover,
+                                      //   ),
+                                      // ),
                                       const SpaceWidget(spaceWidth: 8),
                                       Column(
                                         crossAxisAlignment:

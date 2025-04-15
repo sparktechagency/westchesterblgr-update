@@ -427,11 +427,40 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                                   ),
                                 ],
                               ),
-                              IconButtonWidget(
-                                icon: AppIconsPath.newChatIcon,
-                                onTap: () {},
-                                color: AppColors.black900,
-                                size: 24,
+                              PopupMenuButton<int>(
+                                constraints: const BoxConstraints.expand(
+                                    width: 150, height: 110),
+                                onSelected: (value) {
+                                  if (value == 1) {
+                                    Get.toNamed(
+                                      AppRoutes.creatorUpdateSellProductScreen,
+                                      arguments: product,
+                                    );
+                                  } else if (value == 2) {
+                                    controller.deleteProduct(product.id!);
+                                  }
+                                },
+                                itemBuilder: (context) => [
+                                  const PopupMenuItem(
+                                    value: 1,
+                                    child: Text(
+                                      "Edit",
+                                      style: TextStyle(
+                                          fontSize: 14, color: AppColors.black),
+                                    ),
+                                  ),
+                                  const PopupMenuDivider(height: 0.5),
+                                  const PopupMenuItem(
+                                    value: 2,
+                                    child: Text(
+                                      "Delete",
+                                      style: TextStyle(
+                                          fontSize: 14, color: AppColors.black),
+                                    ),
+                                  ),
+                                ],
+                                color: AppColors.white,
+                                elevation: 2,
                               ),
                             ],
                           ),

@@ -10,7 +10,6 @@ import 'package:mime/mime.dart';
 import '../../../constants/app_api_url.dart';
 import '../../../models/get_all_product_model.dart';
 import '../../../models/single_product_model.dart';
-import '../../api/api_delete_services.dart';
 import '../../api/api_get_services.dart';
 
 class ProductRepository {
@@ -154,19 +153,6 @@ class ProductRepository {
       errorLog('Exception while fetching product details:', e);
       AppSnackBar.error('Something went wrong while fetching product details');
       return null;
-    }
-  }
-
-  Future<bool> deleteProduct(String productId) async {
-    try {
-      final response = await ApiDeleteServices().apiDeleteServices(
-        '${AppApiUrl.baseUrl}/sell/$productId',
-        statusCode: 200,
-      );
-      return response != null; // Return true if the response is not null
-    } catch (e) {
-      errorLog('Error deleting product:', e);
-      return false; // Return false if an error occurs
     }
   }
 }

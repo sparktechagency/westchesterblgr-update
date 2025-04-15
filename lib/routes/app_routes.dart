@@ -62,4 +62,6 @@ class AppRoutes {
       '/creatorBusinessInformationScreen';
   static const creatorSubscriptionsScreen = '/creatorSubscriptionsScreen';
   static const creatorPaymentMethodScreen = '/creatorPaymentMethodScreen';
+  static const creatorUpdateSellProductScreen =
+      '/creatorUpdateSellProductScreen';
 }
