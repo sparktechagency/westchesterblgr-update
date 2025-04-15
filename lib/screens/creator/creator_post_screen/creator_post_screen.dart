@@ -361,7 +361,8 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                       (product) {
                         return Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(12),
+                          padding: const EdgeInsets.only(
+                              left: 12, top: 12, bottom: 12),
                           margin: EdgeInsets.only(
                             left: size.width / (size.width / 20),
                             right: size.width / (size.width / 20),
