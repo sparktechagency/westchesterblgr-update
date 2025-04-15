@@ -249,7 +249,7 @@ class _UserAllChatScreenState extends State<UserAllChatScreen> {
                                         borderRadius:
                                             BorderRadius.circular(100),
                                         child: AppImage(
-                                          url: group.images!.isNotEmpty
+                                          url: group.images!.length > 0
                                               ? group.images![0]
                                               : AppImagesPath.chatProfileImage,
                                           height:
