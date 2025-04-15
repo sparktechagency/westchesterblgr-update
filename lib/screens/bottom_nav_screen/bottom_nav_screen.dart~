@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:itzel/constants/app_colors.dart';
 import 'package:itzel/routes/app_routes.dart';
@@ -192,13 +191,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                 label: (userRole == 'USER') ? 'Event' : 'Analytics',
               ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/accountIcon.svg',
+                icon: IconWidget(
+                  icon: 'assets/icons/accountIcon.svg',
                   height: size.height / (size.height / 22),
                   width: size.width / (size.width / 22),
-                  color: _currentIndex == 4
-                      ? AppColors.black600
-                      : AppColors.black300,
                 ),
                 label: 'Account',
               ),
