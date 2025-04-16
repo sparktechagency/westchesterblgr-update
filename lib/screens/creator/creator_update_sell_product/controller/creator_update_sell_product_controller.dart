@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:itzel/services/repository/creator_product_repository/creator_product_repository.dart';
+import 'package:itzel/utils/app_all_log/error_log.dart';
 import 'package:itzel/widgets/app_snack_bar/app_snack_bar.dart';
 
 import '../../../../models/my_product_model.dart';
-import '../../../../services/repository/creator_product_repository/creator_product_repository.dart'; // Import the MyProduct model
 
 class CreatorUpdateSellProductController extends GetxController {
   final companyNameController = TextEditingController();
@@ -80,7 +81,10 @@ class CreatorUpdateSellProductController extends GetxController {
       );
 
       if (response != null) {
+        errorLog('Update successful, showing success snackbar', response);
         AppSnackBar.success("Product updated successfully");
+        // Delay navigation to allow snackbar to display
+        await Future.delayed(const Duration(seconds: 6));
         Get.back(); // Navigate back after successful update
       } else {
         AppSnackBar.error("Failed to update product");
