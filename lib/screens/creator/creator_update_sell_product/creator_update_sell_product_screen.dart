@@ -23,7 +23,7 @@ class CreatorUpdateSellProductScreen extends StatelessWidget {
     Size size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.whiteBg,
-      appBar: const AppbarWidget(text: 'Uploading Selling Item'),
+      appBar: const AppbarWidget(text: 'Update Selling Item'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Column(
@@ -43,22 +43,16 @@ class CreatorUpdateSellProductScreen extends StatelessWidget {
                 onTap: controller.pickImage, // Call the controller's method
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                 child: Obx(() {
-                  final image = controller.selectedImage.value;
+                  final localImage = controller.selectedImage.value;
+                  final remoteImage = controller.remoteImageUrl.value;
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(12),
                     child: SizedBox(
                       height: size.height / (size.height / 143),
                       width: double.infinity,
-                      child: image == null
-                          ? const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.add, size: 32),
-                                Text("Upload"),
-                              ],
-                            )
-                          : Image.file(
-                              File(image.path),
+                      child: localImage != null
+                          ? Image.file(
+                              File(localImage.path),
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return const Column(
@@ -70,7 +64,30 @@ class CreatorUpdateSellProductScreen extends StatelessWidget {
                                   ],
                                 );
                               },
-                            ),
+                            )
+                          : remoteImage != null
+                              ? Image.network(
+                                  remoteImage,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.error,
+                                            size: 32, color: Colors.red),
+                                        Text("Failed to load image"),
+                                      ],
+                                    );
+                                  },
+                                )
+                              : const Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add, size: 32),
+                                    Text("Upload"),
+                                  ],
+                                ),
                     ),
                   );
                 }),
@@ -211,10 +228,9 @@ class CreatorUpdateSellProductScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: ButtonWidget(
-          onPressed: () {
-            // Implement publish logic here
-          },
-          label: 'Publish Post',
+          onPressed: controller.updateProduct,
+          // Call updateProduct method
+          label: 'Update Post',
           buttonWidth: double.infinity,
           buttonHeight: (size.height / (size.height / 56)),
           buttonRadius: BorderRadius.circular(16),

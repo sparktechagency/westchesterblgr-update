@@ -12,6 +12,7 @@ import '../../../models/get_all_product_model.dart';
 import '../../../models/single_product_model.dart';
 import '../../api/api_delete_services.dart';
 import '../../api/api_get_services.dart';
+import '../../api/api_patch_services.dart';
 
 class ProductRepository {
   Future<dynamic> sellProduct({
@@ -167,6 +168,59 @@ class ProductRepository {
     } catch (e) {
       errorLog('Error deleting product:', e);
       return false; // Return false if an error occurs
+    }
+  }
+
+  Future<dynamic> updateProduct({
+    required String productId,
+    required File? imageFile,
+    required Map<String, dynamic> productData,
+  }) async {
+    try {
+      // Prepare form data
+      FormData formData = FormData.fromMap(productData);
+
+      // Add image if exists
+      if (imageFile != null) {
+        String originalFileName = imageFile.path.split('/').last;
+        String? mimeType = lookupMimeType(imageFile.path);
+
+        // Validate file extension before sending
+        String fileExtension = originalFileName.split('.').last.toLowerCase();
+        if (!['jpeg', 'png', 'jpg'].contains(fileExtension)) {
+          throw Exception(
+              'Invalid file type. Only .jpeg, .png, .jpg are supported.');
+        }
+
+        formData.files.add(MapEntry(
+          'image',
+          await MultipartFile.fromFile(
+            imageFile.path,
+            filename: originalFileName,
+            contentType: mimeType != null ? MediaType.parse(mimeType) : null,
+          ),
+        ));
+      }
+
+      final response = await ApiPatchServices().apiPatchServices(
+        url: '${AppApiUrl.baseUrl}/sell/$productId',
+        body: formData,
+        statusCode: 200,
+      );
+
+      return response;
+    } catch (e) {
+      if (e is DioException) {
+        final errorMessage =
+            e.response?.data['message'] ?? 'Something went wrong';
+        errorLog('Product update error: ${e.response?.data}', e);
+        AppSnackBar.error("Error: $errorMessage");
+      } else {
+        errorLog('Unexpected error: ${e.toString()}', e);
+        AppSnackBar.error(
+            "Something went wrong while updating product: ${e.toString()}");
+      }
+      return null;
     }
   }
 }
