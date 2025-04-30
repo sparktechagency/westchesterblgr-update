@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 import '../utils/app_all_log/error_log.dart';
 
 String _getDomain() {
-  String serverDomain = "http://10.0.80.49:5030"; //////////// live server
-  String localDomain = "http://10.0.80.49:5030"; ///////// local server
+  String serverDomain =
+      "https://www.api.914unplugged.com"; //////////// live server
+  String localDomain =
+      "https://www.api.914unplugged.com"; ///////// local server
   try {
     if (kReleaseMode) {
       return serverDomain;
@@ -24,7 +26,7 @@ class AppApiUrl {
   static const String localDomain =
       "http://139.59.0.25:3005"; ///////// local server
   static const String serverDomain =
-      "http://139.59.0.25:3005"; //////////// live server
+      "https://www.api.914unplugged.com"; //////////// live server
   static final String domain = _getDomain();
 
   // Auth

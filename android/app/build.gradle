@@ -9,11 +9,12 @@ android {
     namespace = "com.example.itzel"
     compileSdk = 35
 //    compileSdkVersion 33
-    ndkVersion = 25//flutter.ndkVersion
+    ndkVersion = 25.1//flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
     }
 
     kotlinOptions {
