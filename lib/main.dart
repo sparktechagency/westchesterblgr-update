@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:itzel/constants/app_strings.dart';
 
 import 'main_app_entry.dart';
 
@@ -13,16 +14,8 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await GetStorage.init();
 
-  Stripe.publishableKey =
-      "pk_test_51PzAfwKgshFllPTwPm4aL3bw0ndqkPrSOGk75qdIJ9fOGZz1rjq1zaPYjycoQnZZ7IdhQ0fTSfXZLUhd9zJ7VIfE00eIm5bMtn";
+  Stripe.publishableKey = AppStrings.stripePublishableKey;
   await Stripe.instance.applySettings();
 
-  runApp(
-
-      //     DevicePreview(
-      //   enabled: !kReleaseMode,
-      //   builder: (context) => const MainApp(), // Wrap your app
-      // )
-
-      const MainApp());
+  runApp(const MainApp());
 }

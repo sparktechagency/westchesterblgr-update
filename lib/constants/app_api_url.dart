@@ -5,8 +5,7 @@ import '../utils/app_all_log/error_log.dart';
 String _getDomain() {
   String serverDomain =
       "https://www.api.914unplugged.com"; //////////// live server
-  String localDomain =
-      "https://www.api.914unplugged.com"; ///////// local server
+  String localDomain = "http://139.59.0.25:3005"; ///////// local server
   try {
     if (kReleaseMode) {
       return serverDomain;
