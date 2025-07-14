@@ -1,15 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
 
 
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Itzel">
+        android:label="914Unplugged">
         android:enableOnBackInvokedCallback="true">
         <activity
             android:name=".MainActivity"
@@ -42,7 +41,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDJMqSf1_oKuqyKo4J_XlwsA_hNa_1KHCA" />
     </application>
-
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.

@@ -129,6 +129,18 @@ class CreatorDrawerScreen extends StatelessWidget {
                 buttonWidth: double.infinity,
               ),
             ),
+
+            Padding(
+              padding:
+                  EdgeInsetsGeometry.symmetric(horizontal: 16, vertical: 25),
+              child: Text(
+                textAlign: TextAlign.center,
+                "Note: This app uses AI to generate responses. Output may be unpredictable.",
+                style: TextStyle(fontWeight: FontWeight.bold),
+                maxLines: 5,
+              ),
+            ),
+
             const SpaceWidget(spaceHeight: 16),
           ],
         ),
