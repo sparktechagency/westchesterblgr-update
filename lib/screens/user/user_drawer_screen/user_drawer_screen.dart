@@ -222,8 +222,38 @@ class UserDrawerScreen extends StatelessWidget {
             ),
             DrawerSectionWidget(
               onTap: () {
-                Get.toNamed(AppRoutes.chatGptScreen);
+                showDialog(
+                  context: Get.context!,
+                  // or `context` if inside a StatefulWidget
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Warning'),
+                      content: Text(
+                          'You are about to use AI services. Responses may not always be accurate. Proceed?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                          child: Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                            Get.toNamed(AppRoutes.chatGptScreen); // Navigate
+                          },
+                          child: Text('Proceed'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
+
+              // onTap: () {
+              //
+              //   Get.toNamed(AppRoutes.chatGptScreen);
+              // },
               text: AppStrings.askAI,
               icon: AppIconsPath.aiChatIcon,
             ),

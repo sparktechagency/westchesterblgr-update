@@ -20,7 +20,6 @@ class ChatController extends GetxController {
   void onInit() {
     super.onInit();
     _loadMessages();
-    _addBotMessage("Hello!\nHow may I assist you today?");
   }
 
   void _loadMessages() {
@@ -28,6 +27,15 @@ class ChatController extends GetxController {
     if (storedMessages != null) {
       messages.value =
           storedMessages.map((msg) => ChatMessage.fromJson(msg)).toList();
+    }
+    if (messages.value.isEmpty) {
+      _addBotMessage("Hello!\nHow may I assist you today?");
+    }
+    if (scrollController.positions.isNotEmpty) {
+      scrollController.position.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: Duration(microseconds: 500),
+          curve: Curves.easeOut);
     }
   }
 

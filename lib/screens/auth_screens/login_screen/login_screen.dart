@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:itzel/screens/auth_screens/login_screen/widgets/icon_button_widget.dart';
 
 import '../../../constants/app_colors.dart';
-import '../../../constants/app_icons_path.dart';
 import '../../../constants/app_strings.dart';
 import '../../../routes/app_routes.dart';
 import '../../../widgets/button_widget/button_widget.dart';
@@ -132,53 +130,53 @@ class LoginScreen extends StatelessWidget {
                         buttonHeight: 56,
                       ),
                       const SpaceWidget(spaceHeight: 32),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              height: 1,
-                              width: 250,
-                              color: AppColors.grey700,
-                            ),
-                          ),
-                          const SpaceWidget(spaceWidth: 8),
-                          const Expanded(
-                            flex: 1,
-                            child: TextWidget(
-                              text: AppStrings.orSignInWith,
-                              fontColor: AppColors.black500,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          const SpaceWidget(spaceWidth: 8),
-                          Expanded(
-                            flex: 1,
-                            child: Container(
-                              height: 1,
-                              width: 250,
-                              color: AppColors.grey700,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SpaceWidget(spaceHeight: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButtonWidget(
-                            onTap: () {},
-                            icon: AppIconsPath.appleIcon,
-                          ),
-                          const SpaceWidget(spaceWidth: 40),
-                          IconButtonWidget(
-                            onTap: () {},
-                            icon: AppIconsPath.googleIcon,
-                          ),
-                        ],
-                      ),
-                      const SpaceWidget(spaceHeight: 50),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       flex: 1,
+                      //       child: Container(
+                      //         height: 1,
+                      //         width: 250,
+                      //         color: AppColors.grey700,
+                      //       ),
+                      //     ),
+                      //     const SpaceWidget(spaceWidth: 8),
+                      //     // const Expanded(
+                      //     //   flex: 1,
+                      //     //   child: TextWidget(
+                      //     //     text: AppStrings.orSignInWith,
+                      //     //     fontColor: AppColors.black500,
+                      //     //     fontSize: 14,
+                      //     //     fontWeight: FontWeight.w400,
+                      //     //   ),
+                      //     // ),
+                      //     const SpaceWidget(spaceWidth: 8),
+                      //     Expanded(
+                      //       flex: 1,
+                      //       child: Container(
+                      //         height: 1,
+                      //         width: 250,
+                      //         color: AppColors.grey700,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SpaceWidget(spaceHeight: 24),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     IconButtonWidget(
+                      //       onTap: () {},
+                      //       icon: AppIconsPath.appleIcon,
+                      //     ),
+                      //     const SpaceWidget(spaceWidth: 40),
+                      //     IconButtonWidget(
+                      //       onTap: () {},
+                      //       icon: AppIconsPath.googleIcon,
+                      //     ),
+                      //   ],
+                      // ),
+                      //const SpaceWidget(spaceHeight: 50),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
