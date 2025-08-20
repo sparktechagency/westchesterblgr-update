@@ -7,7 +7,7 @@ import '../../widgets/icon_widget/icon_widget.dart';
 import 'controller/splash_controller.dart';
 
 class SplashScreen extends StatelessWidget {
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

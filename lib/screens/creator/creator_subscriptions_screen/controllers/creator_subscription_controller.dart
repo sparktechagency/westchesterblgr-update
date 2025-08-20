@@ -109,7 +109,7 @@ class CreatorSubscriptionsController extends GetxController {
       ..loadRequest(Uri.parse(url));
     Get.dialog(
       Dialog(
-        child: Container(
+        child: SizedBox(
           height: Get.height * 0.8,
           width: Get.width * 0.9,
           child: WebViewWidget(controller: webViewController),

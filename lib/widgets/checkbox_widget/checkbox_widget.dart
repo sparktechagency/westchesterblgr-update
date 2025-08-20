@@ -44,10 +44,10 @@ class CheckboxWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: borderRadius,
                 side: WidgetStateBorderSide.resolveWith(
-                      (states) => BorderSide(width: 0.5, color: AppColors.grey700),
+                      (states) => const BorderSide(width: 0.5, color: AppColors.grey700),
                 ),
               ),
-              side:  BorderSide(
+              side:  const BorderSide(
                 color: AppColors.grey700,
               ),
             ),

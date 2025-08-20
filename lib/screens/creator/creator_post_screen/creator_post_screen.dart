@@ -182,7 +182,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                       ),
                     );
                   },
-                ).toList(),
+                ),
               const SpaceWidget(spaceHeight: 50),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -315,7 +315,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                       ),
                     );
                   },
-                ).toList(),
+                ),
               const SpaceWidget(spaceHeight: 50),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -467,7 +467,7 @@ class _CreatorPostScreenState extends State<CreatorPostScreen>
                           ),
                         );
                       },
-                    ).toList(),
+                    ),
                   const SpaceWidget(spaceHeight: 50),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),

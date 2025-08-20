@@ -44,7 +44,7 @@ class UserGroupAppBarWidget extends StatelessWidget
         onTap: onTitleTap,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextWidget(

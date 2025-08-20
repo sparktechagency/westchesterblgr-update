@@ -35,8 +35,6 @@ class CreatorItemSellingScreen extends StatelessWidget {
             ),
             const SpaceWidget(spaceHeight: 4),
             DottedBorder(
-              borderType: BorderType.RRect,
-              radius: const Radius.circular(12),
               child: InkWell(
                 onTap: controller.pickImage,
                 borderRadius: const BorderRadius.all(Radius.circular(12)),

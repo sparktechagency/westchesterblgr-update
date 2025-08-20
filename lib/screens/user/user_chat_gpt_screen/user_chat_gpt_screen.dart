@@ -11,7 +11,7 @@ import '../../../../widgets/appbar_widget/appbar_widget.dart';
 import 'controller/chat_gpt_controller.dart';
 
 class ChatGptScreen extends StatelessWidget {
-  const ChatGptScreen({Key? key}) : super(key: key);
+  const ChatGptScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +135,10 @@ class ChatGptScreen extends StatelessWidget {
 
 class ChatMessageWidget extends StatelessWidget {
   const ChatMessageWidget({
-    Key? key,
+    super.key,
     required this.text,
     required this.chatMessageType,
-  }) : super(key: key);
+  });
 
   final String text;
   final ChatMessageType chatMessageType;

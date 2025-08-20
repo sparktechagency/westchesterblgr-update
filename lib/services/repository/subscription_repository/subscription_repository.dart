@@ -92,7 +92,7 @@ class SubscriptionRepository {
       }
 
       // Step 5: Add token and send
-      String? token = await AppAuthStorage().getToken();
+      String? token = AppAuthStorage().getToken();
       request.headers['Authorization'] = 'Bearer $token';
       print('Token: $token');
 

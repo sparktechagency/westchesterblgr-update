@@ -90,22 +90,22 @@ class CreatorDrawerScreen extends StatelessWidget {
                   // or `context` if inside a StatefulWidget
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Warning'),
-                      content: Text(
+                      title: const Text('Warning'),
+                      content: const Text(
                           'You are about to use AI services. Responses may not always be accurate. Proceed?'),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                           },
-                          child: Text('Cancel'),
+                          child: const Text('Cancel'),
                         ),
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop(); // Close the dialog
                             Get.toNamed(AppRoutes.chatGptScreen); // Navigate
                           },
-                          child: Text('Proceed'),
+                          child: const Text('Proceed'),
                         ),
                       ],
                     );
@@ -159,7 +159,7 @@ class CreatorDrawerScreen extends StatelessWidget {
               ),
             ),
 
-            Padding(
+            const Padding(
               padding:
                   EdgeInsetsGeometry.symmetric(horizontal: 16, vertical: 25),
               child: Text(

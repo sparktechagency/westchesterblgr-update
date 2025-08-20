@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       AppSize.size =
-          MediaQueryData.fromWindow(WidgetsBinding.instance.window).size;
+          MediaQueryData.fromView(WidgetsBinding.instance.window).size;
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: AppStrings.appName,

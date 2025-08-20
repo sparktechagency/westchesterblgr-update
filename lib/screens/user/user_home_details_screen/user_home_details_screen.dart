@@ -176,7 +176,7 @@ class UserHomeDetailsScreen extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           );
-                        }).toList(),
+                        }),
                     ],
                   ),
                   const SpaceWidget(spaceHeight: 8),

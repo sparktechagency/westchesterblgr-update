@@ -187,7 +187,7 @@ class ProfileRepository {
       if (response != null && response['success'] == true) {
         return true;
       } else {
-        print('API call failed with response: ${response}');
+        print('API call failed with response: $response');
         return false;
       }
     } catch (e, stackTrace) {

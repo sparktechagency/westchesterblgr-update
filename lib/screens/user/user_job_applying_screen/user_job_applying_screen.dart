@@ -184,7 +184,7 @@ class UserJobApplyingScreen extends StatelessWidget {
                               const SpaceWidget(spaceHeight: 8),
                             ],
                           );
-                        }).toList(),
+                        }),
                         const SpaceWidget(spaceHeight: 24),
                         SubmitButtonWidget(
                           onPressed: _controller.applyForJob,

@@ -34,7 +34,7 @@ class ChatController extends GetxController {
     if (scrollController.positions.isNotEmpty) {
       scrollController.position.animateTo(
           scrollController.position.maxScrollExtent,
-          duration: Duration(microseconds: 500),
+          duration: const Duration(microseconds: 500),
           curve: Curves.easeOut);
     }
   }

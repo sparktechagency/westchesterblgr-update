@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../constants/app_colors.dart';
-import '../../../../utils/app_size.dart';
 import '../../../../widgets/space_widget/space_widget.dart';
 import '../../../../widgets/text_widget/text_widgets.dart';
 

@@ -8,7 +8,7 @@ import '../../../widgets/text_field_widget/text_field_widget.dart';
 import '../../../widgets/text_widget/text_widgets.dart';
 
 class UserDeleteAccountScreen extends StatefulWidget {
-  UserDeleteAccountScreen({super.key});
+  const UserDeleteAccountScreen({super.key});
 
   @override
   State<UserDeleteAccountScreen> createState() =>

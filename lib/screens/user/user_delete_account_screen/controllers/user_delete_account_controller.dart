@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserDeleteAccountController extends GetxController {
@@ -23,8 +22,4 @@ class UserDeleteAccountController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

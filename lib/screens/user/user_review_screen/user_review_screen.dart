@@ -17,7 +17,7 @@ class UserReviewScreen extends StatelessWidget {
   final String categoryTitle;
   final String categoryId;
 
-  UserReviewScreen({
+  const UserReviewScreen({
     super.key,
     required this.categoryTitle,
     required this.categoryId,

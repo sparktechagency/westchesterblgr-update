@@ -19,7 +19,7 @@ class SplashController extends GetxController {
           const Duration(seconds: 2),
           () {
             if (userRole != null) {
-              Get.offAll(BottomNavScreen());
+              Get.offAll(const BottomNavScreen());
             } else {
               Get.offAllNamed(AppRoutes.loginScreen);
             }

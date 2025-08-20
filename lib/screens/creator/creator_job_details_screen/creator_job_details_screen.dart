@@ -62,7 +62,7 @@ class CreatorJobDetailsScreen extends StatelessWidget {
                   const SpaceWidget(spaceHeight: 8),
                 ],
               );
-            }).toList(),
+            }),
             const SpaceWidget(spaceHeight: 16),
           ],
         ),

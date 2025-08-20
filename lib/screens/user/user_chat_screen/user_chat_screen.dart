@@ -15,7 +15,7 @@ import 'widgets/user_appbar_widget.dart';
 class UserChatScreen extends StatefulWidget {
   final MyGroup? group;
 
-  UserChatScreen({super.key, this.group});
+  const UserChatScreen({super.key, this.group});
 
   @override
   State<UserChatScreen> createState() => _UserChatScreenState();

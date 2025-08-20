@@ -122,7 +122,7 @@ class CreatorStatusRepository {
         AppSnackBar.error(response?['message'] ?? 'Failed to fetch products');
         return null;
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       errorLog('Error fetching products', e);
       AppSnackBar.error('Something went wrong while fetching products');
       return null;

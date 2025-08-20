@@ -39,7 +39,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
+                    const Center(
                       child: TextWidget(
                         text: 'Create New Password',
                         fontColor: AppColors.black500,
@@ -47,12 +47,12 @@ class CreateNewPasswordScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 12),
+                    const SpaceWidget(spaceHeight: 12),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.sizeOf(context).width /
                               (MediaQuery.sizeOf(context).width / 32)),
-                      child: Center(
+                      child: const Center(
                         child: TextWidget(
                           text:
                               "Your new password must be different from previous passwords.",
@@ -63,29 +63,29 @@ class CreateNewPasswordScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SpaceWidget(spaceHeight: 24),
+                    const SpaceWidget(spaceHeight: 24),
                     TextFieldWidget(
                       controller: controller.newPasswordController,
                       hintText: 'New password',
                       maxLines: 1,
                       validator: controller.validatePassword,
                     ),
-                    SpaceWidget(spaceHeight: 12),
+                    const SpaceWidget(spaceHeight: 12),
                     TextFieldWidget(
                       controller: controller.confirmNewPasswordController,
                       hintText: 'Confirm password',
                       maxLines: 1,
                       validator: controller.validatePassword,
                     ),
-                    SpaceWidget(spaceHeight: 12),
-                    TextWidget(
+                    const SpaceWidget(spaceHeight: 12),
+                    const TextWidget(
                       text: 'Both passwords must match.',
                       fontColor: AppColors.black400,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       maxLines: 2,
                     ),
-                    SpaceWidget(spaceHeight: 24),
+                    const SpaceWidget(spaceHeight: 24),
                     ButtonWidget(
                       onPressed: controller.resetPassword,
                       label: 'Reset Password',

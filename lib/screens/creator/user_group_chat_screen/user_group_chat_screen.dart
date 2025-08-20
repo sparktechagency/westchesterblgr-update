@@ -12,7 +12,7 @@ import 'controller/user_group_chat_controller.dart';
 class UserGroupChatScreen extends StatefulWidget {
   final MyGroup? group;
 
-  UserGroupChatScreen({super.key, this.group});
+  const UserGroupChatScreen({super.key, this.group});
 
   @override
   State<UserGroupChatScreen> createState() => _UserGroupChatScreenState();

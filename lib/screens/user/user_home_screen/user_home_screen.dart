@@ -124,7 +124,7 @@ class UserHomeScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w400,
                                           ),
                                         );
-                                      }).toList(),
+                                      }),
                                     ],
                                   ),
                                   TextWidget(

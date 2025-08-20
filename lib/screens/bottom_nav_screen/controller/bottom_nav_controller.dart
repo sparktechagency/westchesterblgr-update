@@ -28,8 +28,8 @@ class BottomNavController extends GetxController {
     tabs = [
       (userRole == 'User') ? UserHomeScreen() : CreatorDashboardScreen(),
       (userRole == 'User') ? UserSearchScreen() : const CreatorPostScreen(),
-      (userRole == 'User') ? UserAllChatScreen() : CreatorAllChatScreen(),
-      (userRole == 'User') ? const UserEventScreen() : CreatorAnalyticsScreen(),
+      (userRole == 'User') ? const UserAllChatScreen() : const CreatorAllChatScreen(),
+      (userRole == 'User') ? const UserEventScreen() : const CreatorAnalyticsScreen(),
       (userRole == 'User') ? UserAccountScreen() : CreatorAccountScreen(),
     ];
   }

@@ -37,8 +37,7 @@ class CreatorEventCreateScreen extends StatelessWidget {
             ),
             const SpaceWidget(spaceHeight: 4),
             DottedBorder(
-              borderType: BorderType.RRect,
-              radius: const Radius.circular(12),
+              options: const RectDottedBorderOptions(),
               child: InkWell(
                 onTap: controller.pickImage,
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -119,8 +118,8 @@ class CreatorEventCreateScreen extends StatelessWidget {
                         controller.pickVideo(context, ImageSource.gallery),
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(AppColors.black50),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          WidgetStateProperty.all<Color>(AppColors.black50),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                           side: const BorderSide(color: AppColors.black500),

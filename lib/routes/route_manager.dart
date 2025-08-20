@@ -68,7 +68,7 @@ class RouteManager {
     return [
       GetPage(
         name: AppRoutes.splashScreen,
-        page: () => SplashScreen(),
+        page: () => const SplashScreen(),
         binding: GeneralBindings(),
       ),
       GetPage(
@@ -108,7 +108,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.chatGptScreen,
-        page: () => ChatGptScreen(),
+        page: () => const ChatGptScreen(),
         // binding: BottomNavBinding(),
       ),
       GetPage(
@@ -166,7 +166,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userChatScreen,
-        page: () => UserChatScreen(
+        page: () => const UserChatScreen(
           group: null,
         ),
         // binding: UserBindings(),
@@ -208,7 +208,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userDeleteAccountScreen,
-        page: () => UserDeleteAccountScreen(),
+        page: () => const UserDeleteAccountScreen(),
         // binding: UserBindings(),
       ),
       GetPage(
@@ -218,7 +218,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userReviewScreen,
-        page: () => UserReviewScreen(
+        page: () => const UserReviewScreen(
           categoryTitle: '',
           categoryId: "",
         ),
@@ -231,17 +231,17 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.userCalenderScreen,
-        page: () => UserCalenderScreen(),
+        page: () => const UserCalenderScreen(),
         // binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userGiveReviewsScreen,
-        page: () => UserGiveReviewsScreen(),
+        page: () => const UserGiveReviewsScreen(),
         // binding: UserBindings(),
       ),
       GetPage(
         name: AppRoutes.userAllProductListScreen,
-        page: () => UserAllProductListScreen(),
+        page: () => const UserAllProductListScreen(),
         // binding: UserBindings(),
       ),
       GetPage(
@@ -309,7 +309,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorDeleteAccountScreen,
-        page: () => CreatorDeleteAccountScreen(),
+        page: () => const CreatorDeleteAccountScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(
@@ -334,7 +334,7 @@ class RouteManager {
       ),
       GetPage(
         name: AppRoutes.creatorAnalyticsScreen,
-        page: () => CreatorAnalyticsScreen(),
+        page: () => const CreatorAnalyticsScreen(),
         // binding: CreatorBindings(),
       ),
       GetPage(

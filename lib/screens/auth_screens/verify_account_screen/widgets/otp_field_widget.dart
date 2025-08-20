@@ -95,7 +95,7 @@ class OtpInputFieldWidget extends StatelessWidget {
                       (MediaQuery.sizeOf(context).width / 10)),
               borderSide: const BorderSide(color: AppColors.red, width: 1.5),
             ),
-            errorStyle: TextStyle(height: 0, fontSize: 0)),
+            errorStyle: const TextStyle(height: 0, fontSize: 0)),
       ),
     );
   }

@@ -42,8 +42,4 @@ class CreatorAccountController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }
